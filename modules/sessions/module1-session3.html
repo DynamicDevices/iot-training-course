@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 3: Permissions & Process Management - Module 1</title>
+    <link rel="stylesheet" href="../../assets/css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1><a href="../../index.html">Dynamic Devices</a></h1>
+                    <span>Module 1 - Session 3: Permissions & Process Management</span>
+                </div>
+                <nav class="nav">
+                    <a href="../../index.html">Home</a>
+                    <a href="../module1.html">Module 1</a>
+                    <a href="../../index.html#labs">Labs</a>
+                    <a href="../../tools/network-calculator.html">Tools</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="module-overview">
+            <div class="container">
+                <h1>Session 3: Permissions & Process Management</h1>
+                <p>Understand Linux security model, file permissions, and process management crucial for IoT device security and system administration.</p>
+                
+                <div class="module-meta">
+                    <div class="meta-item">
+                        <strong>Duration</strong>
+                        2 hours
+                    </div>
+                    <div class="meta-item">
+                        <strong>Module</strong>
+                        Linux Basics
+                    </div>
+                    <div class="meta-item">
+                        <strong>Session</strong>
+                        3 of 4
+                    </div>
+                    <div class="meta-item">
+                        <strong>Difficulty</strong>
+                        Beginner to Intermediate
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="learning-objectives">
+                    <h2>Session Learning Objectives</h2>
+                    <p>By the end of this session, you will be able to:</p>
+                    <div class="objectives-grid">
+                        <div class="objective-item">
+                            <h4>Understand File Permissions</h4>
+                            <p>Read and interpret Linux file permissions and understand the security implications for IoT systems.</p>
+                        </div>
+                        <div class="objective-item">
+                            <h4>Manage File Ownership</h4>
+                            <p>Use chmod, chown, and chgrp commands to control file access and ownership effectively.</p>
+                        </div>
+                        <div class="objective-item">
+                            <h4>Monitor System Processes</h4>
+                            <p>View and analyze running processes using ps, top, and htop for system monitoring.</p>
+                        </div>
+                        <div class="objective-item">
+                            <h4>Control Process Execution</h4>
+                            <p>Start, stop, and manage processes including background and foreground execution.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section bg-light">
+            <div class="container">
+                <h2>1. Linux File Permissions</h2>
+                
+                <div class="calculator-section">
+                    <h3>Understanding Permission Structure</h3>
+                    <p>Linux file permissions control who can read, write, or execute files. This is crucial for IoT device security and proper system administration.</p>
+                    
+                    <div class="code-block">
+                        <pre><code># Example permission display from ls -l
+-rw-r--r-- 1 user group 1024 Jan 15 10:30 config.txt
+drwxr-xr-x 2 user group 4096 Jan 15 10:30 scripts/
+-rwxr-xr-x 1 root root  2048 Jan 15 10:30 iot_daemon*
+
+# Permission structure breakdown:
+# Position:  1    234   567   890
+# Example:   -    rwx   r-x   r-x
+#           |     |     |     |
+#           |     |     |     └── Other permissions
+#           |     |     └────────── Group permissions  
+#           |     └──────────────── Owner permissions
+#           └────────────────────── File type</code></pre>
+                    </div>
+
+                    <h4>Permission Types</h4>
+                    <div class="result-grid">
+                        <div class="result-item">
+                            <label>Read (r)</label>
+                            <div class="value">View file contents or list directory</div>
+                        </div>
+                        <div class="result-item">
+                            <label>Write (w)</label>
+                            <div class="value">Modify file or create/delete in directory</div>
+                        </div>
+                        <div class="result-item">
+                            <label>Execute (x)</label>
+                            <div class="value">Run file as program or enter directory</div>
+                        </div>
+                        <div class="result-item">
+                            <label>No Permission (-)</label>
+                            <div class="value">Access denied for this operation</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="calculator-section">
+                    <h3>Permission Categories</h3>
+                    <p>Permissions are assigned to three categories of users:</p>
+                    
+                    <div class="class-grid">
+                        <div class="class-card class-a">
+                            <h4>Owner (User)</h4>
+                            <div class="range">First 3 permission bits</div>
+                            <div class="details">
+                                <strong>Who:</strong> The user who owns the file<br>
+                                <strong>Example:</strong> rwx (read, write, execute)<br>
+                                <strong>IoT Context:</strong> Application owner permissions
+                            </div>
+                        </div>
+                        
+                        <div class="class-card class-b">
+                            <h4>Group</h4>
+                            <div class="range">Second 3 permission bits</div>
+                            <div class="details">
+                                <strong>Who:</strong> Users in the file's group<br>
+                                <strong>Example:</strong> r-x (read and execute only)<br>
+                                <strong>IoT Context:</strong> Team or service group access
+                            </div>
+                        </div>
+                        
+                        <div class="class-card class-c">
+                            <h4>Other (World)</h4>
+                            <div class="range">Last 3 permission bits</div>
+                            <div class="details">
+                                <strong>Who:</strong> All other users on the system<br>
+                                <strong>Example:</strong> r-- (read only)<br>
+                                <strong>IoT Context:</strong> Public access level
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="calculator-section">
+                    <h3>Numeric Permission Representation</h3>
+                    <p>Permissions can be represented numerically using octal notation:</p>
+                    
+                    <div class="code-block">
+                        <pre><code># Permission values:
+# Read (r)    = 4
+# Write (w)   = 2  
+# Execute (x) = 1
+
+# Common permission combinations:
+# 7 = rwx (4+2+1) = Full access
+# 6 = rw- (4+2+0) = Read and write
+# 5 = r-x (4+0+1) = Read and execute
+# 4 = r-- (4+0+0) = Read only
+# 0 = --- (0+0+0) = No access
+
+# Examples:
+# 755 = rwxr-xr-x (owner: full, group/other: read+execute)
+# 644 = rw-r--r-- (owner: read+write, group/other: read only)
+# 600 = rw------- (owner: read+write, group/other: no access)
+# 777 = rwxrwxrwx (everyone: full access - dangerous!)
+
+# IoT security examples:
+# 700 = rwx------ (private executable, owner only)
+# 640 = rw-r----- (config file, group can read)
+# 444 = r--r--r-- (read-only for everyone)</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2>2. Managing File Permissions</h2>
+                
+                <div class="calculator-section">
+                    <h3>Changing Permissions with chmod</h3>
+                    <p>The chmod command modifies file permissions using either symbolic or numeric notation.</p>
+                    
+                    <div class="code-block">
+                        <pre><code># Numeric method (absolute)
+chmod 755 script.sh              # Set exact permissions
+chmod 644 config.txt             # Read/write for owner, read for others
+chmod 600 private_key.pem        # Owner only access
+chmod 700 iot_daemon             # Executable for owner only
+
+# Symbolic method (relative)
+chmod +x script.sh               # Add execute permission for all
+chmod -w config.txt              # Remove write permission for all
+chmod u+x script.sh              # Add execute for user (owner)
+chmod g-w file.txt               # Remove write for group
+chmod o-r secret.txt             # Remove read for others
+chmod a+r readme.txt             # Add read for all (a = all)
+
+# Multiple changes
+chmod u+x,g+r,o-rwx script.sh    # Complex permission changes
+chmod ug+rw,o-rwx shared_file    # User and group read/write, others none
+
+# IoT specific examples
+chmod 755 /opt/iot/bin/*         # Make IoT binaries executable
+chmod 640 /etc/iot/config.json   # Config readable by group
+chmod 600 /etc/iot/certificates/* # Certificates private to owner</code></pre>
+                    </div>
+                </div>
+
+                <div class="calculator-section">
+                    <h3>Changing Ownership with chown and chgrp</h3>
+                    <p>Control file ownership to manage access and security in IoT systems.</p>
+                    
+                    <div class="code-block">
+                        <pre><code># Change file owner
+sudo chown user file.txt         # Change owner to 'user'
+sudo chown root script.sh        # Change owner to root
+sudo chown -R user directory/    # Recursively change directory ownership
+
+# Change file group
+sudo chgrp iot config.txt        # Change group to 'iot'
+sudo chgrp -R developers project/ # Recursively change group
+
+# Change both owner and group
+sudo chown user:group file.txt   # Change owner to 'user' and group to 'group'
+sudo chown root:iot /opt/iot/    # Change to root owner, iot group
+sudo chown -R iot:iot /var/log/iot/ # IoT service owns its logs
+
+# IoT system examples
+sudo chown root:root /etc/systemd/system/iot.service
+sudo chown iot:iot /var/lib/iot/data/
+sudo chown -R www-data:www-data /var/www/iot-dashboard/
+sudo chown nobody:nogroup /tmp/iot_temp/</code></pre>
+                    </div>
+                </div>
+
+                <div class="calculator-section">
+                    <h3>Special Permissions</h3>
+                    <p>Advanced permission concepts for system administration and security.</p>
+                    
+                    <div class="code-block">
+                        <pre><code># Setuid (Set User ID) - 4000
+# File executes with owner's permissions
+chmod 4755 /usr/bin/sudo         # sudo needs root privileges
+ls -l /usr/bin/sudo              # Shows: -rwsr-xr-x (note the 's')
+
+# Setgid (Set Group ID) - 2000  
+# File executes with group's permissions
+chmod 2755 /usr/bin/wall         # Execute with group privileges
+ls -l /usr/bin/wall              # Shows: -rwxr-sr-x
+
+# Sticky bit - 1000
+# Only owner can delete files in directory
+chmod 1777 /tmp                  # Typical /tmp permissions
+ls -ld /tmp                      # Shows: drwxrwxrwt (note the 't')
+
+# Combined special permissions
+chmod 6755 file                  # Setuid + Setgid
+chmod 7755 file                  # All special permissions
+
+# IoT security considerations
+# Be very careful with setuid/setgid on IoT devices
+# Sticky bit useful for shared IoT data directories</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section bg-light">
+            <div class="container">
+                <h2>3. Process Viewing and Monitoring</h2>
+                
+                <div class="calculator-section">
+                    <h3>Viewing Processes with ps</h3>
+                    <p>The ps command shows running processes and their details.</p>
+                    
+                    <div class="code-block">
+                        <pre><code># Basic process listing
+ps                               # Show processes for current user
+ps -u username                   # Show processes for specific user
+ps -e                           # Show all processes
+ps -f                           # Full format listing
+ps -ef                          # All processes, full format
+
+# Detailed process information
+ps aux                          # All processes with detailed info
+ps aux | grep python            # Find Python processes
+ps aux | grep iot               # Find IoT-related processes
+ps -eo pid,ppid,cmd,%mem,%cpu   # Custom column format
+
+# Process tree view
+ps -ef --forest                # Show process hierarchy
+pstree                          # Visual process tree
+pstree -p                       # Include process IDs
+
+# IoT monitoring examples
+ps aux | grep mosquitto         # Check MQTT broker
+ps aux | grep node              # Find Node.js processes
+ps -C systemd --no-headers | wc -l  # Count systemd processes
+ps -eo pid,cmd | grep -E "(sensor|iot|mqtt)"</code></pre>
+                    </div>
+                </div>
+
+                <div class="calculator-section">
+                    <h3>Real-time Monitoring with top and htop</h3>
+                    <p>Monitor system performance and process activity in real-time.</p>
+                    
+                    <div class="code-block">
+                        <pre><code># top command - built-in process monitor
+top                             # Real-time process viewer
+top -u username                 # Show processes for specific user
+top -p 1234,5678               # Monitor specific PIDs
+
+# top interactive commands (while running):
+# q - quit
+# k - kill process (enter PID)
+# r - renice process (change priority)
+# M - sort by memory usage
+# P - sort by CPU usage
+# 1 - show individual CPU cores
+
+# htop command - enhanced process monitor (if installed)
+htop                            # Better interface than top
+sudo apt install htop          # Install htop on Debian/Ubuntu
+
+# htop features:
+# - Color-coded display
+# - Mouse support
+# - Easy process killing
+# - Process tree view (F5)
+# - Search functionality (F3)
+
+# IoT system monitoring
+top -b -n 1 | grep iot          # One-time snapshot of IoT processes
+watch "ps aux | grep sensor"    # Continuously monitor sensor processes
+htop -u iot                     # Monitor IoT user processes</code></pre>
+                    </div>
+                </div>
+
+                <div class="calculator-section">
+                    <h3>System Resource Monitoring</h3>
+                    <p>Monitor system resources critical for IoT device performance.</p>
+                    
+                    <div class="code-block">
+                        <pre><code># Memory usage
+free -h                         # Human-readable memory info
+free -m                         # Memory in MB
+cat /proc/meminfo               # Detailed memory information
+
+# CPU information
+cat /proc/cpuinfo               # CPU details
+lscpu                          # CPU architecture info
+nproc                          # Number of processing units
+
+# Disk usage
+df -h                          # Disk space usage
+du -sh /var/log                # Directory size
+du -h --max-depth=1 /home      # Subdirectory sizes
+
+# System load
+uptime                         # System uptime and load average
+cat /proc/loadavg              # Load average details
+w                              # Who is logged in and system load
+
+# IoT specific monitoring
+cat /proc/version              # Kernel version
+cat /proc/stat                 # System statistics
+ls /sys/class/thermal/         # Temperature sensors
+cat /sys/class/thermal/thermal_zone0/temp  # CPU temperature</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2>4. Process Control and Management</h2>
+                
+                <div class="calculator-section">
+                    <h3>Starting and Stopping Processes</h3>
+                    <p>Control process execution for IoT applications and system services.</p>
+                    
+                    <div class="code-block">
+                        <pre><code># Killing processes
+kill PID                        # Terminate process by PID
+kill -9 PID                     # Force kill process
+kill -TERM PID                  # Graceful termination
+kill -HUP PID                   # Hang up signal (reload config)
+
+# Kill by name
+killall process_name            # Kill all processes with name
+pkill pattern                   # Kill processes matching pattern
+pkill -u username               # Kill all processes for user
+
+# Signal types
+kill -l                         # List all available signals
+# Common signals:
+# TERM (15) - Graceful termination (default)
+# KILL (9)  - Force kill (cannot be caught)
+# HUP (1)   - Hang up (often reloads config)
+# INT (2)   - Interrupt (Ctrl+C)
+# STOP (19) - Pause process
+# CONT (18) - Continue paused process
+
+# IoT process management examples
+sudo killall mosquitto          # Restart MQTT broker
+pkill -f "python.*sensor"       # Kill Python sensor scripts
+kill -HUP $(cat /var/run/iot_daemon.pid)  # Reload IoT daemon config</code></pre>
+                    </div>
+                </div>
+
+                <div class="calculator-section">
+                    <h3>Background and Foreground Processes</h3>
+                    <p>Manage process execution modes for IoT applications and system tasks.</p>
+                    
+                    <div class="code-block">
+                        <pre><code># Running processes in background
+command &                       # Start command in background
+nohup command &                 # Run command immune to hangups
+nohup python sensor.py > /dev/null 2>&1 &  # Silent background execution
+
+# Job control
+jobs                           # List active jobs
+jobs -l                        # List jobs with PIDs
+fg                            # Bring last job to foreground
+fg %1                         # Bring job 1 to foreground
+bg                            # Send last job to background
+bg %2                         # Send job 2 to background
+
+# Process suspension and resumption
+Ctrl+Z                        # Suspend current foreground process
+Ctrl+C                        # Interrupt current foreground process
+kill -STOP PID                # Suspend process
+kill -CONT PID                # Resume suspended process
+
+# Detaching from terminal
+screen command                 # Run in screen session
+tmux new-session -d "command"  # Run in tmux session
+disown %1                     # Remove job from shell's job table
+
+# IoT daemon examples
+nohup python3 /opt/iot/sensor_monitor.py &
+nohup mosquitto -c /etc/mosquitto/mosquitto.conf &
+screen -dmS iot_dashboard python3 /opt/iot/dashboard.py</code></pre>
+                    </div>
+                </div>
+
+                <div class="calculator-section">
+                    <h3>Process Priorities and Nice Values</h3>
+                    <p>Control process scheduling priority for optimal IoT system performance.</p>
+                    
+                    <div class="code-block">
+                        <pre><code># Understanding nice values
+# Range: -20 (highest priority) to +19 (lowest priority)
+# Default: 0
+# Only root can set negative values (higher priority)
+
+# Starting processes with specific priority
+nice -n 10 command             # Start with lower priority
+nice -n -5 command             # Start with higher priority (root only)
+nice --adjustment=5 command    # Alternative syntax
+
+# Changing priority of running processes
+renice 10 PID                  # Change process priority
+renice -n -5 PID               # Set higher priority (root only)
+renice +5 -u username          # Change priority for all user processes
+renice 0 -g groupname          # Change priority for process group
+
+# Viewing process priorities
+ps -eo pid,ni,cmd              # Show PID, nice value, and command
+ps aux | grep PID              # Check specific process priority
+top                           # Shows NI column for nice values
+
+# IoT priority management examples
+nice -n 19 backup_script.sh    # Low priority backup
+sudo renice -10 $(pgrep mosquitto)  # High priority MQTT broker
+nice -n 5 python3 data_logger.py &  # Medium priority data logging
+sudo renice -5 $(pgrep "iot_critical")  # Critical IoT processes</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section bg-light">
+            <div class="container">
+                <h2>5. Hands-on Practice Exercises</h2>
+                
+                <div class="calculator-section">
+                    <h3>Permission Management Scenarios</h3>
+                    <p>Real-world exercises to practice permission and process management for IoT systems.</p>
+                    
+                    <div class="example-grid">
+                        <div class="example-item">
+                            <div class="ip">Exercise 1</div>
+                            <div class="description">Create an IoT configuration directory with proper permissions for team collaboration</div>
+                        </div>
+                        <div class="example-item">
+                            <div class="ip">Exercise 2</div>
+                            <div class="description">Set up secure permissions for IoT certificates and private keys</div>
+                        </div>
+                        <div class="example-item">
+                            <div class="ip">Exercise 3</div>
+                            <div class="description">Monitor and manage IoT processes including background services</div>
+                        </div>
+                        <div class="example-item">
+                            <div class="ip">Exercise 4</div>
+                            <div class="description">Troubleshoot permission issues and optimize process priorities</div>
+                        </div>
+                    </div>
+                    
+                    <div class="code-block">
+                        <pre><code># Exercise Solutions
+
+# Exercise 1: IoT configuration directory setup
+sudo mkdir -p /etc/iot/{config,certificates,logs}
+sudo groupadd iot
+sudo chown -R root:iot /etc/iot/
+sudo chmod 755 /etc/iot/
+sudo chmod 775 /etc/iot/config/     # Team can write configs
+sudo chmod 750 /etc/iot/certificates/  # Restricted certificate access
+sudo chmod 775 /etc/iot/logs/       # Team can write logs
+
+# Exercise 2: Secure certificate permissions
+sudo chmod 600 /etc/iot/certificates/*.key    # Private keys owner-only
+sudo chmod 644 /etc/iot/certificates/*.crt    # Certificates readable
+sudo chmod 644 /etc/iot/certificates/*.pem    # PEM files readable
+sudo chown root:iot /etc/iot/certificates/*   # Root owns, iot group access
+
+# Exercise 3: Process monitoring and management
+# Start IoT services in background
+nohup python3 /opt/iot/sensor_reader.py > /var/log/iot/sensor.log 2>&1 &
+nohup python3 /opt/iot/data_processor.py > /var/log/iot/processor.log 2>&1 &
+
+# Monitor IoT processes
+ps aux | grep -E "(sensor|iot|mqtt)"
+top -p $(pgrep -d',' -f "iot")
+watch "ps aux | grep python | grep iot"
+
+# Exercise 4: Troubleshooting and optimization
+# Check permission issues
+ls -la /etc/iot/
+namei -l /etc/iot/config/device.conf
+
+# Fix common permission problems
+sudo chmod g+r /etc/iot/config/device.conf
+sudo usermod -a -G iot $USER
+
+# Optimize process priorities
+sudo renice -5 $(pgrep mosquitto)      # High priority MQTT
+nice -n 10 backup_iot_data.sh &        # Low priority backup</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2>Session Summary & Next Steps</h2>
+                
+                <div class="calculator-section">
+                    <h3>What You've Learned</h3>
+                    <ul>
+                        <li>Linux file permission structure and security model</li>
+                        <li>Using chmod, chown, and chgrp for permission management</li>
+                        <li>Process viewing and monitoring with ps, top, and htop</li>
+                        <li>Process control including kill, background/foreground execution</li>
+                        <li>Process priorities and nice values for system optimization</li>
+                        <li>IoT-specific security and process management practices</li>
+                    </ul>
+                </div>
+
+                <div class="calculator-section">
+                    <h3>Key Commands Summary</h3>
+                    <div class="result-grid">
+                        <div class="result-item">
+                            <label>Permissions</label>
+                            <div class="value">chmod, chown, chgrp, umask</div>
+                        </div>
+                        <div class="result-item">
+                            <label>Process Viewing</label>
+                            <div class="value">ps, top, htop, pstree</div>
+                        </div>
+                        <div class="result-item">
+                            <label>Process Control</label>
+                            <div class="value">kill, killall, pkill, jobs</div>
+                        </div>
+                        <div class="result-item">
+                            <label>Background Jobs</label>
+                            <div class="value">nohup, &, fg, bg, disown</div>
+                        </div>
+                        <div class="result-item">
+                            <label>Priorities</label>
+                            <div class="value">nice, renice, ionice</div>
+                        </div>
+                        <div class="result-item">
+                            <label>Monitoring</label>
+                            <div class="value">free, df, uptime, w</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="calculator-section">
+                    <h3>Preparation for Session 4</h3>
+                    <p>In the final session, we'll explore package management and shell scripting. To prepare:</p>
+                    <ul>
+                        <li>Practice permission management on different file types</li>
+                        <li>Experiment with process monitoring and control commands</li>
+                        <li>Try managing background processes for long-running tasks</li>
+                        <li>Explore system monitoring tools and understand resource usage</li>
+                        <li>Consider security implications of different permission settings</li>
+                    </ul>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; margin-top: 2rem;">
+                    <a href="module1-session2.html" class="session-link" style="background: var(--gray-600);">← Session 2</a>
+                    <button onclick="markSessionComplete()" class="session-link">Mark Complete</button>
+                    <a href="module1-session4.html" class="session-link">Session 4 →</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <p>&copy; 2024 Dynamic Devices. All rights reserved.</p>
+                <div style="display: flex; gap: 2rem;">
+                    <a href="../../docs/setup.html" style="color: var(--gray-400);">Setup Guide</a>
+                    <a href="../../resources/troubleshooting.html" style="color: var(--gray-400);">Support</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function markSessionComplete() {
+            localStorage.setItem('module1_session3_completed', 'true');
+            alert('Session 3 marked as complete! Great job mastering permissions and process management.');
+            
+            // Update progress in parent module if we're in an iframe or opened from module page
+            if (window.parent && window.parent.updateProgress) {
+                window.parent.updateProgress();
+            }
+        }
+
+        // Check if session is already completed
+        document.addEventListener('DOMContentLoaded', function() {
+            if (localStorage.getItem('module1_session3_completed')) {
+                const completeBtn = document.querySelector('button[onclick="markSessionComplete()"]');
+                if (completeBtn) {
+                    completeBtn.textContent = '✓ Completed';
+                    completeBtn.style.background = 'var(--success-color)';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
