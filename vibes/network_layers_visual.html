@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TCP/IP Stack for Embedded Systems</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        
+        .stack-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .device {
+            flex: 1;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .device h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        
+        .layer {
+            margin: 8px 0;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            color: white;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+        
+        .layer:hover {
+            transform: translateX(5px);
+            cursor: pointer;
+        }
+        
+        .application { background: #e74c3c; }
+        .transport { background: #f39c12; }
+        .network { background: #27ae60; }
+        .datalink { background: #3498db; }
+        .physical { background: #9b59b6; }
+        
+        .connection {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 60px;
+            height: 3px;
+            background: #34495e;
+            transform: translateY(-50%);
+        }
+        
+        .examples {
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .example-card {
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #3498db;
+        }
+        
+        .example-card h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .code {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        
+        .packet-flow {
+            margin: 30px 0;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .packet {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            padding: 5px 10px;
+            margin-right: 5px;
+            border-radius: 3px;
+            color: white;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .data {
+            background: #bdc3c7;
+            padding: 5px 15px;
+            border-radius: 3px;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+        
+        .addressing {
+            margin: 30px 0;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .address-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        .address-table th,
+        .address-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .address-table th {
+            background: #3498db;
+            color: white;
+        }
+        
+        .interactive-demo {
+            margin: 30px 0;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .demo-controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .demo-button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+        
+        .demo-button:hover {
+            background: #2980b9;
+        }
+        
+        .demo-output {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            min-height: 100px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌐 TCP/IP Stack for Embedded Systems</h1>
+        
+        <div class="stack-container">
+            <div class="device">
+                <h3>📱 ESP32 Device A</h3>
+                <div class="layer application">Application Layer<br><small>MQTT, HTTP, CoAP</small></div>
+                <div class="layer transport">Transport Layer<br><small>TCP, UDP</small></div>
+                <div class="layer network">Network Layer<br><small>IPv4, IPv6</small></div>
+                <div class="layer datalink">Data Link Layer<br><small>Wi-Fi, Ethernet</small></div>
+                <div class="layer physical">Physical Layer<br><small>Radio, Cables</small></div>
+            </div>
+            
+            <div style="position: relative; flex: 0 0 80px; display: flex; align-items: center; justify-content: center;">
+                <div style="width: 100%; height: 3px; background: linear-gradient(90deg, #3498db, #e74c3c); border-radius: 2px;"></div>
+                <div style="position: absolute; font-weight: bold; color: #2c3e50; background: white; padding: 5px 10px; border-radius: 5px;">Network</div>
+            </div>
+            
+            <div class="device">
+                <h3>🖥️ Server/Gateway</h3>
+                <div class="layer application">Application Layer<br><small>Web Server, MQTT Broker</small></div>
+                <div class="layer transport">Transport Layer<br><small>TCP, UDP</small></div>
+                <div class="layer network">Network Layer<br><small>IPv4, IPv6, Routing</small></div>
+                <div class="layer datalink">Data Link Layer<br><small>Ethernet, Wi-Fi</small></div>
+                <div class="layer physical">Physical Layer<br><small>Fibre, Copper</small></div>
+            </div>
+        </div>
+        
+        <div class="packet-flow">
+            <h3>📦 Packet Encapsulation Example</h3>
+            <p>How data gets wrapped at each layer when sending from ESP32:</p>
+            
+            <div class="packet">
+                <span>Data:</span>
+                <div class="data">{"temperature": 23.5}</div>
+            </div>
+            
+            <div class="packet">
+                <span>+ Transport:</span>
+                <div class="header transport">TCP</div>
+                <div class="data">{"temperature": 23.5}</div>
+            </div>
+            
+            <div class="packet">
+                <span>+ Network:</span>
+                <div class="header network">IP</div>
+                <div class="header transport">TCP</div>
+                <div class="data">{"temperature": 23.5}</div>
+            </div>
+            
+            <div class="packet">
+                <span>+ Data Link:</span>
+                <div class="header datalink">ETH</div>
+                <div class="header network">IP</div>
+                <div class="header transport">TCP</div>
+                <div class="data">{"temperature": 23.5}</div>
+            </div>
+        </div>
+        
+        <div class="addressing">
+            <h3>📍 Addressing at Each Layer</h3>
+            <table class="address-table">
+                <thead>
+                    <tr>
+                        <th>Layer</th>
+                        <th>Address Type</th>
+                        <th>Example</th>
+                        <th>Scope</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Application</td>
+                        <td>Domain Name</td>
+                        <td>mqtt.example.com</td>
+                        <td>Global</td>
+                    </tr>
+                    <tr>
+                        <td>Transport</td>
+                        <td>Port Number</td>
+                        <td>1883 (MQTT)</td>
+                        <td>Host</td>
+                    </tr>
+                    <tr>
+                        <td>Network</td>
+                        <td>IP Address</td>
+                        <td>192.168.1.100</td>
+                        <td>Network</td>
+                    </tr>
+                    <tr>
+                        <td>Data Link</td>
+                        <td>MAC Address</td>
+                        <td>AA:BB:CC:DD:EE:FF</td>
+                        <td>Local Segment</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="examples">
+            <div class="example-card">
+                <h4>🔗 HTTP Request (TCP)</h4>
+                <p>Reliable, connection-based communication for web APIs:</p>
+                <div class="code">
+POST /api/sensors HTTP/1.1
+Host: iot.example.com
+Content-Type: application/json
+
+{"temp": 23.5, "humidity": 65}
+                </div>
+            </div>
+            
+            <div class="example-card">
+                <h4>📡 UDP Sensor Data</h4>
+                <p>Fast, connectionless transmission for real-time data:</p>
+                <div class="code">
+// ESP32 UDP transmission
+WiFiUDP udp;
+udp.beginPacket("192.168.1.1", 8080);
+udp.printf("{\"sensor_id\": %d, \"value\": %.2f}", 
+           SENSOR_ID, reading);
+udp.endPacket();
+                </div>
+            </div>
+            
+            <div class="example-card">
+                <h4>🚀 MQTT Publish</h4>
+                <p>Publish-subscribe pattern for IoT messaging:</p>
+                <div class="code">
+// MQTT message publishing
+client.publish("sensors/room1/temperature", 
+               "{\"value\": 23.5, \"unit\": \"C\"}",
+               true); // retained message
+                </div>
+            </div>
+            
+            <div class="example-card">
+                <h4>⚡ CoAP Request</h4>
+                <p>Lightweight HTTP alternative for constrained devices:</p>
+                <div class="code">
+// CoAP GET request
+coap://[::1]:5683/sensors/temperature
+Method: GET
+Type: Confirmable
+Options: Uri-Path: "sensors", "temperature"
+                </div>
+            </div>
+        </div>
+        
+        <div class="interactive-demo">
+            <h3>🧪 Interactive Network Demo</h3>
+            <div class="demo-controls">
+                <button class="demo-button" onclick="simulateHTTP()">HTTP Request</button>
+                <button class="demo-button" onclick="simulateUDP()">UDP Transmission</button>
+                <button class="demo-button" onclick="simulateMQTT()">MQTT Publish</button>
+                <button class="demo-button" onclick="showRouting()">IP Routing</button>
+                <button class="demo-button" onclick="clearOutput()">Clear</button>
+            </div>
+            <div class="demo-output" id="demoOutput">Click a button above to see network protocol examples...</div>
+        </div>
+    </div>
+    
+    <script>
+        let outputElement = document.getElementById('demoOutput');
+        
+        function simulateHTTP() {
+            outputElement.textContent = `🔗 HTTP Request Simulation:
+
+1. Application Layer: Prepare HTTP request
+   POST /api/sensors HTTP/1.1
+   Host: iot.example.com
+   {"temperature": 23.5}
+
+2. Transport Layer: Add TCP header
+   Source Port: 54321 → Destination Port: 80
+   Sequence Number: 1001, Acknowledgment: 2001
+
+3. Network Layer: Add IP header  
+   Source IP: 192.168.1.100 → Destination IP: 203.0.113.50
+   TTL: 64, Protocol: TCP
+
+4. Data Link Layer: Add Ethernet header
+   Source MAC: AA:BB:CC:DD:EE:FF
+   Destination MAC: 11:22:33:44:55:66
+
+5. Physical Layer: Convert to electrical signals
+   Transmitting over Wi-Fi at 2.4GHz...
+
+✅ HTTP request sent successfully!`;
+        }
+        
+        function simulateUDP() {
+            outputElement.textContent = `📡 UDP Transmission Simulation:
+
+1. Application Layer: Sensor data reading
+   {"sensor_id": 1, "temperature": 23.5, "timestamp": 1641234567}
+
+2. Transport Layer: Add UDP header
+   Source Port: 12345 → Destination Port: 8080
+   Length: 64 bytes, Checksum: 0x4A2B
+
+3. Network Layer: Add IP header
+   Source IP: 192.168.1.100 → Destination IP: 192.168.1.1
+   TTL: 64, Protocol: UDP
+
+4. Data Link Layer: Add frame header
+   Source MAC: AA:BB:CC:DD:EE:FF → Broadcast
+
+5. Physical Layer: Radio transmission
+   Modulation: OFDM, Channel: 6 (2.437 GHz)
+
+📡 UDP packet transmitted (no acknowledgment required)`;
+        }
+        
+        function simulateMQTT() {
+            outputElement.textContent = `🚀 MQTT Publish Simulation:
+
+1. Application Layer: MQTT PUBLISH packet
+   Topic: "sensors/room1/temperature"
+   Payload: {"value": 23.5, "unit": "C"}
+   QoS: 1 (at least once delivery)
+
+2. Transport Layer: TCP connection
+   Source Port: 43210 → Destination Port: 1883
+   Established connection to MQTT broker
+
+3. Network Layer: IP routing
+   Source: 192.168.1.100 → Destination: 192.168.1.1
+   Router forwards to MQTT broker
+
+4. Data Link & Physical: Ethernet/Wi-Fi transmission
+
+5. Broker Processing:
+   ✅ Message received by broker
+   ✅ Publishing to subscribed clients
+   ✅ Acknowledgment sent back to ESP32
+
+🚀 MQTT message published successfully!`;
+        }
+        
+        function showRouting() {
+            outputElement.textContent = `🗺️ IP Routing Example:
+
+Device: ESP32 (192.168.1.100/24)
+Target: Remote server (203.0.113.50)
+
+1. Check if destination is local:
+   192.168.1.100 & 255.255.255.0 = 192.168.1.0
+   203.0.113.50 & 255.255.255.0 = 203.0.113.0
+   ❌ Different networks - need routing
+
+2. Check routing table:
+   Destination     Gateway         Interface
+   192.168.1.0/24  0.0.0.0        wlan0
+   0.0.0.0/0       192.168.1.1    wlan0 (default)
+
+3. Send to default gateway (192.168.1.1):
+   ESP32 → Home Router → ISP Router → Internet → Target
+
+4. ARP resolution for local gateway:
+   Who has 192.168.1.1? ESP32 asks
+   192.168.1.1 is at 11:22:33:44:55:66, Router replies
+
+5. Packet forwarding:
+   192.168.1.100 → 192.168.1.1 → ... → 203.0.113.50
+
+🗺️ Packet successfully routed to destination!`;
+        }
+        
+        function clearOutput() {
+            outputElement.textContent = 'Click a button above to see network protocol examples...';
+        }
+        
+        // Add click handlers for layer descriptions
+        document.querySelectorAll('.layer').forEach(layer => {
+            layer.addEventListener('click', function() {
+                const layerType = this.className.split(' ')[1];
+                let description = '';
+                
+                switch(layerType) {
+                    case 'application':
+                        description = 'Application Layer: Where your code lives! Protocols like HTTP, MQTT, CoAP handle data formatting and communication patterns.';
+                        break;
+                    case 'transport':
+                        description = 'Transport Layer: TCP provides reliable delivery with error checking. UDP is faster but no guarantees. Choose based on your needs!';
+                        break;
+                    case 'network':
+                        description = 'Network Layer: IP addresses route packets across networks. IPv4 uses 32-bit addresses, IPv6 uses 128-bit for more devices.';
+                        break;
+                    case 'datalink':
+                        description = 'Data Link Layer: MAC addresses identify devices on local network. Ethernet, Wi-Fi standards define how frames are transmitted.';
+                        break;
+                    case 'physical':
+                        description = 'Physical Layer: The actual transmission medium - radio waves for Wi-Fi, electrical signals for Ethernet, light for fibre optic.';
+                        break;
+                }
+                
+                outputElement.textContent = description;
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+{
+    "name": "tcp-ip-training",
+    "version": "1.0.0",
+    "description": "Interactive TCP/IP networking training for embedded engineers",
+    "main": "index.html",
+    "scripts": {
+      "start": "npx serve .",
+      "dev": "npx serve . --live",
+      "build": "echo 'Static site - no build needed'",
+      "deploy": "gh-pages -d .",
+      "lint": "htmlhint **/*.html && stylelint **/*.css",
+      "test": "echo 'Tests would go here'"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/yourusername/tcp-ip-training.git"
+    },
+    "keywords": [
+      "tcp-ip",
+      "networking",
+      "embedded",
+      "iot",
+      "esp32",
+      "training",
+      "education",
+      "engineering"
+    ],
+    "author": "Your Name <your.email@company.com>",
+    "license": "MIT",
+    "bugs": {
+      "url": "https://github.com/yourusername/tcp-ip-training/issues"
+    },
+    "homepage": "https://yourusername.github.io/tcp-ip-training",
+    "devDependencies": {
+      "gh-pages": "^6.0.0",
+      "htmlhint": "^1.1.4",
+      "stylelint": "^15.10.0"
+    }
+  }
+  

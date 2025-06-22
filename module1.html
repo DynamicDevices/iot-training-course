@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 1: TCP/IP Networking - Dynamic Devices IoT Training</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/module.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1><a href="../index.html">Dynamic Devices</a></h1>
+                    <span>Module 1: TCP/IP Networking</span>
+                </div>
+                <nav class="nav">
+                    <a href="#day1">Day 1</a>
+                    <a href="#day2">Day 2</a>
+                    <a href="#day3">Day 3</a>
+                    <a href="#labs">Labs</a>
+                    <a href="#assessment">Assessment</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="module-hero">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="../index.html">Home</a> > <span>Module 1</span>
+                </div>
+                <h1>TCP/IP Networking for Embedded Engineers</h1>
+                <p class="module-description">Master the networking foundation essential for all IoT projects</p>
+                <div class="module-meta">
+                    <span class="duration">⏱️ 3 Days (18 Hours)</span>
+                    <span class="sessions">📚 9 Sessions</span>
+                    <span class="level">🎯 Intermediate</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="module-overview">
+            <div class="container">
+                <div class="overview-content">
+                    <div class="learning-objectives">
+                        <h2>Learning Objectives</h2>
+                        <ul>
+                            <li>Understand how data flows through TCP/IP protocol layers</li>
+                            <li>Configure DHCP, static IP addressing, and network interfaces</li>
+                            <li>Master TCP vs UDP protocols and their IoT applications</li>
+                            <li>Implement HTTP APIs, MQTT messaging, DNS resolution, and NTP synchronisation</li>
+                            <li>Use Wireshark and systematic troubleshooting methodologies</li>
+                            <li>Understand network security implications for IoT deployments</li>
+                            <li>Design reliable, scalable network architectures for embedded systems</li>
+                        </ul>
+                    </div>
+                    <div class="prerequisites">
+                        <h2>Prerequisites</h2>
+                        <ul>
+                            <li>Basic understanding of digital systems</li>
+                            <li>C/C++ programming experience</li>
+                            <li>Familiarity with embedded development concepts</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="day1" class="day-section">
+            <div class="container">
+                <h2>Day 1: Network Fundamentals & Infrastructure</h2>
+                
+                <div class="session-grid">
+                    <div class="session-card">
+                        <div class="session-header">
+                            <h3>Session 1: Internet History & Network Models</h3>
+                            <span class="session-duration">90 minutes</span>
+                        </div>
+                        <div class="session-content">
+                            <h4>Topics Covered:</h4>
+                            <ul>
+                                <li>The Internet's Evolution (ARPANET to modern internet)</li>
+                                <li>OSI vs TCP/IP Models</li>
+                                <li>Protocol Stack Understanding</li>
+                                <li>Embedded Examples and Applications</li>
+                            </ul>
+                            <div class="session-table">
+                                <h4>Protocol Stack Comparison:</h4>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>OSI Layer</th>
+                                            <th>TCP/IP Layer</th>
+                                            <th>Function</th>
+                                            <th>Embedded Examples</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Application</td>
+                                            <td>Application</td>
+                                            <td>User interfaces</td>
+                                            <td>MQTT, HTTP, CoAP, NTP</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Presentation</td>
+                                            <td>Application</td>
+                                            <td>Data formatting</td>
+                                            <td>JSON, CBOR, encryption</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Session</td>
+                                            <td>Application</td>
+                                            <td>Connections</td>
+                                            <td>TLS handshakes</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Transport</td>
+                                            <td>Transport</td>
+                                            <td>End-to-end delivery</td>
+                                            <td>TCP, UDP</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Network</td>
+                                            <td>Internet</td>
+                                            <td>Routing</td>
+                                            <td>IPv4, IPv6, ICMP</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Data Link</td>
+                                            <td>Link</td>
+                                            <td>Local delivery</td>
+                                            <td>Ethernet, Wi-Fi frames</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Physical</td>
+                                            <td>Link</td>
+                                            <td>Signal transmission</td>
+                                            <td>Radio, cables, voltage</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="practical-exercise">
+                                <h4>🔬 Practical Exercise:</h4>
+                                <p>Use Wireshark to capture and analyze packet headers, identify protocol encapsulation in real traffic</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="session-card">
+                        <div class="session-header">
+                            <h3>Session 2: Physical & Data Link Layers</h3>
+                            <span class="session-duration">90 minutes</span>
+                        </div>
+                        <div class="session-content">
+                            <h4>Topics Covered:</h4>
+                            <ul>
+                                <li>Physical Layer Considerations (Ethernet, Wi-Fi, Power constraints)</li>
+                                <li>MAC Addresses & Address Resolution</li>
+                                <li>DHCP vs Static Configuration</li>
+                                <li>Network Interface Configuration</li>
+                            </ul>
+                            
+                            <div class="code-example">
+                                <h4>DHCP Process:</h4>
+                                <pre><code>1. DHCP Discover  → Client broadcasts request
+2. DHCP Offer     → Server offers IP address
+3. DHCP Request   → Client requests specific IP
+4. DHCP Acknowledge → Server confirms assignment</code></pre>
+                            </div>
+
+                            <div class="practical-exercise">
+                                <h4>🔬 Hands-on Lab:</h4>
+                                <ul>
+                                    <li>Configure ESP32 with static IP and DHCP</li>
+                                    <li>Use Wireshark to observe DHCP negotiation</li>
+                                    <li>Examine ARP tables with <code>arp -a</code> command</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="day2" class="day-section bg-light">
+            <div class="container">
+                <h2>Day 2: Network Layer & Routing</h2>
+                
+                <div class="session-grid">
+                    <div class="session-card">
+                        <div class="session-header">
+                            <h3>Session 3: IP Addressing & Network Classes</h3>
+                            <span class="session-duration">120 minutes</span>
+                        </div>
+                        <div class="session-content">
+                            <h4>Topics Covered:</h4>
+                            <ul>
+                                <li>IPv4 Address Structure and Classes</li>
+                                <li>Private Address Ranges (RFC 1918)</li>
+                                <li>Subnetting & CIDR Notation</li>
+                                <li>Gateways & Routing Tables</li>
+                                <li>ICMP & Network Testing</li>
+                            </ul>
+
+                            <div class="address-ranges">
+                                <h4>Private Address Ranges:</h4>
+                                <ul>
+                                    <li><strong>Class A:</strong> 10.0.0.0/8 (16.7M addresses)</li>
+                                    <li><strong>Class B:</strong> 172.16.0.0/12 (1M addresses)</li>
+                                    <li><strong>Class C:</strong> 192.168.0.0/16 (65k addresses)</li>
+                                </ul>
+                            </div>
+
+                            <div class="practical-exercise">
+                                <h4>🔬 Practical Exercise:</h4>
+                                <ul>
+                                    <li>Calculate subnets for IoT deployment scenarios</li>
+                                    <li>Use ping and traceroute to analyze network paths</li>
+                                    <li>Configure routing tables on embedded devices</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="session-card">
+                        <div class="session-header">
+                            <h3>Session 4: Network Troubleshooting</h3>
+                            <span class="session-duration">90 minutes</span>
+                        </div>
+                        <div class="session-content">
+                            <h4>Topics Covered:</h4>
+                            <ul>
+                                <li>Wireshark Fundamentals</li>
+                                <li>Network Diagnostic Tools</li>
+                                <li>Common Network Problems</li>
+                                <li>Systematic Troubleshooting Approach</li>
+                            </ul>
+
+                            <div class="diagnostic-commands">
+                                <h4>Essential Diagnostic Commands:</h4>
+                                <pre><code>ifconfig / ip addr    # Interface configuration
+arp -a                # Address resolution table  
+route -n              # Routing table
+netstat -rn           # Network statistics
+ping hostname         # Connectivity test
+traceroute hostname   # Path analysis</code></pre>
+                            </div>
+
+                            <div class="practical-exercise">
+                                <h4>🔬 Hands-on Lab:</h4>
+                                <ul>
+                                    <li>Set up Wireshark to capture network traffic</li>
+                                    <li>Diagnose network connectivity problems</li>
+                                    <li>Analyze ARP and DHCP traffic patterns</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="day3" class="day-section">
+            <div class="container">
+                <h2>Day 3: Transport & Application Protocols</h2>
+                
+                <div class="session-grid">
+                    <div class="session-card">
+                        <div class="session-header">
+                            <h3>Session 5: UDP - Connectionless Protocol</h3>
+                            <span class="session-duration">75 minutes</span>
+                        </div>
+                        <div class="session-content">
+                            <h4>UDP Characteristics:</h4>
+                            <ul>
+                                <li>Best effort delivery (no guaranteed delivery)</li>
+                                <li>Connectionless (no connection establishment)</li>
+                                <li>Low overhead (minimal protocol headers)</li>
+                                <li>Use cases: Real-time data, streaming, sensor readings</li>
+                            </ul>
+
+                            <div class="code-example">
+                                <h4>ESP32 UDP Example:</h4>
+                                <pre><code>// ESP32 UDP sensor transmission
+WiFiUDP udp;
+String data = String(temperature) + "," + String(humidity);
+udp.beginPacket(server_ip, 8080);
+udp.print(data);
+udp.endPacket();</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="session-card">
+                        <div class="session-header">
+                            <h3>Session 6: TCP - Connection-Oriented Protocol</h3>
+                            <span class="session-duration">105 minutes</span>
+                        </div>
+                        <div class="session-content">
+                            <h4>TCP Features:</h4>
+                            <ul>
+                                <li>Three-way handshake (SYN, SYN-ACK, ACK)</li>
+                                <li>Reliable delivery with acknowledgments</li>
+                                <li>Flow control and congestion control</li>
+                                <li>Connection termination (FIN/ACK sequence)</li>
+                            </ul>
+
+                            <div class="tcp-handshake">
+                                <h4>TCP Three-Way Handshake:</h4>
+                                <pre><code>1. Client → Server: SYN (synchronize)
+2. Server → Client: SYN-ACK (synchronize-acknowledge)  
+3. Client → Server: ACK (acknowledge)</code></pre>
+                            </div>
+
+                            <div class="practical-exercise">
+                                <h4>🔬 Practical Exercise:</h4>
+                                <ul>
+                                    <li>Implement TCP client/server on ESP32</li>
+                                    <li>Monitor TCP connection states with Wireshark</li>
+                                    <li>Configure TCP socket options</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="session-card">
+                        <div class="session-header">
+                            <h3>Session 7: HTTP & Web Protocols</h3>
+                            <span class="session-duration">90 minutes</span>
+                        </div>
+                        <div class="session-content">
+                            <h4>HTTP Fundamentals:</h4>
+                            <ul>
+                                <li>HTTP over TCP for reliable transport</li>
+                                <li>Request/response model</li>
+                                <li>HTTP methods (GET, POST, PUT, DELETE)</li>
+                                <li>Status codes and error handling</li>
+                            </ul>
+
+                            <div class="code-example">
+                                <h4>ESP32 HTTP POST Example:</h4>
+                                <pre><code>HTTPClient http;
+http.begin("https://api.iot-platform.com/data");
+http.addHeader("Content-Type", "application/json");
+String payload = "{\"sensor_id\":\"ESP32_001\",\"value\":23.5}";
+int httpCode = http.POST(payload);</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="session-card">
+                        <div class="session-header">
+                            <h3>Session 8: DNS & Name Resolution</h3>
+                            <span class="session-duration">75 minutes</span>
+                        </div>
+                        <div class="session-content">
+                            <h4>DNS System:</h4>
+                            <ul>
+                                <li>Hierarchical naming system</li>
+                                <li>DNS record types (A, AAAA, CNAME, MX, TXT)</li>
+                                <li>DNS resolution process</li>
+                                <li>Dynamic DNS for changing IP addresses</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="session-card">
+                        <div class="session-header">
+                            <h3>Session 9: Essential Network Services</h3>
+                            <span class="session-duration">90 minutes</span>
+                        </div>
+                        <div class="session-content">
+                            <h4>Key Services:</h4>
+                            <ul>
+                                <li>Network Time Protocol (NTP/SNTP)</li>
+                                <li>MQTT Overview and IoT Applications</li>
+                                <li>Client-Server vs Peer-to-Peer architectures</li>
+                                <li>Security considerations for IoT networks</li>
+                            </ul>
+
+                            <div class="code-example">
+                                <h4>ESP32 NTP Synchronization:</h4>
+                                <pre><code>#include &lt;time.h&gt;
+configTime(0, 0, "pool.ntp.org", "time.nist.gov");</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="labs" class="section bg-light">
+            <div class="container">
+                <h2>Practical Labs</h2>
+                <div class="labs-grid">
+                    <div class="lab-card">
+                        <h3>Lab 1: Complete IoT Network Setup</h3>
+                        <p>Design and implement a multi-device IoT network with different communication patterns</p>
+                        <div class="lab-requirements">
+                            <h4>Requirements:</h4>
+                            <ul>
+                                <li>3x ESP32 devices with HTTP, MQTT, and UDP communication</li>
+                                <li>DHCP server configuration</li>
+                                <li>Network monitoring with Wireshark</li>
+                                <li>Error handling and reconnection logic</li>
+                            </ul>
+                        </div>
+                        <a href="../labs/lab1.html" class="lab-link">Start Lab 1</a>
+                    </div>
+
+                    <div class="lab-card">
+                        <h3>Lab 2: Network Troubleshooting Scenarios</h3>
+                        <p>Diagnose and resolve real network problems in controlled scenarios</p>
+                        <div class="lab-scenarios">
+                            <h4>Scenarios:</h4>
+                            <ul>
+                                <li>IP Address Conflicts</li>
+                                <li>DHCP Exhaustion</li>
+                                <li>Gateway Misconfiguration</li>
+                                <li>DNS Resolution Failure</li>
+                                <li>TCP Connection Issues</li>
+                            </ul>
+                        </div>
+                        <a href="../labs/lab2.html" class="lab-link">Start Lab 2</a>
+                    </div>
+
+                    <div class="lab-card">
+                        <h3>Lab 3: Protocol Implementation Challenge</h3>
+                        <p>Implement a custom application protocol with proper documentation</p>
+                        <div class="lab-requirements">
+                            <h4>Requirements:</h4>
+                            <ul>
+                                <li>Design custom sensor network protocol</li>
+                                <li>Choose appropriate transport (TCP vs UDP)</li>
+                                <li>Implement reliability mechanisms</li>
+                                <li>Add authentication and error handling</li>
+                                <li>Document protocol specification</li>
+                            </ul>
+                        </div>
+                        <a href="../labs/lab3.html" class="lab-link">Start Lab 3</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="assessment" class="section">
+            <div class="container">
+                <h2>Assessment & Certification</h2>
+                <div class="assessment-content">
+                    <div class="assessment-overview">
+                        <h3>Assessment Methods</h3>
+                        <ul>
+                            <li><strong>Practical Labs (60%):</strong> Hands-on implementation and troubleshooting</li>
+                            <li><strong>Technical Quiz (25%):</strong> Protocol knowledge and best practices</li>
+                            <li><strong>Project Presentation (15%):</strong> Network architecture design</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="certification-info">
+                        <h3>Certification Requirements</h3>
+                        <ul>
+                            <li>Complete all 9 training sessions</li>
+                            <li>Successfully complete all 3 practical labs</li>
+                            <li>Achieve minimum 70% on technical assessment</li>
+                            <li>Present final project to instructor</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="assessment-actions">
+                    <a href="../assessment/quiz.html" class="assessment-button">Take Technical Quiz</a>
+                    <a href="../assessment/project.html" class="assessment-button">Submit Final Project</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Module Navigation</h4>
+                    <ul>
+                        <li><a href="#day1">Day 1: Network Fundamentals</a></li>
+                        <li><a href="#day2">Day 2: Network Layer & Routing</a></li>
+                        <li><a href="#day3">Day 3: Transport & Application</a></li>
+                        <li><a href="#labs">Practical Labs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="../resources/tools.html">Essential Tools</a></li>
+                        <li><a href="../resources/references.html">Technical References</a></li>
+                        <li><a href="../resources/troubleshooting.html">Troubleshooting Guide</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <p>Email: <a href="mailto:training@dynamicdevices.co.uk">training@dynamicdevices.co.uk</a></p>
+                    <p>Post-course support available for 30 days</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/module.js"></script>
+</body>
+</html>
