@@ -1,0 +1,232 @@
+:root {
+    --module-primary: #3498db;
+    --module-secondary: #2c3e50;
+    --session-bg: #ffffff;
+    --session-border: #e9ecef;
+    --code-bg: #f8f9fa;
+    --exercise-bg: #e8f5e9;
+}
+
+.module-hero {
+    background: linear-gradient(135deg, var(--module-primary), var(--module-secondary));
+    color: white;
+    padding: 3rem 0;
+}
+
+.breadcrumb {
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.breadcrumb a {
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    color: white;
+}
+
+.module-description {
+    font-size: 1.2rem;
+    margin: 1rem 0 2rem;
+    opacity: 0.9;
+}
+
+.module-meta {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.module-meta span {
+    background: rgba(255,255,255,0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+.module-overview {
+    padding: 3rem 0;
+    background: var(--light-bg);
+}
+
+.overview-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 3rem;
+}
+
+.day-section {
+    padding: 4rem 0;
+}
+
+.day-section h2 {
+    text-align: center;
+    margin-bottom: 3rem;
+    color: var(--module-secondary);
+    font-size: 2.2rem;
+}
+
+.session-grid {
+    display: grid;
+    gap: 2rem;
+}
+
+.session-card {
+    background: var(--session-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    border-left: 4px solid var(--module-primary);
+}
+
+.session-header {
+    background: var(--light-bg);
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--session-border);
+}
+
+.session-header h3 {
+    color: var(--module-secondary);
+    margin: 0;
+    font-size: 1.3rem;
+}
+
+.session-duration {
+    background: var(--module-primary);
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.session-content {
+    padding: 2rem;
+}
+
+.session-content h4 {
+    color: var(--module-secondary);
+    margin: 1.5rem 0 0.8rem;
+    font-size: 1.1rem;
+}
+
+.session-content ul {
+    margin-bottom: 1.5rem;
+}
+
+.session-content li {
+    margin-bottom: 0.5rem;
+    padding-left: 1rem;
+    position: relative;
+}
+
+.session-content li:before {
+    content: "▸";
+    position: absolute;
+    left: 0;
+    color: var(--module-primary);
+    font-weight: bold;
+}
+
+.session-table {
+    margin: 1.5rem 0;
+    overflow-x: auto;
+}
+
+.session-table table {
+    font-size: 0.9rem;
+}
+
+.code-example {
+    background: var(--code-bg);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    margin: 1.5rem 0;
+    border-left: 4px solid var(--module-primary);
+}
+
+.code-example h4 {
+    margin-top: 0;
+}
+
+.practical-exercise {
+    background: var(--exercise-bg);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    margin: 1.5rem 0;
+    border-left: 4px solid var(--success-color);
+}
+
+.practical-exercise h4 {
+    margin-top: 0;
+    color: var(--success-color);
+}
+
+.address-ranges, .diagnostic-commands, .tcp-handshake {
+    background: var(--light-bg);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    margin: 1.5rem 0;
+}
+
+.lab-requirements, .lab-scenarios {
+    margin-top: 1rem;
+}
+
+.assessment-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+}
+
+.assessment-actions {
+    text-align: center;
+}
+
+.assessment-button {
+    display: inline-block;
+    background: var(--module-primary);
+    color: white;
+    padding: 1rem 2rem;
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    margin: 0 1rem;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.assessment-button:hover {
+    background: var(--module-secondary);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .overview-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .assessment-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .module-meta {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+    
+    .session-header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+}

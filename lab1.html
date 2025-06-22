@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 1: Network Setup & Configuration - IoT Training</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/lab.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1><a href="../index.html">Dynamic Devices</a></h1>
+                    <span>Lab 1: Network Setup & Configuration</span>
+                </div>
+                <nav class="nav">
+                    <a href="#objectives">Objectives</a>
+                    <a href="#setup">Setup</a>
+                    <a href="#exercises">Exercises</a>
+                    <a href="#submission">Submission</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="lab-hero">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="../index.html">Home</a> > 
+                    <a href="../modules/module1.html">Module 1</a> > 
+                    <span>Lab 1</span>
+                </div>
+                <h1>Lab 1: Network Setup & Configuration</h1>
+                <p class="lab-description">Configure ESP32 devices with DHCP and static IP addressing</p>
+                <div class="lab-meta">
+                    <span class="duration">⏱️ 2 Hours</span>
+                    <span class="difficulty">📊 Intermediate</span>
+                    <span class="type">🔬 Hands-on</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="objectives" class="section">
+            <div class="container">
+                <h2>Learning Objectives</h2>
+                <div class="objectives-grid">
+                    <div class="objective-card">
+                        <h3>🎯 Primary Goals</h3>
+                        <ul>
+                            <li>Configure ESP32 Wi-Fi connection with DHCP</li>
+                            <li>Set up static IP addressing</li>
+                            <li>Implement network interface monitoring</li>
+                            <li>Test connectivity and troubleshoot issues</li>
+                        </ul>
+                    </div>
+                    <div class="objective-card">
+                        <h3>🛠️ Skills Developed</h3>
+                        <ul>
+                            <li>Network configuration programming</li>
+                            <li>IP address management</li>
+                            <li>Connection state handling</li>
+                            <li>Network debugging techniques</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="setup" class="section bg-light">
+            <div class="container">
+                <h2>Lab Setup</h2>
+                
+                <div class="setup-requirements">
+                    <h3>Hardware Requirements</h3>
+                    <ul>
+                        <li>ESP32 development board</li>
+                        <li>USB cable for programming</li>
+                        <li>Wi-Fi access point or router</li>
+                        <li>Computer with Arduino IDE or PlatformIO</li>
+                    </ul>
+                </div>
+
+                <div class="setup-software">
+                    <h3>Software Setup</h3>
+                    <div class="code-block">
+                        <h4>Arduino IDE Libraries:</h4>
+                        <pre><code>// Install these libraries through Library Manager
+#include &lt;WiFi.h&gt;
+#include &lt;WiFiClient.h&gt;
+#include &lt;ESPmDNS.h&gt;</code></pre>
+                    </div>
+                </div>
+
+                <div class="network-topology">
+                    <h3>Network Topology</h3>
+                    <div class="topology-diagram">
+                        <pre>
+Internet ← → Router/AP ← → ESP32 Device
+                ↓
+        [DHCP Pool: 192.168.1.100-200]
+        [Static Range: 192.168.1.10-50]
+                        </pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="exercises" class="section">
+            <div class="container">
+                <h2>Lab Exercises</h2>
+
+                <div class="exercise-card">
+                    <div class="exercise-header">
+                        <h3>Exercise 1: DHCP Configuration</h3>
+                        <span class="exercise-time">30 minutes</span>
+                    </div>
+                    <div class="exercise-content">
+                        <h4>Task:</h4>
+                        <p>Configure ESP32 to connect to Wi-Fi using DHCP and display network information.</p>
+                        
+                        <div class="code-block">
+                            <h4>Starter Code:</h4>
+                            <pre><code>#include &lt;WiFi.h&gt;
+
+const char* ssid = "YOUR_WIFI_SSID";
+const char* password = "YOUR_WIFI_PASSWORD";
+
+void setup() {
+    Serial.begin(115200);
+    
+    // TODO: Initialize Wi-Fi connection
+    WiFi.begin(ssid, password);
+    
+    // TODO: Wait for connection and display status
+    while (WiFi.status() != WL_CONNECTED) {
+        delay(1000);
+        Serial.println("Connecting to WiFi...");
+    }
+    
+    // TODO: Display network information
+    Serial.println("WiFi connected!");
+    Serial.print("IP address: ");
+    Serial.println(WiFi.localIP());
+    Serial.print("Subnet mask: ");
+    Serial.println(WiFi.subnetMask());
+    Serial.print("Gateway: ");
+    Serial.println(WiFi.gatewayIP());
+    Serial.print("DNS: ");
+    Serial.println(WiFi.dnsIP());
+}
+
+void loop() {
+    // TODO: Monitor connection status
+    if (WiFi.status() == WL_CONNECTED) {
+        Serial.println("Connection active");
+    } else {
+        Serial.println("Connection lost - attempting reconnect");
+        WiFi.reconnect();
+    }
+    delay(10000);
+}</code></pre>
+                        </div>
+
+                        <div class="exercise-tasks">
+                            <h4>Complete these tasks:</h4>
+                            <ol>
+                                <li>Fill in your Wi-Fi credentials</li>
+                                <li>Add error handling for connection failures</li>
+                                <li>Display MAC address and signal strength</li>
+                                <li>Implement automatic reconnection logic</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exercise-card">
+                    <div class="exercise-header">
+                        <h3>Exercise 2: Static IP Configuration</h3>
+                        <span class="exercise-time">45 minutes</span>
+                    </div>
+                    <div class="exercise-content">
+                        <h4>Task:</h4>
+                        <p>Configure ESP32 with a static IP address and compare behavior with DHCP.</p>
+                        
+                        <div class="code-block">
+                            <h4>Static IP Template:</h4>
+                            <pre><code>// Static IP configuration
+IPAddress local_IP(192, 168, 1, 184);
+IPAddress gateway(192, 168, 1, 1);
+IPAddress subnet(255, 255, 255, 0);
+IPAddress primaryDNS(8, 8, 8, 8);
+IPAddress secondaryDNS(8, 8, 4, 4);
+
+void setup() {
+    Serial.begin(115200);
+    
+    // Configure static IP before connecting
+    if (!WiFi.config(local_IP, gateway, subnet, primaryDNS, secondaryDNS)) {
+        Serial.println("Static IP configuration failed");
+    }
+    
+    WiFi.begin(ssid, password);
+    
+    // TODO: Add connection monitoring and comparison
+}</code></pre>
+                        </div>
+
+                        <div class="exercise-tasks">
+                            <h4>Implementation Requirements:</h4>
+                            <ol>
+                                <li>Create a function to switch between DHCP and static IP</li>
+                                <li>Measure and compare connection times</li>
+                                <li>Test network connectivity with both configurations</li>
+                                <li>Document the differences in behavior</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exercise-card">
+                    <div class="exercise-header">
+                        <h3>Exercise 3: Network Monitoring & Diagnostics</h3>
+                        <span class="exercise-time">45 minutes</span>
+                    </div>
+                    <div class="exercise-content">
+                        <h4>Task:</h4>
+                        <p>Implement comprehensive network monitoring and diagnostic functions.</p>
+                        
+                        <div class="exercise-tasks">
+                            <h4>Features to Implement:</h4>
+                            <ol>
+                                <li><strong>Connection Health Monitor:</strong> Track connection stability</li>
+                                <li><strong>Network Scanner:</strong> Discover other devices on network</li>
+                                <li><strong>Ping Function:</strong> Test connectivity to specific hosts</li>
+                                <li><strong>Speed Test:</strong> Measure network throughput</li>
+                            </ol>
+                        </div>
+
+                        <div class="code-block">
+                            <h4>Diagnostic Functions Template:</h4>
+                            <pre><code>void networkDiagnostics() {
+    Serial.println("=== Network Diagnostics ===");
+    
+    // Connection status
+    Serial.printf("Status: %s\n", WiFi.status() == WL_CONNECTED ? "Connected" : "Disconnected");
+    Serial.printf("SSID: %s\n", WiFi.SSID().c_str());
+    Serial.printf("RSSI: %d dBm\n", WiFi.RSSI());
+    
+    // Network configuration
+    Serial.printf("IP: %s\n", WiFi.localIP().toString().c_str());
+    Serial.printf("Mask: %s\n", WiFi.subnetMask().toString().c_str());
+    Serial.printf("Gateway: %s\n", WiFi.gatewayIP().toString().c_str());
+    
+    // TODO: Add ping test to gateway
+    // TODO: Add DNS resolution test
+    // TODO: Add network scan
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="submission" class="section bg-light">
+            <div class="container">
+                <h2>Lab Submission</h2>
+                
+                <div class="submission-requirements">
+                    <h3>Deliverables</h3>
+                    <div class="deliverable-grid">
+                        <div class="deliverable-card">
+                            <h4>📝 Code Submission</h4>
+                            <ul>
+                                <li>Complete Arduino sketch files</li>
+                                <li>Commented code explaining key functions</li>
+                                <li>Configuration files or constants</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="deliverable-card">
+                            <h4>📊 Test Results</h4>
+                            <ul>
+                                <li>Serial monitor output screenshots</li>
+                                <li>Network configuration comparisons</li>
+                                <li>Connection time measurements</li>
+                                <li>Diagnostic output examples</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="deliverable-card">
+                            <h4>📋 Lab Report</h4>
+                            <ul>
+                                <li>Summary of exercises completed</li>
+                                <li>Challenges encountered and solutions</li>
+                                <li>DHCP vs Static IP analysis</li>
+                                <li>Recommendations for IoT deployments</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="submission-checklist">
+                    <h3>Submission Checklist</h3>
+                    <div class="checklist">
+                        <label><input type="checkbox"> Exercise 1: DHCP configuration working</label>
+                        <label><input type="checkbox"> Exercise 2: Static IP configuration working</label>
+                        <label><input type="checkbox"> Exercise 3: Network diagnostics implemented</label>
+                        <label><input type="checkbox"> Code is well-commented and documented</label>
+                        <label><input type="checkbox"> Test results captured and analyzed</label>
+                        <label><input type="checkbox"> Lab report completed</label>
+                    </div>
+                </div>
+
+                <div class="submission-actions">
+                    <button class="submit-btn" onclick="submitLab()">Submit Lab</button>
+                    <button class="save-btn" onclick="saveProgress()">Save Progress</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Lab Support</h4>
+                    <p>Need help? Contact: <a href="mailto:lab-support@dynamicdevices.co.uk">lab-support@dynamicdevices.co.uk</a></p>
+                </div>
+                <div class="footer-section">
+                    <h4>Next Steps</h4>
+                    <ul>
+                        <li><a href="lab2.html">Lab 2: Protocol Analysis</a></li>
+                        <li><a href="../modules/module1.html">Return to Module 1</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/lab.js"></script>
+</body>
+</html>
