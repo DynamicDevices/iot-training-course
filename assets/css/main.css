@@ -216,7 +216,7 @@ pre code {
    HERO SECTION
    ========================================================================== */
 
-.hero {
+   .hero {
     background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
     color: white;
     padding: var(--space-3xl) 0;
@@ -234,6 +234,7 @@ pre code {
     opacity: 0.9;
     max-width: 600px;
     margin: 0 auto;
+    color: white;
 }
 
 /* ==========================================================================
@@ -454,6 +455,7 @@ pre code {
    HOMEPAGE STYLES
    ========================================================================== */
 
+
 /* Coming Soon Module Cards */
 .coming-soon {
     position: relative;
@@ -463,7 +465,7 @@ pre code {
 .coming-soon::before {
     content: "Coming Soon";
     position: absolute;
-    top: 10px;
+    top: -8px;
     right: 10px;
     background: linear-gradient(135deg, #f59e0b, #d97706);
     color: white;
@@ -472,6 +474,7 @@ pre code {
     font-size: 0.75rem;
     font-weight: 600;
     z-index: 2;
+    box-shadow: var(--shadow-md);
 }
 
 .coming-soon .session-link {
@@ -494,6 +497,11 @@ pre code {
     text-align: center;
 }
 
+.course-stats h2 {
+    color: white;
+    margin-bottom: var(--space-lg);
+}
+
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -512,12 +520,14 @@ pre code {
     font-size: 2rem;
     font-weight: 700;
     display: block;
+    color: white;
 }
 
 .stat-label {
     font-size: 0.875rem;
     opacity: 0.9;
     margin-top: var(--space-xs);
+    color: white;
 }
 
 /* ==========================================================================
