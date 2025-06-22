@@ -1,0 +1,92 @@
+<!-- Add to tools/ip-class-calculator.html -->
+<div class="ip-analyzer-tool">
+    <h2>IP Address Class Analyzer</h2>
+    <div class="calculator-input">
+        <label>Enter IP Address:</label>
+        <input type="text" id="ip-input" placeholder="e.g., 10.0.34.120" />
+        <button onclick="analyzeIP()">Analyze</button>
+    </div>
+    
+    <div id="analysis-results" class="results-panel">
+        <div class="result-item">
+            <label>IP Address:</label>
+            <span id="ip-display"></span>
+        </div>
+        <div class="result-item">
+            <label>Class:</label>
+            <span id="ip-class"></span>
+        </div>
+        <div class="result-item">
+            <label>Default Netmask:</label>
+            <span id="netmask"></span>
+        </div>
+        <div class="result-item">
+            <label>Network Portion:</label>
+            <span id="network-portion"></span>
+        </div>
+        <div class="result-item">
+            <label>Host Portion:</label>
+            <span id="host-portion"></span>
+        </div>
+        <div class="result-item">
+            <label>Max Hosts:</label>
+            <span id="max-hosts"></span>
+        </div>
+        <div class="result-item">
+            <label>Can Communicate With:</label>
+            <span id="communication-range"></span>
+        </div>
+    </div>
+</div>
+
+<script>
+function analyzeIP() {
+    const ip = document.getElementById('ip-input').value;
+    const octets = ip.split('.').map(Number);
+    
+    if (octets.length !== 4 || octets.some(octet => octet < 0 || octet > 255)) {
+        alert('Please enter a valid IP address');
+        return;
+    }
+    
+    const firstOctet = octets[0];
+    let ipClass, netmask, networkPortion, hostPortion, maxHosts;
+    
+    if (firstOctet >= 1 && firstOctet <= 126) {
+        ipClass = 'A';
+        netmask = '255.0.0.0 (/8)';
+        networkPortion = `${octets[0]}.0.0.0`;
+        hostPortion = `0.${octets[1]}.${octets[2]}.${octets[3]}`;
+        maxHosts = '16,777,214';
+    } else if (firstOctet >= 128 && firstOctet <= 191) {
+        ipClass = 'B';
+        netmask = '255.255.0.0 (/16)';
+        networkPortion = `${octets[0]}.${octets[1]}.0.0`;
+        hostPortion = `0.0.${octets[2]}.${octets[3]}`;
+        maxHosts = '65,534';
+    } else if (firstOctet >= 192 && firstOctet <= 223) {
+        ipClass = 'C';
+        netmask = '255.255.255.0 (/24)';
+        networkPortion = `${octets[0]}.${octets[1]}.${octets[2]}.0`;
+        hostPortion = `0.0.0.${octets[3]}`;
+        maxHosts = '254';
+    } else {
+        ipClass = 'Special/Reserved';
+        netmask = 'N/A';
+        networkPortion = 'N/A';
+        hostPortion = 'N/A';
+        maxHosts = 'N/A';
+    }
+    
+    document.getElementById('ip-display').textContent = ip;
+    document.getElementById('ip-class').textContent = ipClass;
+    document.getElementById('netmask').textContent = netmask;
+    document.getElementById('network-portion').textContent = networkPortion;
+    document.getElementById('host-portion').textContent = hostPortion;
+    document.getElementById('max-hosts').textContent = maxHosts;
+    document.getElementById('communication-range').textContent = 
+        `Any device on network ${networkPortion.replace('.0', '.x')}`;
+    
+    document.getElementById('analysis-results').style.display = 'block';
+}
+</script>

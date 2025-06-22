@@ -1,0 +1,582 @@
+Unknown Speaker  0:06  
+So what we're going to try and do
+
+Unknown Speaker  0:09  
+this morning is a bit of a chat about TCPIP networking,
+
+Unknown Speaker  0:16  
+and
+
+Unknown Speaker  0:18  
+particularly
+
+Unknown Speaker  0:21  
+we use it in IoT and the internet of things. So I don't particularly want to kind of spend my time sort of talking at you.
+
+Unknown Speaker  0:32  
+Yeah, that works. That's good. Haven't got one of the indelible ones. Really, what want to do is try and give you a bit of background stuff. You may know stuff you may not know if you do, if you do know stuff, we don't really want to focus on it. What we want to give you is a framework to be considering what's going on when you're actually programming and working with embedded devices and moving data around the internet and all those kinds of things. So that's what this is about, really. So it's much more of a sort of free form chat than anything else, and we will just sort of go wherever the wind takes us to try to answer any questions, and who knows, maybe I'll learn some stuff as well. It's entirely possible.
+
+Unknown Speaker  1:09  
+So I suppose first thing I might ask you is, who
+
+Unknown Speaker  1:14  
+invented the internet? What
+
+Unknown Speaker  1:17  
+would you say do
+
+Unknown Speaker  1:24  
+any ideas, any names come to mind?
+
+Unknown Speaker  1:31  
+Okay, have you done any modules on TCP and P on the internet? You must have, yeah, must have done some stuff.
+
+Unknown Speaker  1:39  
+Yeah? Well,
+
+Unknown Speaker  1:41  
+okay, so I was talking to somebody the other day, and they said that the person who invented the internet was Tim Berners Lee,
+
+Unknown Speaker  1:51  
+who was one of the big names in the world of the internet. A lot of people think that, and you know, maybe they're right. People have different opinions. I have a different opinion. Tim Berners Lee is the guy who invented the World Wide Web. The
+
+Unknown Speaker  2:06  
+world wide web, www is
+
+Unknown Speaker  2:10  
+essentially this thing that we all use, that we don't think about anymore, which is web pages, and hyperlinks between web pages. And He came up with the idea of this hyperlink, this way of having a reference set of information, a page of information, say, which could link to another page of information. And in that way, you could move from place to place to place within this virtual world of the internet.
+
+Unknown Speaker  2:35  
+And so in anybody, or when most people, interact with the internet and the computer systems, they tend to be thinking of web browsers and web pages and portals and the services that are offered on those portals, and that is the World Wide Web, and that's hyperlinks, and that's Tim Berners Lee,
+
+Unknown Speaker  2:54  
+but that is very much just the tip of a very large iceberg,
+
+Unknown Speaker  2:59  
+because all of that stuff sits on top of a lot of other stuff to make it work. And the basics of it all is that we're trying to move bits of data from A to B, from place to place, in a somewhat reliable kind of way.
+
+Unknown Speaker  3:16  
+That's what the internet is about, inter network. So you've got a network, and then you've got a lot of other networks, and we move data in between those networks, and the overall set of all of these networks is our global Internet, and we have smaller private networks within that overall network, and we have disconnected networks, and these kinds of things now,
+
+Unknown Speaker  3:41  
+where A lot of this came from in the early days, as a lot of things do, was through military research.
+
+Unknown Speaker  3:47  
+And I was a programme in America, which I think was DARPA,
+
+Unknown Speaker  3:51  
+and they created the ARPANET.
+
+Unknown Speaker  3:54  
+And you know, you can go and research all this stuff. And I'm giving you a kind of my opinion, version of all of this. And others may disagree, but in essence, what it was about was, you know, back in those days, which is probably the kind of, you know, the late 80s, early 90s, I guess, we were looking at how you move digital data from place to place in a way that could root around problems.
+
+Unknown Speaker  4:22  
+So in the bad old days when the telephone exchanges were first created, I'd have a phone in my house, and I ring on that phone, and there would be a physical wire that would go to an exchange place where people would work, and they'd pick up my call and then physically connect my call to another place, which would physically connect those bits of wire, and I could speak to the person that I was intending to speak to, and then physically disconnect that a different call would physically go to a different place. So you can imagine if at any point in that process, those bits of wire got broke, I can't make my phone call. You.
+
+Unknown Speaker  5:00  
+Yes, and then we, you know, you can think of that as analogue data, because that's analogue data being encoded onto these bits of wire and then being decoded at the at the at the other end. It's sort of an evolution of
+
+Unknown Speaker  5:13  
+of the telegram and Morse code and dot, dot, dot. We're carrying audio now, but it's still analogue. And
+
+Unknown Speaker  5:19  
+then we started to move into all the digital where we would encode things as zeros and ones, and we could break up things into blocks of zeros and ones, or packets of zeros and ones. And then if I've got a few different wires between where I am and where I'm trying to talk to,
+
+Unknown Speaker  5:35  
+I don't have to send everything over the same set of wires. I could send some stuff over one set of wires, and other stuff over another set of wires, and then if one of those sets of wires fails, I can still get my information through. So this idea of the ARPANET was all about, how do we really reliably move data around and manage this process of taking different routes to get that data where it needs to get when we can't control what those routes may be, when they may be working or not working.
+
+Unknown Speaker  6:08  
+That's where the idea comes from.
+
+Unknown Speaker  6:11  
+So there's lot of memes to do with all of this stuff. One of the one of the sayings is the internet routes around, and that's used in a lot of different ways nowadays, particularly to do with information and keeping information secret or confidential, but in essence, it's the same thing. What it's saying is that if there's a bunch of wires over here and something goes wrong, the internet will magically find a way of moving that data through a different route to get you what you need done.
+
+Unknown Speaker  6:39  
+And that's what it's all about. That's what the internet TCPIP stack is all about, doing that.
+
+Unknown Speaker  6:49  
+So doesn't have to be TCPIP there are other protocols, other ways of doing this stuff. They've all kind of disappeared, really, mostly, pretty much everybody who talks about the internet today is talking about some implementation of a TCPIP stack to move packets of data around. And
+
+Unknown Speaker  7:10  
+there are different levels and protocols within that TCPIP stack to enable the different things that need to happen to happen.
+
+Unknown Speaker  7:19  
+And a lot of the time, we kind of ignore all the stuff we don't care about, and particularly as engineers, we kind of have to do that because the world is so complicated. If we investigated everything, we'd never be able to get everything done. So we just treat things as a black box, we let them work, and we get on with the bits that surface that we need to care about, which is often at an application level, where you're trying to write a bit of application code on a phone or a bit of Python or embedded device to move information around, and it disappears into this mad, crazy world of this TCPIP stack, sort of reappears somewhere else, and then you deal with it. You don't quite know what happened between these two things, but it's useful to be able to take a view on what's actually going on, particularly when you try and problem solve and configure things, when they don't work as they should, you don't quite know why they're not working as they should.
+
+Unknown Speaker  8:12  
+So one of the things that you probably got taught is about something called the OSI model,
+
+Unknown Speaker  8:20  
+which seems to be what universities really like to teach, and that's a layered model to express how information moves around, something like an internet TCP is very similar to an OSI model. I can't remember it. So could you look up the OSI model? And then you will see, this is probably see a graphic, and you'll see there's a stack, and if you just tell me the different levels within the stack for the OSI model, we'll have a little bit of a chat about them, application layer, so let's put that down here. I'm going to try and change the pen, because this screen is not very effective. So the OSI model, up at the top, we've got the application layer, presentation layer, and the presentation layer, session layer, session layer transport, Transport Layer network, network layer, Data Link, was it interlink, data link, then physically, and then physical.
+
+Unknown Speaker  9:18  
+Okay, so I'm not going to sort of try and explain all of this, except to say that each of these layers, from application up at the top, down to physical down at the bottom, sits on top of the layer beneath it.
+
+Unknown Speaker  9:35  
+And you can think of physical down at the bottom as a bit of wire.
+
+Unknown Speaker  9:41  
+So what's happening is, if I've got my computer a, on my device
+
+Unknown Speaker  9:48  
+a, and I've got my computer B
+
+Unknown Speaker  9:51  
+over here, and that's also got these layers inside it
+
+Unknown Speaker  9:58  
+like so I'm.
+
+Unknown Speaker  10:00  
+This is a logical model for a software stack. So you can think of that as, you know, library, say, or a set of programming that's sitting inside the computer. Typically, this would be
+
+Unknown Speaker  10:12  
+a TCPIP implementation that sits within a kernel of an operating system that you're using. So that would be Linux or Windows, or or Mac, or whatever it might be, iOS, yeah, and this will sit inside every device that uses uses this mechanism to access the internet, from your phones to your little ESP 266, as we work in that type of thing, physical is the bit of wire
+
+Unknown Speaker  10:36  
+Data Link is getting a packet of data from one place to another place. Directly.
+
+Unknown Speaker  10:45  
+Network is getting a packet of data to a far, far away place, which might go through other places to get there and be rooted from A to B. And
+
+Unknown Speaker  10:56  
+then we've got transport and session and presentation that I tend not to bother with, an application up at the top, which is the specifics of what you might be doing. So you can think of that as a request from a web browser to a web server, or a request from an email client to an email server, or a request from a chat server, chat client to a chat server, and something we need to come back to a little bit later about what servicing clients actually are, but we won't worry about that just now. So if you think about what's happening on a physical layer,
+
+Unknown Speaker  11:30  
+that is tending to be actually voltage levels changing in a bit of wire. So if you think about,
+
+Unknown Speaker  11:39  
+you know, I know what we're all using Wi Fi today, and I'll come on to that, but step back from that, because it's simpler. And just think about Ethernet. So I plug in an Ethernet cable into my adapter on my computer, and I plug the other end in somewhere else, and that's the bit of wire, and there's an Ethernet phi, an Ethernet controller, the physical access that converts ones and zeros into changing electrical pulses that go over this wire. That's all that's happening. And there are different ways of doing that encoding. But obviously, for this stuff to work, there have to be standards. So there are Ethernet standards,
+
+Unknown Speaker  12:17  
+series standards for how that data gets encoded on bits of wire
+
+Unknown Speaker  12:22  
+more recently. I mean, maybe not for you, but for me,
+
+Unknown Speaker  12:27  
+that bit of wire you can think of as radio so obviously, radio communication, there are no wires, but what's happening is those zeros and ones are being encoded in radio spectrum to send that information from a point to a point. Radio, Wi Fi is a bit different, because it's broadcast, whereas Ethernet is point to point, but we can deal with that separately.
+
+Unknown Speaker  12:50  
+So with keep this in the back of your head, because all I'm trying to say here is that there is a structure to how this stuff works and in terms of how data is sent out, what you tend to find is that I've probably got these pens are used. I've probably got a packet of information here that I care about, which is my zeros and ones,
+
+Unknown Speaker  13:17  
+and maybe that's the web page that I want to retrieve, or something. Who knows I don't watch that. It's not a good example. But and then, as we as we go up this stack, down the stack, headers
+
+Unknown Speaker  13:29  
+are prefixed to the front of this packet,
+
+Unknown Speaker  13:33  
+and those different headers relate to different aspects of this. I'm going to start calling it TCPIP stack now, which is a more specific instance, because that's what we care about. So you'll have one packet of data here relating to a level which might have some more data outside it relating to a different level. This might, I mean, I might not be explaining this tremendously clearly, but hopefully it will sort of begin to come together as we move forward.
+
+Unknown Speaker  14:02  
+So let's take some examples of this. I've got a laptop here, a
+
+Unknown Speaker  14:09  
+sitting on the table over here, and I want to send a message to one of you
+
+Unknown Speaker  14:15  
+two on your laptop, b,
+
+Unknown Speaker  14:19  
+over here,
+
+Unknown Speaker  14:21  
+so there's different ways we can accomplish this. And
+
+Unknown Speaker  14:26  
+the first thing that we can look at is that, let's say these two laptops, and we'll leave Wi Fi similar, but we'll leave Wi Fi out of it. We're talking about wide Ethernet and about wires connected things. So this computer is connected with Ethernet to the network.
+
+Unknown Speaker  14:46  
+This computer is connected to the local network so they can move packets of data between the two of them.
+
+Unknown Speaker  14:53  
+Now first thing is, how do I know to get my information to be.
+
+Unknown Speaker  15:00  
+It?
+
+Unknown Speaker  15:01  
+Well, there has to be some kind of identifier here, doesn't it? We're going to have identifiers to sort of indicate what we're trying to do, where we're trying to get the data to. And there are different kinds of identifiers. So at the lowest level, down at the bottom here, at the data link layer, we've got something called a MAC address. You heard a MAC address? Yes, good. Any idea what a MAC address is? Specific
+
+Unknown Speaker  15:29  
+device
+
+Unknown Speaker  15:31  
+address both, yeah, so I think if I remember rightly, it's a media access control address
+
+Unknown Speaker  15:40  
+and every
+
+Unknown Speaker  15:42  
+ethernet device, device that's implementing the TCP, IP stack, more or less, say I'm simplifying as a MAC address, and that MAC address takes the form of
+
+Unknown Speaker  15:54  
+six bytes so
+
+Unknown Speaker  16:03  
+and every MAC address is supposed to be unique, globally in the world, completely.
+
+Unknown Speaker  16:11  
+If they're not unique, you run into trouble. There's an organisation that you can register your MAC addresses with. I
+
+Unknown Speaker  16:21  
+can't remember the details exactly, but I think that the front two or three bytes of data is your UI,
+
+Unknown Speaker  16:32  
+which is your unique organisation identifier, and
+
+Unknown Speaker  16:37  
+then the back end, it might just be the top two actually, and the back end is your unique device ID.
+
+Unknown Speaker  16:46  
+So typically, most people don't worry about this stuff, because when you buy a laptop or a mobile phone or something like that, it's got the communications chips inside, and those communication chips have this ID burnt into them somehow,
+
+Unknown Speaker  17:01  
+often during the production stage. And typically, you know, if you're a smaller entity, what we would do if we're manufacturing a board, we would buy in, say, an Ethernet controller device. And that Ethernet controller would come from a manufacturer, like NXP or mobile, whatever it might be, and it would already that manufacturer would already have bought a block of these MAC addresses, and it would already have the programming in. So if you look at MAC addresses of devices, and you can run, excuse me, something like if config on your laptop there, and it will give you a unique MAC address for every adapter interface that you have in the system, and you can look up that MAC address on there's various different resources. There are online resources to do MAC address checking, and it will tell you what the manufacturer is for your MAC address, and that will generally be whichever company sold silicon that is supporting that function might be Ethernet or the Wi Fi, whatever it might be. So that's how that stuff is structured.
+
+Unknown Speaker  18:10  
+Now, this looks a bit like an IPv six address because they're the same number of bytes, but it's not. It's a different thing for a different purpose.
+
+Unknown Speaker  18:23  
+And so what you can do is you can say, Okay, well, I have a packet of data over here, and I want to send it to this MAC address over here.
+
+Unknown Speaker  18:35  
+And then we can let the bottom layers of the stack work out how to do that, and then the we can send out the information over, for example, the Ethernet adapter. And then anything else that has that MAC address is all that's for me, that's okay. I'm going to deal with that packet.
+
+Unknown Speaker  18:54  
+There's a bit more to it. You can also broadcast information to all devices, which would be all F's in your MAC address. And there's something else for multicast that we won't worry about. But basically, with MAC addresses, you're talking from one computer directly or device directly to another computer or device on the same network. That's critical.
+
+Unknown Speaker  19:20  
+So if I've got another network over here with some more computers on that network, C and D, and they have their MAC addresses,
+
+Unknown Speaker  19:35  
+I don't have any way using MAC addresses
+
+Unknown Speaker  19:40  
+at this data link layer of getting my packet of data from A to C
+
+Unknown Speaker  19:46  
+doesn't do it.
+
+Unknown Speaker  19:48  
+That's why we need something else. We need the networking layer.
+
+Unknown Speaker  19:54  
+Now, before we start to talk about that, this is where we begin to bring in the concept of.
+
+Unknown Speaker  20:00  
+IP addresses or Internet Protocol addresses. So we talked about MAC addresses, these things, and now we're going to talk about IP addresses.
+
+Unknown Speaker  20:12  
+And when IP was created, it was IP with four bytes of address. And so we now call that IPv four to distinguish it from the new IPv six.
+
+Unknown Speaker  20:23  
+Not sure if we get on to talking about that. What time is it
+
+Unknown Speaker  20:28  
+now? 37 Can you just give me a keep an eye and give me a shout at about five two, and we're a hard stop then, and then we'll kind of resume after the meeting I've got. So an IPv four address, again,
+
+Unknown Speaker  20:41  
+is that's a dot notation usually. So it's actually that's unhelpful. So let's just say a typical IP address that you will know and love is 192
+
+Unknown Speaker  20:54  
+168
+
+Unknown Speaker  20:56  
+dot 1.1,
+
+Unknown Speaker  20:57  
+and
+
+Unknown Speaker  20:59  
+in internet parlance, we call these octets,
+
+Unknown Speaker  21:05  
+and that's a pedantic way of framing it, but it's because a byte doesn't actually have to be eight bits. Anytime anybody talks to you about bytes, they will mean eight bits naturally have to be eight bits back in the mists of time, whereas an octet is eight bits, and these things are eight bits, so ones 8016, over 32 so it's 32 bits long. And that gives an identifier, an address for some kind of device. And those, as you know, don't necessarily have to be unique.
+
+Unknown Speaker  21:45  
+You know, I can go home and I might be talking to that IP address, which might be my gateway at home, and I might come in here to does, and there'll be a completely different system. So these, these are mapped all over the place.
+
+Unknown Speaker  22:00  
+Now, the
+
+Unknown Speaker  22:03  
+way IP addresses in the same way that I told you that the MAC address space is broken down into an organisational block, and unique IDs within that organisational block, IP addresses are broken down into classes A and B and C.
+
+Unknown Speaker  22:24  
+And there are
+
+Unknown Speaker  22:27  
+three relevant things here that you need to understand and consider when you're thinking about dealing with IP addresses and configuring IP addresses. One is you've got this IP address thing here itself, which is kind of what you're mainly looking at you've also got something called the net mask,
+
+Unknown Speaker  22:47  
+and you've got something called the network,
+
+Unknown Speaker  22:52  
+and then you've generally in here as well, got a gateway. And
+
+Unknown Speaker  22:56  
+I'm going to try and talk about why those three things are important for your thinking.
+
+Unknown Speaker  23:02  
+So classes of
+
+Unknown Speaker  23:06  
+IP addresses, there's a reason that these things are broken down in the way that they're broken down, and it's to do with
+
+Unknown Speaker  23:15  
+a network, as opposed to other networks. And how many devices you have on a network
+
+Unknown Speaker  23:24  
+now, a Class C
+
+Unknown Speaker  23:27  
+device is defined by a net mask of
+
+Unknown Speaker  23:33  
+try and put it in here. 255, dot, 25525,
+
+Unknown Speaker  23:38  
+5.0,
+
+Unknown Speaker  23:42  
+nice. Explain what that is. Instead, class B is 255,
+
+Unknown Speaker  23:47  
+dot 255,
+
+Unknown Speaker  23:49  
+dot 0.0,
+
+Unknown Speaker  23:51  
+and Class A is 255, dot 0.0, dot zero. All seems a bit random, doesn't it? You'll have seen it. You might well be going, Yeah, I know about that, but I've never really saw what the point of all this stuff was that can be represented in a different way. Sometimes, after the IP address, it's represented as a slash followed by a number. And in this case, it would be an 816,
+
+Unknown Speaker  24:12  
+or 24
+
+Unknown Speaker  24:15  
+those are the class of the networks. So Class A has,
+
+Unknown Speaker  24:21  
+I think of the 255, as ones. So it's all ones in the first octet, and then all zeros, which is eight, ones, which is slash 825525.
+
+Unknown Speaker  24:32  
+516, ones and zeros, 16, 252, 24, there's actually numbers in between these. And some people do, if you're a network admin and you're doing this stuff, there are reasons you might not use these sort of standard numbers, but that's what most people use keep banks going. And the reason for this is that the class and the net mask in the front bit, if you like,
+
+Unknown Speaker  24:57  
+defines the.
+
+Unknown Speaker  25:00  
+Yeah, actually, let me put it a different way. The zeros that you have at the end define how many devices you can put. You're a network admin now how many devices you can put on your network.
+
+Unknown Speaker  25:17  
+That's the because each device has to be unique. At any point in time. I'll go back and say, MAC addresses are always unique all the time, everywhere. IP addresses, you can set them up, you can assign them, we will talk about that. But at any given time within a network, IP addresses have to be unique, but they can change as we know we have problems with that sometimes.
+
+Unknown Speaker  25:45  
+So typically, what you see in the home, and actually Newton does, I think we're a Class B, but typically in the home, you will have a class C network set up by default,
+
+Unknown Speaker  25:57  
+and that's because a Class C network can have up to eight bits worth of numbers, devices, money, which is 2550,
+
+Unknown Speaker  26:08  
+to 255, or 256,
+
+Unknown Speaker  26:11  
+unique combinations
+
+Unknown Speaker  26:14  
+zero and 255, are used for their own purposes. I think the zero is used 255, is certainly used for broadcasts. So you're limited in the number of devices that you can have, but it's more or less 253,
+
+Unknown Speaker  26:29  
+devices that you can connect up in your home to your access point, that's your network,
+
+Unknown Speaker  26:37  
+and
+
+Unknown Speaker  26:39  
+nobody really thinks about it. It's not really a problem, because, you know, you're gonna have a couple of 100 devices floating around, not really, you know, 510, years ago, one or two, maybe now, IoT in the smart home got quite a lot more. You might have light bulbs. You might have 20, 3050, maybe some people. You're still not really up to a couple of 100? That might change in the future? I'm not sure. Don't think so. So we don't really worry about it. We have class C networks in our homes,
+
+Unknown Speaker  27:10  
+but you can see that if you're in a business, I mean, even in those here, you could quite easily end up with more than a couple 102, 50 odd devices. And then what you do, you got a problem now, so what you do is you go to a different class, you go to a class B network, class B network, and you got two offsets to play with here. And you know your binary, you know your two to the power. So that's something like 16,000 odd different devices. Now you would that should be enough for your business, you would think,
+
+Unknown Speaker  27:45  
+and then, and that's a somewhat unlikely scenario, I think, but say you're a big multinational business with stuff all over the place, and you have everything connected up to everything else, which, of course, you don't for security reasons, but you could see that you would have lots and lots and lots and lots of devices, and you've got a class, a network for that.
+
+Unknown Speaker  28:08  
+And the key thing here as well, is that,
+
+Unknown Speaker  28:11  
+and a lot of this goes back to history again, because you know, if you're dealing with laptops today, with eight gigs, 16 gig, 32 gig of RAM, multi cores, loads of storage. You know, it all seems endless and free, but when all this was coming about and when I started out, we were really worried about trying to shove all the information that we needed to shove into the very limited amount of memory that we had, because it was very expensive. So a very great deal of thought went into optimal use of all the bytes that you've got available to you in your realm.
+
+Unknown Speaker  28:50  
+So what you can see here is we've said we've got a 32 bit value for our IP addresses, and we split it up in different classes, and we say we've got more or less devices in
+
+Unknown Speaker  29:06  
+different classes, and you can see that on the other side of it, if I've got a Class C type network, I can have quite a lot of networks with not very many devices on because I can have, you know, whatever that works out to be,
+
+Unknown Speaker  29:27  
+class B network. I can have 16,000 odd networks with 16,000 odd devices and a Class A network. I'm very limited globally. I can only have about 253, networks, but I can have lots of devices on
+
+Unknown Speaker  29:44  
+them. Can we have multiple class in same network,
+
+Unknown Speaker  29:52  
+like is in DOS we have class B and Class C? Is it possible? Yeah.
+
+Unknown Speaker  30:00  
+That's a very interesting
+
+Unknown Speaker  30:02  
+question. The simple answer is no.
+
+Unknown Speaker  30:08  
+I'd have to think about that. It may be possible to
+
+Unknown Speaker  30:15  
+No. The answer is no, and
+
+Unknown Speaker  30:17  
+I'll come on. I may be wrong about that answer, so investigate that and pick me up if I am wrong, but I'll come on to try to explain why. Okay, it should become a bit clearer. Tell me on that
+
+Unknown Speaker  30:28  
+4747
+
+Unknown Speaker  30:30  
+a little bit longer then. Okay, so,
+
+Unknown Speaker  30:33  
+so we can't use two to five, two to five, two to five, one or two.
+
+Unknown Speaker  30:39  
+So if I'm using Class B, I can't
+
+Unknown Speaker  30:45  
+use either. It is two to five, two to five, two to five, because Class C is actually part of Class B. So you can have them both, very good point. So I'll try and answer that in a question in a second, but this is what I was going to say. So
+
+Unknown Speaker  30:59  
+what you're identifying is correct, this couldn't work if it was just that simple. And it's, of course, never that simple. So what you've actually got is, what you will see is that a Class C network is prefixed with 192
+
+Unknown Speaker  31:19  
+usually 192 that 168 actually, I
+
+Unknown Speaker  31:23  
+think a Class A network, is prefixed generally with, I think 10. I can't remember what the one in the middle is. If you look at an IP address,
+
+Unknown Speaker  31:33  
+because of the way it's specified, you can generally tell what kind of class of IP address it is. Now, that's not a mathematical absolute. That's what the standard says. So in does, if I was a network admin, I could set up computers to have addresses of a Class C network, and I would tend to use 190 2.1 68 dot, something. Dot 0.1, and
+
+Unknown Speaker  32:04  
+that's why you see that everywhere.
+
+Unknown Speaker  32:07  
+Now there's nothing stopping me setting up a network, which is a Class C network beginning with 10.
+
+Unknown Speaker  32:16  
+I can do that, but it's very bad practice, because people look at a 10 and they don't expect it to be a Class C network.
+
+Unknown Speaker  32:27  
+And effectively 10 actually might be a Class B. Could you just look up what the IP address prefix the network prefixes are for classes of IP networks? So we get this right. So
+
+Unknown Speaker  33:03  
+you see link.
+
+Unknown Speaker  33:05  
+So they are saying 121 26 is for Class A, 128
+
+Unknown Speaker  33:12  
+to 191 is for Class B, and 192
+
+Unknown Speaker  33:17  
+223,
+
+Unknown Speaker  33:18  
+there you go. So 192
+
+Unknown Speaker  33:21  
+is the start of the class C networking space. And so that's what you should be doing in terms of how you begin your networks when you set up
+
+Unknown Speaker  33:33  
+a network somewhere. And so you can take a quick look at an IP address, get a pretty good idea what kind of network it's sitting
+
+Unknown Speaker  33:41  
+on. Now, logically,
+
+Unknown Speaker  33:44  
+what's actually happening in the silicon, in the hardware, is that you've got this net mask
+
+Unknown Speaker  33:55  
+and
+
+Unknown Speaker  34:01  
+and that net mask is being applied to your IP address,
+
+Unknown Speaker  34:09  
+going this way. And what it's doing is it's giving you it's a logical operation so an ANDing, or an Oring, and those ones and zeros we looked at in your net mask are being ended in, say, to split out the network bit, which is the bit at the front of my IP address
+
+Unknown Speaker  34:34  
+from the device bit of my IP address.
+
+Unknown Speaker  34:38  
+So as these IP addresses are flowing around every computer, every adapter that's dealing with packets. If you run if config again or if config again, you will see that your adapter has its IP address and it has its net mask.
+
+Unknown Speaker  34:53  
+It's the net mask that defines what the device is and what.
+
+Unknown Speaker  35:00  
+The network is.
+
+Unknown Speaker  35:02  
+So you can assume certain sets of things because they're standards, but what you actually do is you look at your net mask, which will almost always be the class C network, with what you're dealing with, and you say, ah, that's that's a 24 bit. That's a Class C network. That means my network is the first three bytes. 190 2.1, 68.1 whatever. And my device is the last byte. And
+
+Unknown Speaker  35:28  
+what you find if you look at your IP addresses now, if you read out your IP address, 172 dot, 17.0,
+
+Unknown Speaker  35:34  
+dot,
+
+Unknown Speaker  35:36  
+what doesn't sound is that, right? What? What's the adapter for that? Docker, yeah. So that's that's different. That's an internal IP address. That's kind of like a virtual IP address that we'll we'll talk about separately. Maybe you want to look at your your Wi Fi, your W, LAN, or your W. It's 10.0 dot 34.1 20.
+
+Unknown Speaker  35:56  
+10.0 dot 34.1 20. And what are you on?
+
+Unknown Speaker  36:06  
+Okay, we'll go. But basically, I think what we're going What's your net mask? It's showing you 225255,
+
+Unknown Speaker  36:22  
+dot. 255,
+
+Unknown Speaker  36:24  
+dot
+
+Unknown Speaker  36:26  
+O dot 255, dot
+
+Unknown Speaker  36:29  
+O dot O dot 255, dot O, dot O, dot o, so it's a Class A beginning with 10, which is this thing here, and that gives you loads of devices, because the guys who set the network up here? And I say guys, because they're guys,
+
+Unknown Speaker  36:45  
+clearly decided that they wanted a class, a network with lots and lots of devices on it, yeah,
+
+Unknown Speaker  36:52  
+yeah. And what have you got? 10.0 dot 29.1
+
+Unknown Speaker  36:57  
+29.1
+
+Unknown Speaker  37:00  
+so you can see it's a good example that you've got 34.1 20, and you've got 20, 29.1 was it? Yeah, and, but you're on a Class A network, so you're still within the same device space, and you can still talk to each other. Now, if you were on a Class C network,
+
+Unknown Speaker  37:24  
+that would mean for you to be able to talk to each other,
+
+Unknown Speaker  37:28  
+all three of those network octets have to be the same.
+
+Unknown Speaker  37:34  
+So if you're trying to debug problems with connectivity, one of the very firming aside from checking these are plugged in, one of the first things you're trying to do here is to look at, what is my network configuration, what is my net mask? What network Am I on? Am I on the same network as what I'm directly trying to talk to? This is particularly when you've got a laptop and you're debugging embedded devices, they're all connected together. You're trying to get some life out of it. You're not sure why not. First thing you're doing is checking that the network octets, which will be one or two or three, depending on the class, are right and the same, but you won't be able to talk to each other. And we'll come on in the next session to explain why that is and how the internet works with that.
+
+Unknown Speaker  38:21  
+Okay, okay, you still awake? Yeah, good, yeah, useful, not very hope. So.
+

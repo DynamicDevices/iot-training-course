@@ -1,0 +1,816 @@
+Unknown Speaker  0:10  
+And this is session three
+
+Unknown Speaker  0:13  
+of some chats that we're doing here at Dynamic devices on the internet. The
+
+Unknown Speaker  0:22  
+idea is that we're sort of talk to him about the nuts and bolts of things that we need to know to do the job that we do in the embedded space with the Internet of Things all focused on that, rather than sort of a wider, sort of academic world of maybe what you get to a university. So there's some things I don't know. There's a lot of things. There's some things I do know, there's a lot of things I don't know. And this is more of a sort of free form conversation. And so we've got questions about anything as we go through, yeah, raise them. It's a chat, hopefully not just me sort of talking at you and boring you to tears. So in the previous session, Session One, we talked about some really basic stuff to do with how a network works and how packets move across a network, and how that relates to MAC addresses and datagrams and these kinds of things. And then in session two, we moved on to talking about how these networks communicate with each other to form the wider global internet that we that we know and love and use, and often not think about how that works, unfortunately, this recording that we did for session two at the end of it, it cut off before the end. So what we're doing here in Session Three is a bit of a recap on some of the stuff that we that we went through at the end of session two, and we'll just see where that takes us. Now I can't particularly remember, but luckily, Shreya is here, and can tell me when I'm not remembering the things I need to be remembering, but I've got a bit of a list. And there was a couple of main things that we started to talk about. We talked about UDP packets, and then we were going to start talking about TCP packets. So we'll move into looking at how TCP works, the transport control protocol, because that's the basis of a lot of this stuff. We also talked about a few protocols such as NCP and DNS and other things like that. So we'll probably have a bit of a chat about that. And then there's some other bits and pieces we may come on to. I'm aiming for this to be about an hour session. Do these things in about an hour. So somebody give me a shout. When we get to about 45 minutes and we're closing on the hour, we'll try and try and sit here and wrap it up, and then we do another session at some point in the future. Now,
+
+Unknown Speaker  2:33  
+one thing I did want to go over and go through, I talked a little bit previously about the OSI reference model versus the TCP model. And I was a little bit vague about that. I just wanted to do a quick recap, because it's relatively important. So in the OSI model, we talked about it being a lot of layers that sit on top of each other. We've got the application layer, the presentation layer, the session layer, the transport layer,
+
+Unknown Speaker  3:05  
+the network layer, indeed,
+
+Unknown Speaker  3:08  
+the data link layer and then the physical layer. Now I'm not going to recap all the ins and outs of what we talked about there, because we've been through it, but what I did want to do was just to show that that maps across to TCP,
+
+Unknown Speaker  3:23  
+and the application layer sort of sits here in TCP,
+
+Unknown Speaker  3:30  
+and then you've got the transport layer in TCPIP, And the network layer,
+
+Unknown Speaker  3:40  
+and then the data link and physical are combined into the network interface layer in TCP. And you will see, if you look at code and TCPIP implementations, you've got network interface stuff, and then you've got network and transport, and then you've got application up here. So there's there's, there's fewer layers, basically. And there's loads of stuff on the internet about all of this, and you can go and have a look and see what you think. But what I just wanted to do here was to talk about how the physical layer, as I said last time, this is, this is the bits of wire we talked about, and this is the media, the signal, the ones and zeros being transmitted across the wires. We talked about that.
+
+Unknown Speaker  4:26  
+And then you've got, also within this network, what the OSR model was say was data link, which is actually, say you're actually Ethernet packets going across an Ethernet network. Say, we've talked about Wi Fi before. We'll leave that out of scope. Now think about it as similar.
+
+Unknown Speaker  4:44  
+Then the network layer. In here, we talked about the ARP protocol, the address resolution protocol, and how that maps between IP addresses and MAC addresses on a local network, and how you go through gateways to remote networks. And that sits within this network layer.
+
+Unknown Speaker  5:00  
+Okay, and then when we're talking about end to end communications and reliability, we start talking about the protocols we're going to come on to. We talk about UDP and TCP, and there are other protocols that sit in here too, like SSL and TLS, which we use for securing connections. So I just wanted to recap that a little bit to show you where the things we talk about protocol wise sit within that TCPIP stack versus that OSI model. So that bit out of the way, I then wanted to just come and recap a little bit about UDP, which is our connectionless protocol. We won't dive into it. It's in the previous session, but you will remember that we said that with UDP, you send out a packet of data, and that data goes from you to somewhere, and it hopefully will arrive, but it may not arrive, and it may not arrive because some computer in the middle a router busy, drops it, and
+
+Unknown Speaker  6:05  
+that's part of how it's supposed to work. It doesn't retry. There's nothing inherent in the protocol that retries you send your packet if it gets there, great. If it doesn't get there, you know, you've lost it. That's the problem. So we said that UDP is a lightweight protocol because of that, and it's often used where you need to do things in a sort of in a sort of real time manner. So if we were doing audio, video streaming, indeed, as we're sort of doing with some of the Zoom stuff here, we don't really care if we lose some of the packets. We can lose a percentage of the packets and still be able to see what's going on and have a conversation, so we don't need a lot of overhead to make sure all the packets get there. And so we might use UDP for a streaming protocol and build something on top of UDP to do that. Now, conversely, if my mum is in her house with a medical button and she's got a problem and she pushes it. I really want to know that that message gets where it needs to get. I really want to know that message is not going to get dropped for some reason. So UDP would be a really inappropriate protocol by itself, to use for those kinds of purposes. So it's all about use case. It's all about what you're trying to trying to achieve. So we've talked about UDP, we'll move on to TCP here. TCP, or the transport control protocol, exists because there are a lot of use cases where we do care about the data that we're sending, getting from A to B, and there are semantics within that TCP protocol that enable the reliable transfer of data and the reliable ordering of data, and what you would think about in terms of your programming.
+
+Unknown Speaker  7:49  
+And again, the reason that we're doing this is that most of what I would expect you to be doing in your daily life, if you're doing programming, is you're using embedded devices, computer devices. You're moving information around, you write a piece of code that connects up somewhere and sends and receives data. And you don't particularly care about the underpinnings and what I'm about to explain to you, but it's useful to know what's really going on, because if and when things go wrong, it helps you to figure out how to approach things, to try to fix them,
+
+Unknown Speaker  8:21  
+and things do go wrong quite often. So it's quite useful to know that the nuts and bolts of what's actually happening. So what you would tend to do with TCP is that you would be making a connection to a remote server. And if we think about, for example, we talked about a web server, say, so I've got a web server that's sitting on an IP address, 1.2, dot 3.4,
+
+Unknown Speaker  8:47  
+and it's sitting on a port 80, because port 80 is the standard port address for web server running the HTTP protocol. And typically, you know, HTTP sits on port 80, HTTPS or HTTP, secure sits on 443,
+
+Unknown Speaker  9:08  
+other protocols have standard default ports that they sit on. But again, as I explained in previous talks, a lot of what goes on in the internet is about standards and standards compliance. You don't have to run your web server on port 80, and you will have seen sometimes web servers sitting on other ports. You can run a web server whatever port you want to run a web server on, but if you don't run it on a standard port, nobody's going to know how to connect to it and talk to it and do things with it. So that's why we generally use standards. So you'd be running an unsecured HTTP web server on this computer, on this IP address, which is, of course, very bad practice, and nobody should be doing that anymore. But that's we're back in the midst of time here. And what I want to do is I want on my computer, in my web browser, to connect up to that port on that computer, and I want to use the HTTP.
+
+Unknown Speaker  10:00  
+Protocol which sits on top of the TCP protocol. So remember that stack again, it's all about that stack that we're talking about, protocols sit on top of each other, and it's going to talk to it's going to make a connection to this computer, and it's going to say, Hey, I would like you to give me a web page please. Or, if you're using API, give me some data, please. And then the other end will say, Okay, fine. You know, there you go, there's there's a response, there's what you want
+
+Unknown Speaker  10:27  
+and what you care about is that, within the logical context of that connection, your question gets there and isn't corrupted, and your response gets back to you and isn't corrupted, isn't it the wrong order? And we've already said that any individual packet that you send on the internet can take a route from your computer to another router, to another router, to another router, to the endpoint, and it might take a completely different route back when it's responding. And you don't know, and you're not in control of that, you don't actually care, except that you have to be aware of that, because it's entirely possible that this might send five packets of data back to you, which is your web page, and they may all take different routes, and they may arrive at different times out of order, and that would be a problem for you.
+
+Unknown Speaker  11:14  
+TCP exists to handle this,
+
+Unknown Speaker  11:18  
+so the semantics of making and breaking down a TCP connection are that your computer sends a SYN packet, S, Y n, to the remote end, and
+
+Unknown Speaker  11:31  
+the remote end says, aha, a computer is trying to establish a TCP socket connection with Me,
+
+Unknown Speaker  11:38  
+and it responds with a SYN ACK, if things are going well, to say, All right, that's fine. You can have a connection with me, and it's allocating resources internally to deal with that within the TCPIP stack and so on and so forth. And then you, in response to the other end to that Synack saying you can have a connection with it, send an ACK back,
+
+Unknown Speaker  12:03  
+and at this point, you now have established a TCP connection. And you can think of that, and I think of that as a pipeline
+
+Unknown Speaker  12:12  
+between these two computers. And at a programming level,
+
+Unknown Speaker  12:18  
+as with all of this stuff, there are different ways of doing things, but the standard way, pretty much everybody, I think, does things nowadays, is to use something called a BSD sockets API,
+
+Unknown Speaker  12:32  
+or something of a BSD sockets API form, which is basically it's it's a programming API or a set of function calls that you make to do the things that you need to do in relation to BSD sockets, and one of them will be to do a Connect,
+
+Unknown Speaker  12:50  
+and one of them will be to do a disconnect. One of them will be to send data, and one of them will be to receive data. And there's also an OPT talk thing that we can talk about a little bit, but there's a set of commands. It's all about sending data.
+
+Unknown Speaker  13:02  
+And you can think of this, this pipeline as you
+
+Unknown Speaker  13:09  
+after making the connection, sending the data in in a stream of ones and zeros, a stream of bytes, stream of information. And inside the TCP protocol, it does magic, so that what you send in in a best effort manner will come out of the other end in the same order. So you send a stream of data in, you get a stream of data out
+
+Unknown Speaker  13:33  
+inside.
+
+Unknown Speaker  13:35  
+Numbers of things can go wrong, and TCP takes care of that. One of the things we talked about that can go wrong is that I might, I might send my stream of data, and that's blocked up into a number of packets. Those packets get sent, and they may take different routes through the internet. And so my packet 123,
+
+Unknown Speaker  13:57  
+might arrive as packet 213,
+
+Unknown Speaker  14:01  
+and if it came out in that order, obviously all hell would break loose. That would be a bad thing. So inside TCP, it does packet management and rearrangement, so the packet two won't come out of that pipe until packet one has come out of that pipe, and only packet two will come out after packet one, not packet three.
+
+Unknown Speaker  14:24  
+Now, in the worst case, if there are problems, your TCP connection will block, because it will not drop packets and lose packets, and you will not see things coming out out of order that could happen with UDP TCP eliminates that,
+
+Unknown Speaker  14:40  
+and that's also something that can happen, that we can come on to one of these packets. I might send the packet as with UDP. It might go through the internet, and it might get lost, it might get dropped.
+
+Unknown Speaker  14:52  
+Now, then what happens is that I'm trying to send packet two,
+
+Unknown Speaker  14:58  
+and then maybe I send.
+
+Unknown Speaker  15:00  
+Packet three,
+
+Unknown Speaker  15:02  
+and the other end knows that it hasn't had packet two yet.
+
+Unknown Speaker  15:05  
+And so there is a retry mechanism so that we resend within the TCP protocol, so that if a packet gets lost, it knows the packets get lost, and it will resend the packet. And we have a range of different timers within TCP. There is a connection Timeout, timeout to do with these sins and synacks and acts. And there is a there is a data timeout to do with whether packets are being received or whether they're being lost, and timers expire and retries happen. There are default numbers for these things, which I can't remember, and those default numbers can be changed by the use of IO controls or IOC tools, and there's lots of different kinds of IOP tools that you can use with TCP and TCP sockets and indeed, other bits of the TCPIP stack to change these numbers and change these parameters and change the way things work.
+
+Unknown Speaker  15:57  
+One sort of somewhat interesting thing is, if we look at another protocol called telnet. Can't
+
+Unknown Speaker  16:04  
+remember which port that's on. It might be sort of 2021, somewhere around there. Maybe Telnet is a real old legacy standard for having a text terminal to connect into a computer and talk to it. It's what would be a secure way today. You'd use SSH. You'd use telnet in the past and telnet simpler
+
+Unknown Speaker  16:23  
+with Telnet, you can imagine, I'm on my computer, I'm talking to another computer, and I'm typing a key at a particular speed, typing my commands. Now what might happen is, every time I press my key,
+
+Unknown Speaker  16:37  
+if it sends my packet of data over that TCP socket connection to the other end. You can imagine we talked about in previous sessions. My payload for my packet has headers in front of it, and those headers build up through the TCPIP stack. So there's relatively quite a lot of overhead, you know. So my single byte of key press could result in a packet with quite a lot of bytes. And if we did, if we sent a packet every time I press a key, that's quite a lot. That's a multiplier effect. And if everybody was doing that, then there's a lot of overhead across the internet. Now the internet, you know and love today, we got lots of bandwidth. We've got lots of computers. We're sending videos. So you may think, Well, you know, who cares about sending a lot of packets for a lot of keys, that's nothing. But remember, this is coming from a time where there was a lot less bandwidth and a lot less computers, and we get a lot more about this stuff. Also, it's bad practice to waste resources that you don't need to be wasting, because this stuff scales up. So there's something called, I think, the Nagle algorithm. And what it does is it sort of buffers up over a period of time the things that you're doing an expectation of it being a sort of time limited set of key presses, say, and then after a bit of time, it'll send a packet. So instead of sending one packet every time it'll go, I'll wait a bit and I'll send some stuff. And you may not want it to do that, because you may not be sending key presses, you may have some other reason that you want to send a little bit of data immediately, and you can use something like an ioctor call to disable that, so you can turn things on and off, and you can find a big long list of all of the socket options that you can use and you can change. And it's worth going through those. It's quite informative, and it's all to do with timers and turning on and off facilities and what they want to do. We have a junior engineer with us today.
+
+Unknown Speaker  18:29  
+Clearly
+
+Unknown Speaker  18:32  
+doesn't like the nagger. None of us do the Naga logo is a problem, so he's going to take a little break. So that's
+
+Unknown Speaker  18:39  
+how it works. Basically. Now a lot of what can happen as well. This stuff goes wrong, and this is what I'm coming back to, when everything works, you don't really care, you're getting on with what you're doing, but things go wrong then, and you need to care about why things are going wrong, and you need to be able to take an approach, a logical approach, as an engineer, to drill into that, to try to fix it in an efficient kind of way. So you may be sending a SYN packet through to the other end, and there may not be any service running on that port on the other end, because there's no web server there. And in that case, if you're able to talk to the computer, to the TCPIP stack in the computer that will respond to your sin request, which, I think it's an RST response saying, can't do anything here. We haven't got a service that you can talk to and
+
+Unknown Speaker  19:32  
+that also can tell you some stuff. And there's, there's a kind of crossover between the nuts and bolts of the internet and us as engineers trying to make things work, and hackers and hacking and what they do to try to break into systems, and they use a lot of knowledge about the underlying mechanisms of how things work to find weaknesses and to break into things and be places that they shouldn't be.
+
+Unknown Speaker  19:59  
+Now.
+
+Unknown Speaker  20:00  
+Now an example of this is that if I want to know if a computer exists, we talked about is ICMP ping in previous sessions, I can use that
+
+Unknown Speaker  20:09  
+it's good practice to respond to a ping sometimes, and people think, for security reasons, they won't respond to a ping. So you can ping a computer get no response. So you think it's not there, but it is there.
+
+Unknown Speaker  20:21  
+And so what you might do as a hacker, if you're trying to work out if a computer is running a service on a port, you might send a load of sins to computers on different port numbers to work out what ports open, what's listening on what port. And then where you get responses. Firstly, if you get a response, you know there's a computer there which you didn't know before. And also, if you get a synap or an RST, you know which ports open and have something listening on, which then tells you you can go off and do other things to try to work out what might be listening on those ports, and perhaps do naughty things to try to break into a computer. And again, as I say, no service has to listen on any particular port, so you might run through all the ports. And I mentioned last time TCP, the port number is codified in a 16 bit value, which means you have around about 65,000 different possible numbers of ports.
+
+Unknown Speaker  21:20  
+And there are various attacks that you can use on computers in these ways, if you're a hacker. And one of them is a sin flood, which is where you send lots and lots and lots and lots of sins to a computer to try to overload it and take it down. And this is one of many different styles of attack that you know you can use when you understand the nuts and bolts of how the Internet actually works
+
+Unknown Speaker  21:47  
+similarly, and something that we care about quite a lot with the kinds of IoT devices that we put together, you might have a computer a, which is going through, say, a cellular network to computer B, and a cellular network particularly can be unreliable. You know yourself, you get in a reception out of reception, and you know you can run into problems. So what might happen is your your device establishes this TCP socket connection, and then your cellular
+
+Unknown Speaker  22:23  
+coverage goes and so you're, you're no longer in coverage, no longer able to talk. But the other end won't know, as far as it knows you're, you're there, you know, how does it know? It doesn't. It doesn't magically know that you're not there. So if you knew you were going to be disconnected, then you could send a disconnection packet through to the endpoint of the TCP socket, and then it would be an RST, and you would then act for that, and a connection is closed down. That's great, and you would do that as a good actor in closing down a TCP connection, say, after you've retrieved your web page, because you don't want to waste resources at the other end. But if your connection goes down, you haven't done that, so you don't know. And the only way that you can know this stuff is if you have some kind of timeout, and after that timeout expires, it can then be assumed that the connection is no longer alive, no longer viable, and so you have something within TCP called the TCP keep alive, and
+
+Unknown Speaker  23:29  
+what will happen is that you know you're using your TCP socket connection to transferring data. And
+
+Unknown Speaker  23:36  
+after some time of inactivity, if you haven't transferred any data to do, whatever it is you're trying to do, maybe because you haven't got any data to send. You sitting there, then internally within the TCPIP stack, the TCP socket, it will send an empty packet, a keep alive packet, just to tell the other end, I'm still here. It's all okay. Things are going on and and that's how you keep the TCP socket alive. And that's all transparent to you. That just happens again. You can change the rate at which these keep alive. Happen with iopterism, the socket connection. As I've said before, this is all you know, somewhat abstruse and academic. The real way to get into this and understand this clearly is to run something like Wireshark, to run a packet sniffer on your networks, and you can see all of this stuff happening. It's not secret. It's there for you. The only reason you don't see on a day to day basis is you don't need to. It's complicated, but you can run Wireshark or an equivalent packet sniffer. Wire sharks open source from free and fantastic and Wireshark will sit on your interface, say, a wired Ethernet interface, showing you all the packets going through the interface, and it will break them down and disassemble them and show you what every bit of every packet means.
+
+Unknown Speaker  25:00  
+Is what the protocols are, the ARBs, the dhcps, the TCP connection and disconnection, the data packets, the retries, and you can see exactly what's happening now, a couple of things to mention here.
+
+Unknown Speaker  25:15  
+With our computer running in a usual way, we generally only care about information that is for our computer coming into it, or the information we're trying to send out of our computer. There are some other kinds of packets we talked about, called broadcast packets, and also multicast packets, which have specific purposes, which we always see. Broadcast kind of means that, but in general, we really only care about packets for us for our IP address. Now, if you're listening on your adapter with your TCPIP stack, and it's all set up so that at a higher level, you only see packets that are for your IP address, all the other stuff you won't see, and that's not tremendously helpful if you're trying to get a view of wider network activity. So what Wireshark will do, and there is something called promiscuous mode. Promiscuous mode is a particular mode you put your adapter, your your physical connection, to that bit of wire, or indeed, Wi Fi into and it will then propagate all the packets that it sees up the stack, so you can see them all, to get a lot more information when you're seeing everything, even the stuff, it's not for you, but you want to see that when you're trying to establish where things are going wrong and what's happening with network activity. Typically, you know you'd have Wireshark running on your computer on the network, and you'd be looking at the packets going between a device that you have under test and another device running a server that you have under test. And you'd be seeing what happens and trying to work out why things aren't working correctly. So you want promiscuous mode to be able to see that
+
+Unknown Speaker  26:55  
+a brief seeing as we're going through all of this to cover it properly nowadays, when you connect up your RJ, for RJ, 45 connections on Ethernet into your computer, they go to something called a switch or a hub.
+
+Unknown Speaker  27:12  
+In the old days, it used to be a ring. We had token ring, and everything was connected in a big circle, and then you had a really big problem, because if something got broken partway along, things wouldn't work anymore, and you'd have network admins crawling all over the building trying to figure out where it was broken. That's gone away now. Nowadays, you see anywhere we have these switches, and they sort of aggregate connections. You have switch panels nearby 245 connections. And the problem you can run into is that in the old days, these were very dumb, and what would happen is you'd have all these computers, and you can put your Wireshark device onto this, and you would put them into promiscuous mode, and you would see everything.
+
+Unknown Speaker  27:54  
+But nowadays they're quite clever, and what they will tend to do is not propagate all the packets from every port to every other port, because that's a lot of information and a lot of information being propagated. And so you can run into a problem where even though your Wireshark is in promiscuous mode, you're not seeing stuff from other computers. And when that happens to you, you need to start looking at the switch box of the router you're going through, because it might be smart and it might be protecting you from all this data and you need to, you know, it's often quite useful to have an old dumb switch box around and about when you need to do testing.
+
+Unknown Speaker  28:35  
+So that's that stuff, and that's wire shark will mention Wi Fi. You know, Wi Fi is similar. Wi Fi is a broadcast medium, so inherently, because we don't have bits of wire, you can pick up everything that's going on everywhere on a particular bit of radio spectrum that you're you're listening to. You have promiscuous mode for wire. Shark adapters too. You can run wire, wire. Promiscuous mode for network adapters to you can run wire shot on those you can look at Wi Fi packets. It very much depend on the chip set that you're using for Wi Fi and the drivers that you have for Wi Fi, whether it will correctly allow you to enter promiscuous mode. And one of the problems you often run into is even having a little bit like this, even having set everything up correctly, you're still, you know, there's something missing, and you're only seeing packets for your computer. You're not seeing everything that's going across the entire Wi Fi network. That's a problem. And really, you need to look at the chipset that you're using there and the drivers that you're using and possibly use a different computer. That's a problem for you.
+
+Unknown Speaker  29:42  
+Similarly, and briefly, I'm getting slightly off the topic, because I wanted to finish up on TCP. But with Wi Fi, there are two different sort of levels. You can look at this stuff. You can look at TCPIP packets on your Wi Fi network. So that's your.
+
+Unknown Speaker  30:00  
+Or SSID that you're connected to on the frequency within the Wi Fi radio spectrum that that network is on. And there are other Wi Fi tools where you can look at all the data that's going on on all the different Wi Fi networks across lots of different channels. And those would typically be things called Wi Fi scanners. And again, those kinds of things are quite attractive to hacker people who want to go into a space and take a view on all the activity in that space. And there's a few different things you can go and google for the pineapple,
+
+Unknown Speaker  30:38  
+which is, is one of these things, and then there's a zero something or other, zero flicker or something. It's not quite right, but that's something people use to access, and indeed break Wi Fi networks. But I won't go further into Wi Fi at the minute, so I think that's what I wanted to talk about, really, that we, in a lot of use cases, we care about getting that data from A to B, and doing it with retries and in a reliable way. And in, you know, there needs to be a way of doing that. So that's TCP for us as application level engineers. Mostly we don't care about that. We just rely on that to work. That's how it works. Big problems for embedded systems can be when your cellular networks flaky, or other Wi Fi networks are flaky, particularly with newer LP one networks like MB, IoT, Sigfox,
+
+Unknown Speaker  31:33  
+LoRaWAN. This is all relevant to packets and packet loss and packets going missing, and packet retry and reliability of data, I think
+
+Unknown Speaker  31:45  
+that's what I wanted to talk about with with TCP. Now, I think last time and tell me if I remember correctly, Shreya, but We then talked a little bit about
+
+Unknown Speaker  31:58  
+the fact that when you're using your web browser,
+
+Unknown Speaker  32:03  
+you can, but most people tend not to enter IP addresses.
+
+Unknown Speaker  32:09  
+We know that it would be somewhat pointless to be trying to enter MAC addresses because they're only for your local network,
+
+Unknown Speaker  32:18  
+but there isn't any reason you can't enter an IP address into your browser. And if you ever tried that, you certainly can, and that would be of the form, you know, IP address,
+
+Unknown Speaker  32:31  
+colon port number.
+
+Unknown Speaker  32:34  
+And with a browser, if you people with with the protocol, actually, if you, if you drop off that colon, then it will use the default port number, which would be at for an HTTP connection. Now for HTTP,
+
+Unknown Speaker  32:50  
+again, it's a protocol, and it specifies how you construct the connection that you're going to use to a remote computer.
+
+Unknown Speaker  33:00  
+HTTP sits on top of TCP.
+
+Unknown Speaker  33:03  
+And in the simplest of cases, HTTP goes through that TCP connection process and then it sends a text
+
+Unknown Speaker  33:13  
+line saying, Get something or other. And I forget the exact semantics, but it sends a get and then the thing it wants to get, and then the version of HTTP you're using, and a web server at the other end interprets that and responds with the response to your GET request.
+
+Unknown Speaker  33:33  
+Now, nowadays, there's a lot more that goes on. Actually within this request, you can also have headers which tell the other end of things, and you can have a data payload as well, sometimes, in some cases, which
+
+Unknown Speaker  33:48  
+sends data to the other end. And then there is a response format. And the way to look at this, you can go to Wireshark, and you can look at the packets and pack and it will deconstruct those packets and show you those packets. An easier way nowadays is if you go within your browser,
+
+Unknown Speaker  34:06  
+I look at Chrome mostly, but there's generally a sort of a developer mode,
+
+Unknown Speaker  34:12  
+developer options. And if you bring that up, if you open that up, you know, all sorts of things that you can see. You can it will show you the network traffic that's going in and out of the browser, and you'll see all of these get requests and responses. That's kind of an easy way of doing things, if you care about this level of protocol application level of the TCPIP stack, easier to go into the browser instead of sending a wire chunk all over the place. And this sometimes you need to get into because, again, you're trying to do things. And we've done this with some of the work we've done with Belina, we've been running servers. We've not been getting responses. The web pages haven't been displaying properly. We don't know why. It's because of some JavaScript running inside those web pages. It's failing, but we're not seeing why it's failing. And you can go into this developer mode, and you can see those individual connections failing for some.
+
+Unknown Speaker  35:00  
+And try and work out what's going on. You can also do that with Wireshark, as I say. But what I was going to say was, so we're putting this HTTP connection together as normal people. We're probably not going to go to IP addresses because we can't remember them, and computers do change IP addresses periodically. So what we tend to do is enter some kind of URL for a domain
+
+Unknown Speaker  35:28  
+or a sub domain. And we know about domains. You know domain for dynamic devices is dynamic devices.co.uk,
+
+Unknown Speaker  35:36  
+and what happens is that when you go to your browser and you type in www, dot, I use something shorter, google.co.uk,
+
+Unknown Speaker  35:53  
+browser talks to the TCPIP stack, and you're trying to make a TCP socket connection through to this place, but the computer, your computer, computer a, trying to talk to server. Computer B, it doesn't know where that is, and
+
+Unknown Speaker  36:11  
+it can't just talk to that. It doesn't know about that. It talks to IP addresses, so you need to be able to map between the domain and the IP address. And that's where this thing that we know about, called domain DNS, Domain Name System is it comes in,
+
+Unknown Speaker  36:32  
+and what happens is that your computer knows, because it's configured, about the domain name server
+
+Unknown Speaker  36:39  
+and lots of different ones,
+
+Unknown Speaker  36:42  
+and when it needs to convert a domain into an IP address, it sends a request using the DNS protocol to the domain name server for the information it needs to get that IP address.
+
+Unknown Speaker  36:57  
+So that will happen before it can establish a connection. And having got that IP address, it can then go through those semantics of establishing the TCP connection, and on we go, and we go now
+
+Unknown Speaker  37:09  
+domain name servers are is that still recording?
+
+Unknown Speaker  37:15  
+Very good, and what time are we on?
+
+Unknown Speaker  37:20  
+So domain name servers are thought of, as I understand it, as basically a distributed database of information, and you set the information and configuration for your domain, and it goes into your local domain name server, and then that's propagated across the internet. So it may be that if you set up sort of domain name server one over here, and somebody else is using domain name server 10 over here, they may still be getting old information until it's propagated across the internet. So that can also be a problem, and sometimes you want to check and what I would be doing is saying, I'm pinging a domain, and if I if that's my domain, and I'm changing the details of the domain, you would then go and you would do your own domain name requests to make sure that what is being returned is what you changed, because there is a latency between updates happening. And it can be that you've changed your information on the local server, and you're using that, and it's fine, but the person you're working with on the other side of the world is using different servers which haven't yet been updated, and it will be different for them. And unless you know that this is how it works, you can be wondering, why on earth it's different for them, but it's only because it hasn't propagated through there's a tool that you can go and investigate called dig on Linux, I don't know if it's on Windows, and that's the kind of Swiss Army knife of enabling you to do different kinds of requests to different kind of domain name servers for different kinds of information. And it gives you a lot of information back that you can analyse and deconstruct and figure out what's going on. And what I should say also is that, you know, if you register a domain with the likes of GoDaddy or whoever it might be, and you're in controlling, you know it will, by default, manage all this stuff for you, because most people don't care. They're just trying to run a website. But if you do care about this, and you go into the DNS record management system,
+
+Unknown Speaker  39:27  
+then you'll end up with other rows that you can put entries into.
+
+Unknown Speaker  39:33  
+And one of the
+
+Unknown Speaker  39:37  
+types of mapping you can make is to map between a domain name and an IP address, but within DNS, there are other kinds of mapping that you can make as well, and you can also have entries in there which aren't mappings, they're just informative. And examples of this would be, you've got a CNAME,
+
+Unknown Speaker  39:58  
+you've got an anchor.
+
+Unknown Speaker  40:00  
+It, you've got an MX record and you've got a TXT record, which are the ones I tend to deal with, mostly now an anchor
+
+Unknown Speaker  40:09  
+by remember this rightly, that's the one that maps a domain
+
+Unknown Speaker  40:15  
+to an IP address.
+
+Unknown Speaker  40:18  
+And particularly, what I could do is, if I've got Google
+
+Unknown Speaker  40:24  
+and I'm mapping that through to IP address a I may
+
+Unknown Speaker  40:29  
+have a sub, sub domain,
+
+Unknown Speaker  40:32  
+you know, apps.google.co.uk,
+
+Unknown Speaker  40:38  
+and
+
+Unknown Speaker  40:40  
+then there might be a record in there which maps it to a different IP address. So sub domains, of domains don't have to be the same computers. We kind of know that with knowing how things work, but it's just important to bring that out. And you have lots of sub domains, and sub sub domains, I think, all over the place. You can set all that stuff up so you can have, you know, we could have a production server, which is one computer, a development server which is another computer. We could put them on different domains, and they would be different things. And of course, it's easier for people to remember.
+
+Unknown Speaker  41:13  
+Now, this doesn't, I should say, doesn't know about, or care about ports. Ports is to do with the TCPIP stack and TCP and UDP protocols, so it's not paused. This is about mapping domains to IP addresses. MX records are for email.
+
+Unknown Speaker  41:32  
+When you send an email, I won't go through the email protocol, but when an email gets sent to a particular domain. It needs to know how to go to talk to the email server. It doesn't know, and I should tell it. So what will happen is it will do an MX lookup on the domain server to ask it, what the IP address of the right or what the domain of the IP addresses of the right email server. And actually you have you kind of multiple MX records of different priority. So try that one, then try that one, then try that one, then try that one for reliability, and then lastly, a text message is sort of what it said on the tin. It's just a bit of text,
+
+Unknown Speaker  42:15  
+and that can be used for different purposes. Typically,
+
+Unknown Speaker  42:20  
+if you're trying to set up some services in the cloud, you might want to, you
+
+Unknown Speaker  42:27  
+might be asked to prove ownership of your domain.
+
+Unknown Speaker  42:31  
+Because if I didn't have to prove ownership of, say, Google, and was able to do things to set up around Google, that would be, you know, in capital letters, a bad thing. So when you're trying to set up cloud services around domains, it will say, Oh, God, I need you to prove ownership. And there are different ways, but one of them is it will give you a long string of sort of my passphrase, like random data, and it will say, create a text record within your DNS server for your domain which you only have access to because you own that domain. And then it will go and check for that text record and say, Aha, yeah, you've, you've put in that. You have to again, you have to wait for it to propagate. But it will go and check for that and say, right, well, you've entered what I asked you to enter. So I know you own that domain, so now you can proceed. You can do so for that. That's how that works. Another mechanism that's more recent that people use is, I don't
+
+Unknown Speaker  43:24  
+really understand to be honest, but there's a lot going on on spam and the annoyance of people sending all these like spam emails and dodgy emails to try to scam you. And so
+
+Unknown Speaker  43:38  
+there's an effort to use crypto in text messages to prove that where your emails are going from and coming to is authentic.
+
+Unknown Speaker  43:51  
+And nowadays, and I get this sometimes you go through Google and your emails get dropped because it will say, you know, you can't, we can't authenticate that this is coming from a true place, because you haven't got all that stuff set up, and so you have to go through these processes. And this is now sort of moving more into network admin, I would say, which is not what we're concentrated on here. We're just concentrated on the IoT side of things.
+
+Unknown Speaker  44:16  
+So
+
+Unknown Speaker  44:19  
+DNS servers, kinds of records you get in DNS servers, and then the mappings that you get between these, between these different,
+
+Unknown Speaker  44:28  
+different entries here and that sort of,
+
+Unknown Speaker  44:33  
+well, probably we need to talk about URLs now.
+
+Unknown Speaker  44:38  
+So URL again, is just a standard format for how you put data together, and is used predominantly. We know about web servers, but you can use it in other ways. But if we look at an HTTP URL and you will get the protocol prefix,
+
+Unknown Speaker  44:59  
+which.
+
+Unknown Speaker  45:00  
+In web server comments would be your HTTP bit, and
+
+Unknown Speaker  45:04  
+then you would get the server, which may be an IP address,
+
+Unknown Speaker  45:09  
+or it may be a domain, and if it was a domain, all of this comes into play internally to do the mapping. And then optionally you'd have a port number,
+
+Unknown Speaker  45:21  
+80, but it could be anything.
+
+Unknown Speaker  45:24  
+And then after that, it may just be that, but after that, you may have a path
+
+Unknown Speaker  45:30  
+to a particular
+
+Unknown Speaker  45:32  
+resource,
+
+Unknown Speaker  45:37  
+originally that would have just been sort of a static page data, mostly an HTML page, but we know, particularly with microservices and APIs now, that might actually be pointing to some kind of dynamic service which is going to return some dynamic data to us. A lot of how things work nowadays.
+
+Unknown Speaker  45:56  
+Then after the path, you end that with a question mark,
+
+Unknown Speaker  46:02  
+and you can start providing data
+
+Unknown Speaker  46:06  
+as a set of get parameters to the server. And they go in key value pairs. So
+
+Unknown Speaker  46:12  
+you know, key one equals Val One ampersand, key two equals Val to and on it goes. And you know that because if you look at the top of your browser, so weird stuff going on when you're doing your eBay or whatever it might be, and there's a load of that stuff, and that's generally to do with providing parameters and state information.
+
+Unknown Speaker  46:37  
+It's it's probably not, not a recommended way for a lot of purposes. Nowadays, it's still used for lots of things. It's sensible for lots of things. It's not always sensible. And you know, you can imagine maybe you've done a search for some data or a list, and it's returned the kind of data in the list that you've searched for, and then it pushes a button to get the next page or something. Well, the way that that might be handled is that, within these parameters that are sent when you push that button, it tells the the bit of code that's running on the server where you were, you know. So I'm looking at the first 25 and I press next so it knows to give you the next 25 that's the kind of way that that stuff would work. One of the problems with that well, and I should say,
+
+Unknown Speaker  47:28  
+because of the construction here, some characters are not allowed in the data that you're sending. You've got the name of the key and some value data. Now ampersand is used to separate these keys and values, and question mark is used to indicate that you know this part of the URL, and they've got slashes as well. So some stuff is not allowed within your key naming and data naming, and that's why we do something called escaping, or URL escaping. You them.
+
+Unknown Speaker  48:03  
+And essentially, what that does is any
+
+Unknown Speaker  48:06  
+character can be replaced with a percent and two digits, which are the ASCII value of the character.
+
+Unknown Speaker  48:15  
+And similarly, I think percent, percent is for a percent and things like that. You could look it up, but that's why you will sometimes see that these odd percent characters are in your URL line when you didn't type them. And it's because for it to be a valid URL, the URL has to be escaped for transmission, and the browser will automatically do that for you. And if you're trying to do things with URLs and you don't escape them, then you can run into a lot of trouble, because it won't know how to interpret the URL properly,
+
+Unknown Speaker  48:48  
+and that is sending parameters on a get URL. And again, we talked last time about there being actually a number of different methods to do with HTTP. There's get, there's post. What did we say? Delete, put, put,
+
+Unknown Speaker  49:07  
+and can't really reach down there Delete.
+
+Unknown Speaker  49:13  
+And the two that are generally used are GET and POST.
+
+Unknown Speaker  49:19  
+When you type something on your browser line, it'll do a get.
+
+Unknown Speaker  49:24  
+Now,
+
+Unknown Speaker  49:25  
+I told you, there are other ways of doing things, other than sending parameters on a get line, and the other way of doing things is to use a post, and what the post does, I'm running a little bit out of space, but I said when you do a get, you've got the get and then you send a bunch of headers,
+
+Unknown Speaker  49:45  
+and you've got your your line here for what you're trying to retrieve, and your URL with some data on it. But if that was a post,
+
+Unknown Speaker  49:55  
+instead, you would be posting to your URL, and you'd have some headers.
+
+Unknown Speaker  50:00  
+Post, but because it's a post, the web server would know that after those headers, you now have a data payload.
+
+Unknown Speaker  50:09  
+And so the data that you can send on the Get line, which you can see in the browser. Another way of doing this is to send to format up some kind of data in the payload,
+
+Unknown Speaker  50:21  
+and then the web server can pick that up. It knows it's a post. It knows there's some data. And then what you have to work out within the web server to interpret that data, because you can use any format that you want. Generally, that data, I think, would be mine encoded,
+
+Unknown Speaker  50:36  
+which is encoding non representable data, values like a 255, isn't representable as a character, and it changes this binary data into seven bit data which is representable as characters. I won't deep dive into that, just be aware that there are different ways of encoding your data when you send it, and particularly within posts. Then
+
+Unknown Speaker  51:01  
+there's another couple of ones which I can't really remember. I mean, put, was more to do with automated systems, because all of this stuff was designed.
+
+Unknown Speaker  51:10  
+And we go back to Tim Berners Lee, and it was much more than just, you know, browsing for whatever's on there, the newspaper website today. Put, is, I think, enables you to send
+
+Unknown Speaker  51:26  
+data objects to places and delete, enables you to delete those data objects Now, typically the way most of us use the internet today, with web browsers and things that's not relevant, there's something else called web dev,
+
+Unknown Speaker  51:41  
+which is yet another protocol which I think leverages HTTP to allow you to move files around between remote computers and your computer.
+
+Unknown Speaker  51:51  
+And that would probably be much more interested in using puts and deletes and those kinds of things.
+
+Unknown Speaker  51:59  
+So that, I think, is what I wanted to talk about in terms of DNS.
+
+Unknown Speaker  52:07  
+I had a question fire away for URLs, yep. Is there any structural
+
+Unknown Speaker  52:13  
+difference between private URL and public URL?
+
+Unknown Speaker  52:20  
+Right? Right.
+
+Unknown Speaker  52:22  
+Interesting. So I don't understand that question, What? What? What is a private URL versus a public URL? So it's like a local URL and public URL. So one is you can only access within, right? So the answer is, no,
+
+Unknown Speaker  52:40  
+the URL is a standard.
+
+Unknown Speaker  52:44  
+There are,
+
+Unknown Speaker  52:46  
+there are protocols within TCP, IP, like HTTP and so forth, and FTP,
+
+Unknown Speaker  52:54  
+other protocols. They require your URL to be correctly formed.
+
+Unknown Speaker  53:01  
+And if your URL is not correctly formed, it is not right and it is broken, and things will break or behave in unexpected ways.
+
+Unknown Speaker  53:10  
+So standards compliance,
+
+Unknown Speaker  53:13  
+it's worth saying that the way the internet is constructed, and we talked a bit about RFCs,
+
+Unknown Speaker  53:21  
+the best practice is, when you're doing something, you should be as tightly constrained and correct as possible. When you're putting data out there, say, when you're putting an implementation together, you should be as accepting of slightly different cases as possible, so you're not fragile, you're not breaking all over the place. And so you try to be as exacting as possible in what you're creating to the specification. But if you're handling stuff other people have done, you try to be within correctness. You've got to be correct, but you try to be as accepting of things as possible. It's sort of a best practice idea there to try to maybe explain that a little bit better.
+
+Unknown Speaker  54:09  
+You know, we are in control here. We can do whatever we want with these TCPIP standards. If we're talking to the rest of the world, then we have to obey the standards, because they won't understand us if we don't, but we can run our own DNS server in this building. People do. Companies run their own DNS servers. And so we could set up, you know, dynamic devices.cc.cc,
+
+Unknown Speaker  54:34  
+is, I was going to talk about TLDs. I'm going to talk about TLDs and say.cc
+
+Unknown Speaker  54:40  
+people often use to indicate something which is local. It's not publicly available on the internet. And we might set up dd.cc
+
+Unknown Speaker  54:49  
+which is has records in our local DNS server, and our computers on our network know about our local DNS server, maybe as well as public DNS servers. And so when I go.
+
+Unknown Speaker  55:00  
+Going to use on my browser, dd.cc, within my URL, it goes off to our server, and it maps that to a local, internal IP address that other people can't see. And we can get onto that, and we can use that for maybe jobs that we're doing. We might have our own git repository locally, our own wiki repository nobody else can see that on the rest of the internet, and nobody else can map from that domain to that internal maybe 192 168 type of computer, because that's only local to us, but nevertheless, we still have to use the right URL formulation. A
+
+Unknown Speaker  55:38  
+slightly different thing that might bring it out. And that you can do is that if you type a different kind of URL protocol into your browser, if
+
+Unknown Speaker  55:52  
+you type FTP colon, slash, slash, and an IP address, and I can't remember what an FTP server sits on, that might, that might be port 21 I might be wrong, but there is a standard port for FTP, and if you don't add a port after the colon to tell it, it will use that standard port. And your browser, because your browser supports FTP as well as HTTP in almost all cases, what it will do is it will try to connect using a different protocol, not HTTP, using the FTP protocol, which sits on top of TCP as well, because we need our data to be reliable and accurate in the right order, and all the rest of it. And that goes and that connects to a server. And an FTP server is a file transfer protocol server or transferring files as it something. Again, I've said this before, but you know, we're pretty we're pretty much, you know what it says on the team with these names and FTP. The FTP protocol lets you get a list of what the files are, and authenticating and send files and receive files. We get important. You can look at the semantics of our FTP works, and what you will do is you get a basic file layout in your web browser, and that's not an HTML page. Well, kind of is, but that's not part of the HTML protocol that's being built up by the browser from the FTP protocol. And there are other protocols that you could use instead. Can't think of any offhand, but
+
+Unknown Speaker  57:26  
+this is somewhat of a different usage. But if you want to change settings in browsers nowadays, there's generally a settings protocol prefix which tells the browser. This isn't an internet e talking to other computers thing. This is an internal reconfiguring the browser kind of thing. And so that settings protocol is linked to an internal configuration option set of pages that it generates inside the browser so that you can change all sorts of Magic settings that you wouldn't otherwise be able to see. So you can change that protocol, and that's why it's there, and that sort of, you know, I suppose what I'm saying is that, if I had, we don't really use FTP for a lot of purposes nowadays, or other protocols people use and and often because FTP itself isn't secure. But
+
+Unknown Speaker  58:15  
+what you might do is you might have an FTP server running on an embedded device, and you might want to copy those files off locally, on your local network, and then you would type, say, on your command line, FTP. I mean, you could do this in the browser, but you could do any command line, FTP to a local IP address, and then you could start using the FTP programme to do stuff. In theory, you could just do FTP
+
+Unknown Speaker  58:41  
+to your local domain, which goes off to your internal DNS server to point to your local computer that you can talk to on your network and nobody else can talk to. So hopefully that that helps but, but, yes, the URL standard is the URL standard, and you have to adhere to that
+
+Unknown Speaker  59:03  
+good.
+
+Unknown Speaker  59:05  
+What's time?
+
+Unknown Speaker  59:08  
+Okay, so few, few finishing up bits then, because last time we talked about TLDs, didn't we,
+
+Unknown Speaker  59:15  
+I don't know we talked about them. So we're talking about it, TLDs, top level domains.
+
+Unknown Speaker  59:21  
+And you know all about this, you've got.com
+
+Unknown Speaker  59:24  
+america.co.uk,
+
+Unknown Speaker  59:28  
+dot, whatever it might be, a lot of these TLDs, and certainly initially, were country specific.
+
+Unknown Speaker  59:37  
+And there are other ones you've got. For example,
+
+Unknown Speaker  59:42  
+within the UK, We've got.co.uk as I say, which is companies in the UK, we've also got.ac.uk which is academic institutions. And that's why your your university emails are as they are. You've also got.gov
+
+Unknown Speaker  59:59  
+gov dot. You.
+
+Unknown Speaker  1:00:00  
+Okay, what you tend to find with America is you might think that in America it would be sort of.gov.us
+
+Unknown Speaker  1:00:08  
+or.com.us
+
+Unknown Speaker  1:00:10  
+but it's America. So they don't, if we're not telling you different, it's America. We're American. So that's why that's slightly different. And you just, if you don't see the country, it's
+
+Unknown Speaker  1:00:23  
+America, all the other countries. And then, more recently, you know, there's been this explosion of other kind of non geographical, TLDs, millions, We've got.io.me
+
+Unknown Speaker  1:00:35  
+dot, dot. App, you name it. Now
+
+Unknown Speaker  1:00:43  
+there is a root server for every top level domain which controls that root domain. And there is, think this is right in saying the actual
+
+Unknown Speaker  1:00:56  
+legal structure differs a little bit. But essentially, you've got a company, some form of corporate structure which is in control of a particular TLD. And so, for example, in the UK,
+
+Unknown Speaker  1:01:14  
+it's who did I say it was next, next? Tell next.
+
+Unknown Speaker  1:01:20  
+Can't remember. It'll come back to me. End something early. And if you want to register
+
+Unknown Speaker  1:01:28  
+a domain against that TLD, you go to them to do it, and you pay their money to do it, and they keep the note that you own that domain, and you can use that domain, and you renew with them, and blah, blah, blah, and they generally don't nominate. So thinking,
+
+Unknown Speaker  1:01:45  
+nominate, and there's different ones in different countries. And generally, you know, for any given country, they would want that corporate structure or legal structure within the company country. So they run their own different countries. Run their own stuff. And
+
+Unknown Speaker  1:02:02  
+they generally don't want millions of people talking to them all the time about this stuff. So if you tried to talk to them and register with them yourself, it would be quite expensive. So instead, you go through an intermediary, and that's where you go. Daddies and all the rest of it make their money, and they have blog deals to do, blog registrations of things. So you go through your intermediary, pay them some money, but they're not in charge of this. They're an intermediary. And depending on you do a search with.io
+
+Unknown Speaker  1:02:33  
+and they will propagate your registration to the appropriate management entity of that TLD. And
+
+Unknown Speaker  1:02:40  
+that's how that stuff happens. And it all appears to be very automated nowadays, but it just sort of goes on behind the scenes.
+
+Unknown Speaker  1:02:49  
+So that's TLDs and how TLDs work. And there are different pricing structures for all these different things. And you see that you searches, some domains are costed in different ways.
+
+Unknown Speaker  1:03:01  
+So that's TLDs I wanted to talk about. And then I suppose a little bit that I just wanted to finish up on sort of more random stuff, is things like maybe a couple of other protocols that are supported that we use within the TCPIP stack.
+
+Unknown Speaker  1:03:18  
+Sorry,
+
+Unknown Speaker  1:03:20  
+yeah, we will talk about MQ TT, but I think we'll do that another time, because MQ TT, we can spend
+
+Unknown Speaker  1:03:29  
+session on by itself. I think quite a lot going on in there. But basically, I'll briefly say that MQ TT sits on top of TCP and the TCPIP staff.
+
+Unknown Speaker  1:03:42  
+And the idea is that TCP, I've explained, gives you this best effort, reliable way of moving data around, but also that TCP you think of as a stream, and
+
+Unknown Speaker  1:03:55  
+I should have said as well. I meant to say it's obvious, but I meant to pull it out, but it's bi directional.
+
+Unknown Speaker  1:04:01  
+You can be sending data in both ways, and we need to talk about that at another time and remind me to talk to you about client server, because people get very, very confused about client server. There's a bit more to it than people think, but basically TCP, I think of it as a pipe,
+
+Unknown Speaker  1:04:20  
+and information flows through both ways in that pipe at the same time,
+
+Unknown Speaker  1:04:26  
+and N, Q, T, T changes that a bit, because in our world,
+
+Unknown Speaker  1:04:36  
+we need to be able to move this data around reliably, But we also need to know what the data is, and
+
+Unknown Speaker  1:04:43  
+if you've got a stream of data, it can sometimes be hard to work out which bit of data is which
+
+Unknown Speaker  1:04:51  
+and what's going on,
+
+Unknown Speaker  1:04:53  
+and what mptt does, is it the API or the way that you you.
+
+Unknown Speaker  1:05:00  
+Interact with this protocol is you send message objects.
+
+Unknown Speaker  1:05:06  
+So I can send my message object which goes through that TCP pipe, but MQ, TT handles,
+
+Unknown Speaker  1:05:14  
+turning that stream of data into these individual messages, which are much, much easier for me to deal with as a programmer. There's more to it than that, but we'll go into that next time. I will say also that there's a newer protocol called MQ ttsn, which is MQ TT for sensor networks, which is under development now, and that uses UDP,
+
+Unknown Speaker  1:05:38  
+because a lot of it was some of the stuff that MQ TT does sort of replicates what TCP does to reliably transmit information, and some devices and some
+
+Unknown Speaker  1:05:51  
+radio communication systems and MB, IoT is one of these examples. They don't really leverage TCP. Well, there's overhead involved in TCP, you know, you know we were talking about, you know, you've got packets that are retrying things backwards and forwards and all the rest of it. What MQ, ttsm does is to do the bits of the TCP retrying to make sure that an object gets from A to B, but it uses UDP, so it can be implemented on a more basic kind of platform, like a microcontroller that maybe doesn't have a TCPIP stand. So that's so we will come on to MQ, TT. We will talk a bit more about client, server, because that's quite important. And I just wanted to finish up and talk about other random protocols, because there's all sorts of stuff, and one of stuff, and one of them that we'll care about a lot is NTP.
+
+Unknown Speaker  1:06:45  
+That's the network time protocol. And similarly, you know what happens is you've got a network time protocol client on one computer, and it knows about some servers running on IP addresses on other computers. And often you've got an embedded device which doesn't have a battery, so it doesn't know time. If it goes off, it can't do time. And also, even embedded devices that you know when they're on, they can count, but depending on some of the modes that you put them in, sometimes they lose accuracy over time. In particular, a standard RTC clock in a computer is specified to lose about a minute a month.
+
+Unknown Speaker  1:07:26  
+That's a problem if you need accurate timekeeping over years.
+
+Unknown Speaker  1:07:31  
+And one of the things you need accurate timekeeping for is crypto, which
+
+Unknown Speaker  1:07:38  
+we'll talk about again another time, but when you're securing devices and you're using public key cryptography, you're using certificates, and without going into the nuts and bolts of that, these certificates are dated and have expiry times.
+
+Unknown Speaker  1:07:55  
+And what that means is that if you're trying to do secured cons from your embedded device, and your embedded device has the wrong time, the certificate will be invalid.
+
+Unknown Speaker  1:08:07  
+And in the worst of cases, and this has happened, embedded devices that have the wrong time, or if a certificate expires upstream, you can no longer talk to them. Now, you can imagine what a big problem that could be, if that caught you in a worse with your 100,000 devices that you've deployed all around the world that you can no longer communicate with. That's a big problem. So you need to be able to get the time.
+
+Unknown Speaker  1:08:32  
+The protocol that you use is SMTP, Network Time Protocol, or I think what we actually use is SMTP, which is a simple network time protocol. It may seem easy to get time. Time, oddly, is can be a really complicated and hard thing to deal with in computers, strangely enough,
+
+Unknown Speaker  1:08:51  
+and in particular, for example, if you say, you know, okay, I'm sending an NTP message now I want you to send what the time is. And it goes to this computer, and the computer says, Okay, here's what the time is. It says the time, but it's taken some time to do that, and
+
+Unknown Speaker  1:09:05  
+there's some jitter and some latency in these packets moving around the internet, and there's some jitter and some latency in these packets moving around inside your computer. So How accurate do you need to be, and how do you manage that process to gain that level of accuracy? And that's what the protocol does. And the simple one, I think, if I remember rightly, you don't always need super accurate time. You need time down to the millisecond, and SMTP will give you pretty accurate time.
+
+Unknown Speaker  1:09:34  
+Another example I mentioned last time of problems that you can have, which goes back to DNS,
+
+Unknown Speaker  1:09:40  
+it's generally, I would say, pretty bad practice to hard code IP addresses into your embedded systems software, into your phone or into any application, really, because the IP address may change, you may lose control of it. I mean IPv four we talked about, we basically exhausted the available number of IPv four addresses.
+
+Unknown Speaker  1:10:00  
+Of this contention for these addresses, they need to be reused and recycled. So your IP address is possible. It may change. I
+
+Unknown Speaker  1:10:08  
+need to qualify that and say, you know, if you're paying for a static IP address, unless things go very badly wrong, it's not going to randomly change. But you know, if your contract came to an end or something, you didn't renew it, you could lose the IP address and be able to get it back, these types of things. Now, what some people did with some embedded devices was that they needed to get time and they hard coded some IP addresses of network time servers on the Internet, because there's lots of them, into the firmware. And sadly, they didn't consider that the company doing this work, they didn't own those network time servers. They just got some random guys Network Time servers. And so he was getting all these sort of requests to his network time servers, which he wasn't bothered about. But after some period of time, he shut them down
+
+Unknown Speaker  1:10:51  
+because he can, because he just didn't want to do it anymore. And he immediately got a lot of emails saying, oh my god, what have you done? You've shut down these servers? Well, yeah, I have. So what? You know, I can't it's mine. And they said, Well, yeah, but we've got all of these devices everywhere, and none of them won't now because you've turned off your services. Well, not mine. You shouldn't have been using my stuff. And
+
+Unknown Speaker  1:11:16  
+that's another very important thing. So you know, what are your dependent? What are your third party, external dependencies in your system, and what happens to break your system if the stuff that's not under your control changes like this. Now, this guy was a nice guy, and he said, I'll turn them on for you, you know, and I'll leave them on for six months, and you sort yourselves out, and then I'm going to turn them off. Then, you know. So it all worked out okay, but you can imagine the position if you woke up one morning and suddenly found, you know, your entire product line and stopped working, you no idea why.
+
+Unknown Speaker  1:11:48  
+And that's more common than you would think with embedded assistant systems. And one of the things that's always in my mind is, you know, what is the stuff that I don't know and don't understand and aren't thinking about that may come back to bite us in five years.
+
+Unknown Speaker  1:12:07  
+What are we? Where are our Plan B's here for when this stuff goes wrong. So what I meant to say with that is, yes, stuff goes wrong. What are your dependencies? Also better practice to use a domain name mapping in your code, because then your embedded device will go off to the domain name server, which is under your control. And if you need to change those mappings, IP addresses, or whatever it might be, you can, because you're in charge of that stuff, it'll take a little bit of time to propagate stuff is cached in devices. But in the very worst case, you could probably just turn it off and turn it on again. That's sometimes difficult, sometimes a problem, but at least it's possible, as opposed to broken.
+
+Unknown Speaker  1:12:45  
+So NTP, loads of other protocols we can talk about, I think next time we'll come on to talk about client server. We'll talk about Bonjour, zero confident address collision and Qt team, maybe a bit of Wi Fi, and we see how that goes.
+
+Unknown Speaker  1:13:01  
+So before we wrap up any more questions from anyone,
+
+Unknown Speaker  1:13:07  
+okay, what I was asked is talking about the DNS name,
+
+Unknown Speaker  1:13:12  
+since we know the GCP actually assign
+
+Unknown Speaker  1:13:17  
+your IP address, yep, probably an automatic way. So in your when you have a unique DNS name that you want to use, so how do you like the generate the IP address? Is it the same way as a JCP assign it? Or that does the first your your DNS name now an IP address, you generate that on your own, or is it DSP address that okay? Because what I understand is that DSP do subsequently for some other system that wants to join every system that is connecting an IP address, right? So I'm not, I'm not sure I understand. Try and answer that, and you tell me if I'm answering the right question. It sounds as though what you're sort of saying is there's this process to set up DNS and DNS webpings with domain so IP mappings, and we know IP addresses can change. So what's going on here? What's the process here? Yeah, okay, well, there are different processes. So if I, if I set up my computer and I pay a network access provider if I want to be on the internet commercially, say that I'm probably paying somebody for one or more static IP addresses.
+
+Unknown Speaker  1:14:26  
+Now, having said that, stuff will change. Yeah, it does. But contractually, if I'm paying somebody for a static IP address, unless very odd things happen, like they go bust or something, that's not going to change. And so in general, with that kind of setup over periods of months and years, IP addresses don't change.
+
+Unknown Speaker  1:14:49  
+I think we talked about, I've got an IP address I pay here for does a public one, and actually sits there, and it will be the same until I stop paying for it. But when I stop paying for it, i.
+
+Unknown Speaker  1:15:00  
+It'll be freed up and somebody else might use it. And if I want another IP address, it would be very unlikely. I would be I wouldn't be able to say I want that one back, please. Doesn't work like that.
+
+Unknown Speaker  1:15:12  
+Now,
+
+Unknown Speaker  1:15:18  
+internally on internal networks. We know that I'm going to a DHCP server, and that's giving me a dynamically sound IP address quite often. You know, if it knows that I've got my MAC address, you know, I've had an IP address, and it's free, and it's clever, it'll give that back to me. It might not change too much, but
+
+Unknown Speaker  1:15:44  
+there's no guarantee of that, and it might just give me a completely different IP address, and it might I have no control over that. I have to be aware of that equally, if I'm on a computer, and this is particularly the residential case, if I'm using a residential communications provider, like Virgin Media, somebody like I've got my internal computer network, and then it goes through the access point box, and internally, it's handing out the HCP addresses to my local network, and externally, it's got a public IP address on the internet, and that's being handed out upstream by their network. And that changes,
+
+Unknown Speaker  1:16:27  
+and you will often find, if you go and look at your you know, if you do your browser connection to the port that the web server is running on, on the box, and you log in and you see what's going on, you can see the public IP address, and probably quite likely, if you power cycle the box, you'll get a different address,
+
+Unknown Speaker  1:16:46  
+because you have no arrangement for a static IP address. There are numbers of sort of tech friendly, geeky providers that do let me do this stuff,
+
+Unknown Speaker  1:16:59  
+possibly a little bit less so nowadays, again, because of the pressure on the IPv four address space, you can do all of this stuff with IPv six, actually, instead. And because that address space is so much larger, it's this is not a problem. It's easy to get IPv six addressing. That's a whole other conversation, and most of we're still at the point where a lot of the internet infrastructure as IPv four.
+
+Unknown Speaker  1:17:22  
+Now,
+
+Unknown Speaker  1:17:24  
+that said, We'll recap a little bit what we talked about last time, which is dynamic DNS,
+
+Unknown Speaker  1:17:31  
+or Dyna DNS. And
+
+Unknown Speaker  1:17:33  
+I think this is possibly a bit less used nowadays, but it used to be what most of us did, because
+
+Unknown Speaker  1:17:41  
+back in the day, you know, before fibre to the home and connections to the home, we were doing dial up networking. So we were using a modem to dial up on our pots, a Plano, old telephone system line, and that's where you get this known as ring. It's connecting up, and it's training, and you get onto the internet every time you dialled up to do Internet things, you'd get a different IP address.
+
+Unknown Speaker  1:18:06  
+So if you want other people to be able to access your stuff, it's really difficult, because when you're not online all the time, and when you are online, you will have a different IP address from last time. What do you do? Well, some people took the core of what DNS does,
+
+Unknown Speaker  1:18:26  
+and coming back to your question, you know, I can go to my DNS server and manually type in whatever the IP address setting is I want to.
+
+Unknown Speaker  1:18:34  
+But what they then did was they back ended it with some automation,
+
+Unknown Speaker  1:18:39  
+so what I could do is when I dialled up onto the internet and I got given my new IP address, I could make a call like an HTTP request to this dime DNS server to update automatically with whatever the new IP address was. So if that happens automatically, every time I connect up to the internet, that DNS server is going to have the new IP address every time I get a new IP address, and then anybody who goes from somewhere else with a URL,
+
+Unknown Speaker  1:19:12  
+as far as they're concerned, it's just the same system they're doing a DNS lookup.
+
+Unknown Speaker  1:19:18  
+But behind that, it's been automatically updated to a new IP address every time.
+
+Unknown Speaker  1:19:24  
+And also, these DNS records have something, I think, which is called a time to live. And you can say, right, I'm pretty sure this DNS record is going to be validated for like, a day. So you can cache that for a day before you need to come ask me again. Or you can say, Do you know what this is changing quite frequently. You might it's going to be valid for 10 minutes. Then you're gonna have to come ask me again. So with this kind of setup, you would set the mapping to be valid for a short period of time, and then it would look up more regularly. And then when your IP address changes, it changes, and it knows using your IP address. And they'd say.
+
+Unknown Speaker  1:20:00  
+And they're out there, and there's free ones, and so for your use case you were talking about last time, if you want to be on the internet and be publicly accessible and not paper, static IP addresses,
+
+Unknown Speaker  1:20:11  
+I wouldn't do this for commercial, reliable setting, but for testing and things. Nothing wrong with using dynamic DNS. Does that help?
+
+Unknown Speaker  1:20:22  
+Anything else?
+
+Unknown Speaker  1:20:24  
+Nope,
+
+Unknown Speaker  1:20:25  
+nope,
+
+Unknown Speaker  1:20:27  
+that's rock would have that end I.
+
