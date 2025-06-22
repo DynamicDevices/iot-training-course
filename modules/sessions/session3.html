@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 3: Transport Protocols</title>
+    <link rel="stylesheet" href="../../assets/css/main.css">
+</head>
+<body>
+    <main>
+        <section class="session-header">
+            <div class="container">
+                <h1>Session 3: Transport Protocols</h1>
+                <div class="session-meta">
+                    <span class="duration">Duration: 2 hours</span>
+                    <span class="level">Level: Advanced</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="session-content">
+            <div class="container">
+                <div class="topic-section">
+                    <h2>UDP: Connectionless Communication</h2>
+                    
+                    <h3>UDP Characteristics</h3>
+                    <ul>
+                        <li><strong>Connectionless:</strong> No connection establishment</li>
+                        <li><strong>Unreliable:</strong> No delivery guarantee</li>
+                        <li><strong>Fast:</strong> Minimal overhead</li>
+                        <li><strong>Simple:</strong> Basic send/receive operations</li>
+                    </ul>
+
+                    <h3>UDP Header Structure</h3>
+                    <div class="header-diagram">
+                        <table>
+                            <tr><th>Source Port (16 bits)</th><th>Destination Port (16 bits)</th></tr>
+                            <tr><th>Length (16 bits)</th><th>Checksum (16 bits)</th></tr>
+                            <tr><th colspan="2">Data</th></tr>
+                        </table>
+                        <p><strong>Total Header Size:</strong> 8 bytes</p>
+                    </div>
+
+                    <h3>UDP Use Cases in IoT</h3>
+                    <ul>
+                        <li><strong>Sensor Data:</strong> Frequent, small updates</li>
+                        <li><strong>Real-time Control:</strong> Low latency required</li>
+                        <li><strong>Broadcast/Multicast:</strong> One-to-many communication</li>
+                        <li><strong>DNS Queries:</strong> Simple request/response</li>
+                        <li><strong>DHCP:</strong> Network configuration</li>
+                    </ul>
+                </div>
+
+                <div class="topic-section">
+                    <h2>TCP: Reliable Data Transfer</h2>
+                    
+                    <h3>TCP Characteristics</h3>
+                    <ul>
+                        <li><strong>Connection-oriented:</strong> Establishes connection first</li>
+                        <li><strong>Reliable:</strong> Guarantees delivery and order</li>
+                        <li><strong>Flow Control:</strong> Manages data rate</li>
+                        <li><strong>Error Recovery:</strong> Retransmits lost packets</li>
+                    </ul>
+
+                    <h3>TCP Connection Establishment (3-Way Handshake)</h3>
+                    <ol>
+                        <li><strong>SYN:</strong> Client sends synchronization request</li>
+                        <li><strong>SYN-ACK:</strong> Server acknowledges and sends its SYN</li>
+                        <li><strong>ACK:</strong> Client acknowledges server's SYN</li>
+                    </ol>
+
+                    <h3>TCP Header Structure</h3>
+                    <div class="header-diagram">
+                        <table>
+                            <tr><th>Source Port (16)</th><th>Destination Port (16)</th></tr>
+                            <tr><th colspan="2">Sequence Number (32)</th></tr>
+                            <tr><th colspan="2">Acknowledgment Number (32)</th></tr>
+                            <tr><th>Header Length (4)</th><th>Flags (12)</th><th>Window Size (16)</th></tr>
+                            <tr><th>Checksum (16)</th><th>Urgent Pointer (16)</th></tr>
+                            <tr><th colspan="2">Options (variable)</th></tr>
+                            <tr><th colspan="2">Data</th></tr>
+                        </table>
+                        <p><strong>Minimum Header Size:</strong> 20 bytes</p>
+                    </div>
+
+                    <h3>TCP Use Cases in IoT</h3>
+                    <ul>
+                        <li><strong>Configuration Data:</strong> Critical settings</li>
+                        <li><strong>Firmware Updates:</strong> Large file transfers</li>
+                        <li><strong>Web Interfaces:</strong> HTTP/HTTPS communication</li>
+                        <li><strong>Database Connections:</strong> Reliable data storage</li>
+                        <li><strong>Remote Management:</strong> SSH, Telnet</li>
+                    </ul>
+                </div>
+
+                <div class="topic-section">
+                    <h2>Socket Programming Concepts</h2>
+                    
+                    <h3>Socket Types</h3>
+                    <ul>
+                        <li><strong>Stream Sockets (TCP):</strong> Reliable, ordered data stream</li>
+                        <li><strong>Datagram Sockets (UDP):</strong> Unreliable, message-based</li>
+                    </ul>
+
+                    <h3>Socket Operations</h3>
+                    <div class="socket-operations">
+                        <h4>Server Operations:</h4>
+                        <ol>
+                            <li><strong>socket():</strong> Create socket</li>
+                            <li><strong>bind():</strong> Bind to address/port</li>
+                            <li><strong>listen():</strong> Listen for connections (TCP only)</li>
+                            <li><strong>accept():</strong> Accept connections (TCP only)</li>
+                            <li><strong>recv()/send():</strong> Receive/send data</li>
+                            <li><strong>close():</strong> Close socket</li>
+                        </ol>
+
+                        <h4>Client Operations:</h4>
+                        <ol>
+                            <li><strong>socket():</strong> Create socket</li>
+                            <li><strong>connect():</strong> Connect to server (TCP only)</li>
+                            <li><strong>send()/recv():</strong> Send/receive data</li>
+                            <li><strong>close():</strong> Close socket</li>
+                        </ol>
+                    </div>
+
+                    <h3>ESP32 Socket Implementation</h3>
+                    <div class="code-examples">
+                        <h4>TCP Server Example:</h4>
+                        <pre><code>WiFiServer server(80);
+WiFiClient client = server.available();
+if (client) {
+    String request = client.readStringUntil('\n');
+    client.println("HTTP/1.1 200 OK");
+    client.stop();
+}</code></pre>
+
+                        <h4>UDP Example:</h4>
+                        <pre><code>WiFiUDP udp;
+udp.begin(1234);
+udp.beginPacket("192.168.1.100", 1234);
+udp.print("Hello UDP");
+udp.endPacket();</code></pre>
+                    </div>
+                </div>
+
+                <div class="topic-section">
+                    <h2>Port Numbers and Services</h2>
+                    
+                    <h3>Port Number Ranges</h3>
+                    <ul>
+                        <li><strong>Well-known Ports (0-1023):</strong> System services</li>
+                        <li><strong>Registered Ports (1024-49151):</strong> User applications</li>
+                        <li><strong>Dynamic Ports (49152-65535):</strong> Temporary assignments</li>
+                    </ul>
+
+                    <h3>Common Well-known Ports</h3>
+                    <div class="ports-table">
+                        <table>
+                            <tr><th>Port</th><th>Protocol</th><th>Service</th><th>IoT Usage</th></tr>
+                            <tr><td>20/21</td><td>TCP</td><td>FTP</td><td>File transfer</td></tr>
+                            <tr><td>22</td><td>TCP</td><td>SSH</td><td>Remote management</td></tr>
+                            <tr><td>23</td><td>TCP</td><td>Telnet</td><td>Remote access</td></tr>
+                            <tr><td>53</td><td>UDP/TCP</td><td>DNS</td><td>Name resolution</td></tr>
+                            <tr><td>67/68</td><td>UDP</td><td>DHCP</td><td>IP configuration</td></tr>
+                            <tr><td>80</td><td>TCP</td><td>HTTP</td><td>Web interface</td></tr>
+                            <tr><td>123</td><td>UDP</td><td>NTP</td><td>Time synchronization</td></tr>
+                            <tr><td>443</td><td>TCP</td><td>HTTPS</td><td>Secure web</td></tr>
+                            <tr><td>1883</td><td>TCP</td><td>MQTT</td><td>IoT messaging</td></tr>
+                        </table>
+                    </div>
+
+                    <h3>Port Selection for IoT Applications</h3>
+                    <ul>
+                        <li><strong>Avoid well-known ports:</strong> Use ports > 1024</li>
+                        <li><strong>Document port usage:</strong> Maintain port assignments</li>
+                        <li><strong>Firewall considerations:</strong> Ensure ports are accessible</li>
+                        <li><strong>NAT traversal:</strong> Consider port forwarding needs</li>
+                    </ul>
+                </div>
+
+                <div class="practical-exercises">
+                    <h2>Practical Exercises</h2>
+                    <div class="exercise-list">
+                        <div class="exercise-item">
+                            <h3>Exercise 1: Protocol Comparison</h3>
+                            <p>Compare TCP and UDP using network tools:</p>
+                            <ol>
+                                <li>Use <code>netstat -an</code> to view active connections</li>
+                                <li>Identify TCP vs UDP connections</li>
+                                <li>Use Wireshark to capture both protocols</li>
+                                <li>Compare header sizes and connection behavior</li>
+                            </ol>
+                        </div>
+
+                        <div class="exercise-item">
+                            <h3>Exercise 2: Port Scanning</h3>
+                            <p>Discover services using port scanning:</p>
+                            <ol>
+                                <li>Scan your router: <code>nmap 192.168.1.1</code></li>
+                                <li>Identify open ports and services</li>
+                                <li>Research what each service does</li>
+                                <li>Consider security implications</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

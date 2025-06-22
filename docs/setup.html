@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Setup Guide - Dynamic Devices IoT Training</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1><a href="../index.html">Dynamic Devices</a></h1>
+                    <span>Course Setup Guide</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Course Setup Guide</h1>
+                <p class="hero-subtitle">Prepare your development environment for IoT networking labs</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2>Software Requirements</h2>
+                
+                <div class="setup-section">
+                    <h3>1. Arduino IDE Setup</h3>
+                    <ol>
+                        <li>Download Arduino IDE from <a href="https://www.arduino.cc/en/software">arduino.cc</a></li>
+                        <li>Install ESP32 board support:
+                            <div class="code-block">
+                                <p>File → Preferences → Additional Board Manager URLs:</p>
+                                <pre><code>https://dl.espressif.com/dl/package_esp32_index.json</code></pre>
+                            </div>
+                        </li>
+                        <li>Install ESP32 boards: Tools → Board → Boards Manager → Search "ESP32"</li>
+                        <li>Install required libraries:
+                            <ul>
+                                <li>ESP32Ping (for network diagnostics)</li>
+                                <li>ArduinoJson (for data formatting)</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="setup-section">
+                    <h3>2. Wireshark Installation</h3>
+                    <ul>
+                        <li><strong>Windows:</strong> Download from <a href="https://www.wireshark.org/">wireshark.org</a> and run as administrator</li>
+                        <li><strong>Linux:</strong> <code>sudo apt install wireshark</code></li>
+                        <li><strong>macOS:</strong> <code>brew install wireshark</code></li>
+                    </ul>
+                </div>
+
+                <h2>Hardware Requirements</h2>
+                <ul>
+                    <li>ESP32 Development Board (NodeMCU-32S or similar)</li>
+                    <li>USB Cable (micro-USB or USB-C)</li>
+                    <li>Breadboard and jumper wires</li>
+                    <li>Wi-Fi network access</li>
+                </ul>
+
+                <h2>Verification Test</h2>
+                <p>Upload this code to verify your ESP32 setup:</p>
+                <div class="code-block">
+                    <pre><code>#include &lt;WiFi.h&gt;
+
+const char* ssid = "your-network-name";
+const char* password = "your-password";
+
+void setup() {
+    Serial.begin(115200);
+    Serial.println("ESP32 Setup Verification");
+    
+    WiFi.begin(ssid, password);
+    Serial.print("Connecting to WiFi");
+    
+    while (WiFi.status() != WL_CONNECTED) {
+        delay(500);
+        Serial.print(".");
+    }
+    
+    Serial.println();
+    Serial.println("WiFi connected successfully!");
+    Serial.print("IP address: ");
+    Serial.println(WiFi.localIP());
+    Serial.println("Setup verification complete!");
+}
+
+void loop() {
+    Serial.println("System running... " + String(millis()));
+    delay(5000);
+}</code></pre>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Dynamic Devices. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

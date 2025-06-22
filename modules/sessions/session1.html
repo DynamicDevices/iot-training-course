@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 1: Network Fundamentals</title>
+    <link rel="stylesheet" href="../../assets/css/main.css">
+</head>
+<body>
+    <main>
+        <section class="session-header">
+            <div class="container">
+                <h1>Session 1: Network Fundamentals</h1>
+                <div class="session-meta">
+                    <span class="duration">Duration: 2 hours</span>
+                    <span class="level">Level: Beginner</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="session-content">
+            <div class="container">
+                <div class="topic-section">
+                    <h2>OSI Model vs TCP/IP Stack</h2>
+                    <div class="comparison-table">
+                        <table>
+                            <tr><th>OSI Layer</th><th>TCP/IP Layer</th><th>Function</th><th>Examples</th></tr>
+                            <tr><td>Application</td><td rowspan="3">Application</td><td>User interface</td><td>HTTP, FTP, SMTP</td></tr>
+                            <tr><td>Presentation</td><td>Data formatting</td><td>SSL, JPEG, ASCII</td></tr>
+                            <tr><td>Session</td><td>Session management</td><td>NetBIOS, RPC</td></tr>
+                            <tr><td>Transport</td><td>Transport</td><td>End-to-end delivery</td><td>TCP, UDP</td></tr>
+                            <tr><td>Network</td><td>Internet</td><td>Routing</td><td>IP, ICMP, ARP</td></tr>
+                            <tr><td>Data Link</td><td rowspan="2">Network Access</td><td>Frame formatting</td><td>Ethernet, Wi-Fi</td></tr>
+                            <tr><td>Physical</td><td>Physical transmission</td><td>Cables, Radio waves</td></tr>
+                        </table>
+                    </div>
+                    
+                    <h3>Key Concepts:</h3>
+                    <ul>
+                        <li><strong>Encapsulation:</strong> Each layer adds its own header</li>
+                        <li><strong>Abstraction:</strong> Upper layers don't need to know lower layer details</li>
+                        <li><strong>Modularity:</strong> Changes in one layer don't affect others</li>
+                    </ul>
+                </div>
+
+                <div class="topic-section">
+                    <h2>MAC Addresses and Physical Layer</h2>
+                    <h3>MAC Address Structure</h3>
+                    <ul>
+                        <li><strong>Format:</strong> 48-bit (6 bytes) hexadecimal</li>
+                        <li><strong>Example:</strong> 00:1B:44:11:3A:B7</li>
+                        <li><strong>OUI:</strong> First 3 bytes identify manufacturer</li>
+                        <li><strong>NIC:</strong> Last 3 bytes are device-specific</li>
+                    </ul>
+                    
+                    <h3>Physical Layer Considerations for IoT</h3>
+                    <ul>
+                        <li><strong>Wi-Fi:</strong> 2.4GHz vs 5GHz bands</li>
+                        <li><strong>Range:</strong> Signal strength affects reliability</li>
+                        <li><strong>Interference:</strong> Other devices, microwaves, etc.</li>
+                        <li><strong>Power consumption:</strong> Critical for battery-powered devices</li>
+                    </ul>
+                </div>
+
+                <div class="topic-section">
+                    <h2>IP Address Classes and Subnetting</h2>
+                    <h3>IPv4 Address Classes</h3>
+                    <div class="address-classes">
+                        <div class="class-card">
+                            <h4>Class A</h4>
+                            <p><strong>Range:</strong> 1.0.0.0 - 126.255.255.255</p>
+                            <p><strong>Default Mask:</strong> 255.0.0.0 (/8)</p>
+                            <p><strong>Hosts:</strong> 16,777,214 per network</p>
+                        </div>
+                        <div class="class-card">
+                            <h4>Class B</h4>
+                            <p><strong>Range:</strong> 128.0.0.0 - 191.255.255.255</p>
+                            <p><strong>Default Mask:</strong> 255.255.0.0 (/16)</p>
+                            <p><strong>Hosts:</strong> 65,534 per network</p>
+                        </div>
+                        <div class="class-card">
+                            <h4>Class C</h4>
+                            <p><strong>Range:</strong> 192.0.0.0 - 223.255.255.255</p>
+                            <p><strong>Default Mask:</strong> 255.255.255.0 (/24)</p>
+                            <p><strong>Hosts:</strong> 254 per network</p>
+                        </div>
+                    </div>
+
+                    <h3>Private IP Ranges (RFC 1918)</h3>
+                    <ul>
+                        <li><strong>Class A:</strong> 10.0.0.0/8 (10.0.0.0 - 10.255.255.255)</li>
+                        <li><strong>Class B:</strong> 172.16.0.0/12 (172.16.0.0 - 172.31.255.255)</li>
+                        <li><strong>Class C:</strong> 192.168.0.0/16 (192.168.0.0 - 192.168.255.255)</li>
+                    </ul>
+                </div>
+
+                <div class="topic-section">
+                    <h2>Network vs Device Identification</h2>
+                    <h3>Understanding Network Portions</h3>
+                    <div class="example-breakdown">
+                        <h4>Example: 192.168.1.100/24</h4>
+                        <ul>
+                            <li><strong>Network portion:</strong> 192.168.1.0 (first 24 bits)</li>
+                            <li><strong>Host portion:</strong> 100 (last 8 bits)</li>
+                            <li><strong>Subnet mask:</strong> 255.255.255.0</li>
+                            <li><strong>Network address:</strong> 192.168.1.0</li>
+                            <li><strong>Broadcast address:</strong> 192.168.1.255</li>
+                            <li><strong>Usable range:</strong> 192.168.1.1 - 192.168.1.254</li>
+                        </ul>
+                    </div>
+
+                    <h3>Subnetting for IoT Networks</h3>
+                    <ul>
+                        <li><strong>Segmentation:</strong> Separate IoT devices from other traffic</li>
+                        <li><strong>Security:</strong> Isolate devices with different trust levels</li>
+                        <li><strong>Management:</strong> Easier to monitor and troubleshoot</li>
+                        <li><strong>Performance:</strong> Reduce broadcast domains</li>
+                    </ul>
+                </div>
+
+                <div class="practical-exercises">
+                    <h2>Practical Exercises</h2>
+                    <div class="exercise-list">
+                        <div class="exercise-item">
+                            <h3>Exercise 1: Identify Your Network</h3>
+                            <p>Use <code>ipconfig</code> or <code>ifconfig</code> to identify:</p>
+                            <ul>
+                                <li>Your IP address and subnet mask</li>
+                                <li>Network and broadcast addresses</li>
+                                <li>Default gateway</li>
+                                <li>MAC address of your network interface</li>
+                            </ul>
+                        </div>
+
+                        <div class="exercise-item">
+                            <h3>Exercise 2: Subnet Calculation</h3>
+                            <p>Given the network 192.168.10.0/24, calculate:</p>
+                            <ul>
+                                <li>How many host addresses are available?</li>
+                                <li>What is the broadcast address?</li>
+                                <li>What would be the first and last usable host addresses?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

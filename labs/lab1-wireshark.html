@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 1: Network Discovery with Wireshark</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+    <main>
+        <section class="lab-header">
+            <div class="container">
+                <h1>Lab 1: Network Discovery with Wireshark</h1>
+                <div class="lab-meta">
+                    <span class="duration">Duration: 90 minutes</span>
+                    <span class="difficulty">Difficulty: Beginner</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="lab-content">
+            <div class="container">
+                <div class="lab-objectives">
+                    <h2>Learning Objectives</h2>
+                    <ul>
+                        <li>Install and configure Wireshark for network analysis</li>
+                        <li>Capture and analyze DHCP request/response sequences</li>
+                        <li>Understand ARP resolution process</li>
+                        <li>Identify different protocol layers in captured packets</li>
+                        <li>Use Wireshark filters for targeted analysis</li>
+                    </ul>
+                </div>
+
+                <div class="lab-section" id="exercise1">
+                    <h2>Exercise 1: Network Configuration Discovery</h2>
+                    <h3>Step 1: Examine Current Network Configuration</h3>
+                    <div class="code-block">
+                        <h4>Windows Commands:</h4>
+                        <pre><code>ipconfig /all
+arp -a
+route print</code></pre>
+                        <h4>Linux Commands:</h4>
+                        <pre><code>ip addr show
+ip route show
+arp -a</code></pre>
+                    </div>
+
+                    <div class="lab-questions">
+                        <h4>Analysis Questions:</h4>
+                        <ol>
+                            <li>What is your current IP address and subnet mask?</li>
+                            <li>What is your default gateway IP address?</li>
+                            <li>How many devices are in your ARP table?</li>
+                            <li>What DNS servers are configured?</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="lab-section" id="exercise2">
+                    <h2>Exercise 2: DHCP Analysis</h2>
+                    <h3>Step 1: Start Packet Capture</h3>
+                    <ol>
+                        <li>Open Wireshark with administrator privileges</li>
+                        <li>Select your active network interface</li>
+                        <li>Apply filter: <code>dhcp or bootp</code></li>
+                        <li>Start capture before triggering DHCP</li>
+                    </ol>
+
+                    <h3>Step 2: Trigger DHCP Request</h3>
+                    <div class="code-block">
+                        <h4>Windows:</h4>
+                        <pre><code>ipconfig /release
+ipconfig /renew</code></pre>
+                        <h4>Linux:</h4>
+                        <pre><code>sudo dhclient -r
+sudo dhclient</code></pre>
+                    </div>
+
+                    <h3>Step 3: Analyze DHCP Sequence</h3>
+                    <p>Look for the four-step DHCP process:</p>
+                    <ol>
+                        <li><strong>DHCP Discover</strong> - Client broadcasts request</li>
+                        <li><strong>DHCP Offer</strong> - Server offers IP address</li>
+                        <li><strong>DHCP Request</strong> - Client accepts offer</li>
+                        <li><strong>DHCP ACK</strong> - Server confirms assignment</li>
+                    </ol>
+
+                    <div class="lab-questions">
+                        <h4>Analysis Questions:</h4>
+                        <ol>
+                            <li>What destination MAC address is used for DHCP Discover?</li>
+                            <li>What IP address range does your DHCP server offer?</li>
+                            <li>How long is the lease time?</li>
+                            <li>What additional options are provided (DNS, gateway)?</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="lab-section" id="exercise3">
+                    <h2>Exercise 3: ARP Resolution Analysis</h2>
+                    <h3>Step 1: Clear ARP Cache</h3>
+                    <div class="code-block">
+                        <h4>Windows:</h4>
+                        <pre><code>arp -d *</code></pre>
+                        <h4>Linux:</h4>
+                        <pre><code>sudo ip neigh flush all</code></pre>
+                    </div>
+
+                    <h3>Step 2: Capture ARP Traffic</h3>
+                    <ol>
+                        <li>Apply Wireshark filter: <code>arp</code></li>
+                        <li>Start capture</li>
+                        <li>Generate ARP requests:</li>
+                    </ol>
+                    <div class="code-block">
+                        <pre><code>ping 8.8.8.8
+ping [your-gateway-ip]</code></pre>
+                    </div>
+
+                    <h3>Step 3: Analyze ARP Process</h3>
+                    <div class="lab-questions">
+                        <h4>Analysis Questions:</h4>
+                        <ol>
+                            <li>What happens when you ping an external IP vs local IP?</li>
+                            <li>How does ARP request/reply work?</li>
+                            <li>What MAC address responds for your gateway?</li>
+                            <li>Why do you see ARP for external IPs?</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="lab-deliverables">
+                    <h2>Lab Deliverables</h2>
+                    <ol>
+                        <li>Screenshot of complete DHCP sequence with annotations</li>
+                        <li>ARP table before and after ping operations</li>
+                        <li>Analysis report answering all questions</li>
+                        <li>Custom Wireshark filter expressions</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

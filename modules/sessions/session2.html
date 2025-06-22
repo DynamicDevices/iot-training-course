@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 2: Inter-Network Communication</title>
+    <link rel="stylesheet" href="../../assets/css/main.css">
+</head>
+<body>
+    <main>
+        <section class="session-header">
+            <div class="container">
+                <h1>Session 2: Inter-Network Communication</h1>
+                <div class="session-meta">
+                    <span class="duration">Duration: 2 hours</span>
+                    <span class="level">Level: Intermediate</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="session-content">
+            <div class="container">
+                <div class="topic-section">
+                    <h2>DHCP vs Static IP Configuration</h2>
+                    
+                    <h3>DHCP (Dynamic Host Configuration Protocol)</h3>
+                    <div class="dhcp-process">
+                        <h4>DHCP Process (DORA):</h4>
+                        <ol>
+                            <li><strong>Discover:</strong> Client broadcasts request for IP</li>
+                            <li><strong>Offer:</strong> Server offers available IP address</li>
+                            <li><strong>Request:</strong> Client requests the offered IP</li>
+                            <li><strong>Acknowledge:</strong> Server confirms IP assignment</li>
+                        </ol>
+                    </div>
+
+                    <div class="comparison-table">
+                        <table>
+                            <tr><th>Aspect</th><th>DHCP</th><th>Static IP</th></tr>
+                            <tr><td>Configuration</td><td>Automatic</td><td>Manual</td></tr>
+                            <tr><td>Management</td><td>Centralized</td><td>Per-device</td></tr>
+                            <tr><td>Flexibility</td><td>High</td><td>Low</td></tr>
+                            <tr><td>Reliability</td><td>Depends on server</td><td>Independent</td></tr>
+                            <tr><td>IoT Suitability</td><td>Development/Testing</td><td>Production</td></tr>
+                        </table>
+                    </div>
+
+                    <h3>IoT Considerations</h3>
+                    <ul>
+                        <li><strong>DHCP Reservations:</strong> Assign same IP to specific MAC</li>
+                        <li><strong>Lease Time:</strong> Longer leases for IoT devices</li>
+                        <li><strong>Fallback:</strong> Static IP if DHCP fails</li>
+                        <li><strong>Security:</strong> MAC filtering, separate VLAN</li>
+                    </ul>
+                </div>
+
+                <div class="topic-section">
+                    <h2>ARP (Address Resolution Protocol)</h2>
+                    
+                    <h3>ARP Purpose</h3>
+                    <p>Maps IP addresses to MAC addresses on the local network segment.</p>
+                    
+                    <h3>ARP Process</h3>
+                    <ol>
+                        <li>Device needs to send data to an IP address</li>
+                        <li>Checks ARP cache for MAC address</li>
+                        <li>If not found, broadcasts ARP request</li>
+                        <li>Target device responds with its MAC address</li>
+                        <li>Sender caches the MAC address for future use</li>
+                    </ol>
+
+                    <h3>ARP Message Types</h3>
+                    <ul>
+                        <li><strong>ARP Request:</strong> "Who has IP x.x.x.x?"</li>
+                        <li><strong>ARP Reply:</strong> "IP x.x.x.x is at MAC yy:yy:yy:yy:yy:yy"</li>
+                        <li><strong>Gratuitous ARP:</strong> Announces own IP/MAC mapping</li>
+                    </ul>
+
+                    <h3>ARP Cache Management</h3>
+                    <div class="code-examples">
+                        <h4>View ARP Cache:</h4>
+                        <pre><code>arp -a                    # Windows/Linux
+ip neigh show             # Linux</code></pre>
+                        
+                        <h4>Clear ARP Cache:</h4>
+                        <pre><code>arp -d *                 # Windows
+sudo ip neigh flush all   # Linux</code></pre>
+                    </div>
+                </div>
+
+                <div class="topic-section">
+                    <h2>Gateways and Routing</h2>
+                    
+                    <h3>Default Gateway Role</h3>
+                    <ul>
+                        <li><strong>Local Traffic:</strong> Direct communication within subnet</li>
+                        <li><strong>Remote Traffic:</strong> Forwarded to default gateway</li>
+                        <li><strong>Routing Decision:</strong> Based on destination IP and subnet mask</li>
+                    </ul>
+
+                    <h3>Routing Table Basics</h3>
+                    <div class="code-examples">
+                        <h4>View Routing Table:</h4>
+                        <pre><code>route print              # Windows
+ip route show            # Linux
+netstat -rn              # Unix/Linux</code></pre>
+                    </div>
+
+                    <h3>Common Routing Entries</h3>
+                    <ul>
+                        <li><strong>0.0.0.0/0:</strong> Default route (all traffic)</li>
+                        <li><strong>127.0.0.0/8:</strong> Loopback network</li>
+                        <li><strong>Local subnet:</strong> Direct delivery</li>
+                        <li><strong>Multicast:</strong> 224.0.0.0/4</li>
+                    </ul>
+                </div>
+
+                <div class="topic-section">
+                    <h2>Public vs Private IP Addresses</h2>
+                    
+                    <h3>Private IP Ranges (RFC 1918)</h3>
+                    <div class="ip-ranges">
+                        <div class="range-card">
+                            <h4>10.0.0.0/8</h4>
+                            <p>Large networks (16.7M addresses)</p>
+                            <p>Enterprise, ISP internal</p>
+                        </div>
+                        <div class="range-card">
+                            <h4>172.16.0.0/12</h4>
+                            <p>Medium networks (1M addresses)</p>
+                            <p>Corporate networks</p>
+                        </div>
+                        <div class="range-card">
+                            <h4>192.168.0.0/16</h4>
+                            <p>Small networks (65K addresses)</p>
+                            <p>Home, small office</p>
+                        </div>
+                    </div>
+
+                    <h3>NAT (Network Address Translation)</h3>
+                    <ul>
+                        <li><strong>Purpose:</strong> Allow private IPs to access internet</li>
+                        <li><strong>Process:</strong> Router translates private to public IP</li>
+                        <li><strong>Port Mapping:</strong> Tracks connections by port numbers</li>
+                        <li><strong>IoT Impact:</strong> Devices not directly accessible from internet</li>
+                    </ul>
+
+                    <h3>Special IP Addresses</h3>
+                    <ul>
+                        <li><strong>127.0.0.1:</strong> Loopback (localhost)</li>
+                        <li><strong>169.254.x.x:</strong> APIPA (Automatic Private IP)</li>
+                        <li><strong>224.0.0.0-239.255.255.255:</strong> Multicast</li>
+                        <li><strong>255.255.255.255:</strong> Limited broadcast</li>
+                    </ul>
+                </div>
+
+                <div class="practical-exercises">
+                    <h2>Practical Exercises</h2>
+                    <div class="exercise-list">
+                        <div class="exercise-item">
+                            <h3>Exercise 1: DHCP Analysis</h3>
+                            <p>Release and renew your IP address while capturing with Wireshark:</p>
+                            <ol>
+                                <li>Start Wireshark capture with filter: <code>dhcp</code></li>
+                                <li>Release IP: <code>ipconfig /release</code></li>
+                                <li>Renew IP: <code>ipconfig /renew</code></li>
+                                <li>Analyze the DORA process in captured packets</li>
+                            </ol>
+                        </div>
+
+                        <div class="exercise-item">
+                            <h3>Exercise 2: ARP Investigation</h3>
+                            <p>Observe ARP behavior:</p>
+                            <ol>
+                                <li>Clear ARP cache: <code>arp -d *</code></li>
+                                <li>Ping your gateway: <code>ping [gateway-ip]</code></li>
+                                <li>Check ARP cache: <code>arp -a</code></li>
+                                <li>Capture ARP traffic with Wireshark</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

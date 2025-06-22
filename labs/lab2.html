@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 2: IoT Device Configuration - Dynamic Devices IoT Training</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1><a href="../index.html">Dynamic Devices</a></h1>
+                    <span>Lab 2: IoT Device Configuration</span>
+                </div>
+                <nav class="nav">
+                    <a href="#overview">Overview</a>
+                    <a href="#exercises">Exercises</a>
+                    <a href="#resources">Resources</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Lab 2: IoT Device Configuration</h1>
+                <p class="hero-subtitle">Configure ESP32 devices for network communication</p>
+            </div>
+        </section>
+
+        <section id="overview" class="section">
+            <div class="container">
+                <h2>Lab Overview</h2>
+                <div class="lab-meta">
+                    <span class="duration">Duration: 2.5 hours</span>
+                    <span class="difficulty">Difficulty: Intermediate</span>
+                </div>
+                <p>Learn to configure IoT devices for network connectivity using both DHCP and static IP configurations.</p>
+                
+                <div class="objectives">
+                    <h3>Learning Objectives</h3>
+                    <ul>
+                        <li>Configure ESP32 for DHCP and static IP</li>
+                        <li>Implement network diagnostics in embedded code</li>
+                        <li>Handle network connection failures gracefully</li>
+                        <li>Monitor and troubleshoot IoT device connectivity</li>
+                    </ul>
+                </div>
+
+                <div class="prerequisites">
+                    <h3>Prerequisites</h3>
+                    <ul>
+                        <li>ESP32 development board</li>
+                        <li>Arduino IDE or PlatformIO</li>
+                        <li>USB cable for programming</li>
+                        <li>Wi-Fi network access</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="exercises" class="section bg-light">
+            <div class="container">
+                <h2>Lab Exercises</h2>
+                <div class="exercise-grid">
+                    <div class="exercise-card">
+                        <h3>Exercise 1: DHCP Configuration</h3>
+                        <p>Configure ESP32 to obtain IP address automatically</p>
+                        <a href="lab2-esp32-config.html#exercise1" class="exercise-link">Start Exercise</a>
+                    </div>
+                    <div class="exercise-card">
+                        <h3>Exercise 2: Static IP Setup</h3>
+                        <p>Configure fixed IP address for reliable connectivity</p>
+                        <a href="lab2-esp32-config.html#exercise2" class="exercise-link">Start Exercise</a>
+                    </div>
+                    <div class="exercise-card">
+                        <h3>Exercise 3: Network Diagnostics</h3>
+                        <p>Implement connectivity testing and monitoring</p>
+                        <a href="lab2-esp32-config.html#exercise3" class="exercise-link">Start Exercise</a>
+                    </div>
+                </div>
+                
+                <div class="detailed-lab">
+                    <h3>Detailed Lab Instructions</h3>
+                    <p>For comprehensive ESP32 programming guide:</p>
+                    <a href="lab2-esp32-config.html" class="btn-primary">Access Detailed Lab Guide</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="resources" class="section">
+            <div class="container">
+                <h2>Lab Resources</h2>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <h3>ESP32 Libraries</h3>
+                        <p>Required libraries for network functionality</p>
+                        <div class="code-snippet">
+                            <pre><code>#include &lt;WiFi.h&gt;
+#include &lt;WiFiClient.h&gt;
+#include &lt;ESP32Ping.h&gt;</code></pre>
+                        </div>
+                    </div>
+                    <div class="resource-card">
+                        <h3>Network Configuration</h3>
+                        <p>Example network settings for your lab environment</p>
+                        <a href="../resources/network-config.html" class="resource-link">View Settings</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Dynamic Devices. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

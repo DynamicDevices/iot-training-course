@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Templates</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+    <main>
+        <section class="templates-header">
+            <div class="container">
+                <h1>Code Templates</h1>
+                <p>Starting templates for lab exercises</p>
+            </div>
+        </section>
+
+        <section class="templates-content">
+            <div class="container">
+                <div class="template-section">
+                    <h2>Basic ESP32 Wi-Fi Template</h2>
+                    <div class="code-block">
+                        <pre><code>#include &lt;WiFi.h&gt;
+
+// Network credentials
+const char* ssid = "YOUR_NETWORK_NAME";
+const char* password = "YOUR_PASSWORD";
+
+void setup() {
+    Serial.begin(115200);
+    
+    // Connect to Wi-Fi
+    connectToWiFi();
+    
+    // Your setup code here
+}
+
+void loop() {
+    // Check Wi-Fi connection
+    if (WiFi.status() != WL_CONNECTED) {
+        Serial.println("Wi-Fi disconnected, reconnecting...");
+        connectToWiFi();
+    }
+    
+    // Your main code here
+    delay(1000);
+}
+
+void connectToWiFi() {
+    WiFi.begin(ssid, password);
+    Serial.print("Connecting to Wi-Fi");
+    
+    while (WiFi.status() != WL_CONNECTED) {
+        delay(500);
+        Serial.print(".");
+    }
+    
+    Serial.println();
+    Serial.println("Wi-Fi connected!");
+    Serial.print("IP address: ");
+    Serial.println(WiFi.localIP());
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="template-section">
+                    <h2>TCP Server Template</h2>
+                    <div class="code-block">
+                        <pre><code>#include &lt;WiFi.h&gt;
+#include &lt;WiFiServer.h&gt;
+#include &lt;WiFiClient.h&gt;
+
+const char* ssid = "YOUR_NETWORK_NAME";
+const char* password = "YOUR_PASSWORD";
+
+WiFiServer server(80); // Port 80
+
+void setup() {
+    Serial.begin(115200);
+    
+    // Connect to Wi-Fi
+    connectToWiFi();
+    
+    // Start server
+    server.begin();
+    Serial.println("TCP Server started");
+}
+
+void loop() {
+    WiFiClient client = server.available();
+    
+    if (client) {
+        Serial.println("New client connected");
+        
+        while (client.connected()) {
+            if (client.available()) {
+                String request = client.readStringUntil('\n');
+                Serial.println("Received: " + request);
+                
+                // Process request and send response
+                String response = "Echo: " + request + "\n";
+                client.print(response);
+            }
+        }
+        
+        client.stop();
+        Serial.println("Client disconnected");
+    }
+}
+
+// Include connectToWiFi() function from basic template</code></pre>
+                    </div>
+                </div>
+
+                <div class="template-section">
+                    <h2>TCP Client Template</h2>
+                    <div class="code-block">
+                        <pre><code>#include &lt;WiFi.h&gt;
+#include &lt;WiFiClient.h&gt;
+
+const char* ssid = "YOUR_NETWORK_NAME";
+const char* password = "YOUR_PASSWORD";
+const char* serverIP = "192.168.1.100"; // Server IP
+const int serverPort = 80;
+
+WiFiClient client;
+
+void setup() {
+    Serial.begin(115200);
+    
+    // Connect to Wi-Fi
+    connectToWiFi();
+}
+
+void loop() {
+    if (!client.connected()) {
+        Serial.println("Connecting to server...");
+        if (client.connect(serverIP, serverPort)) {
+            Serial.println("Connected to server");
+        } else {
+            Serial.println("Connection failed");
+            delay(5000);
+            return;
+        }
+    }
+    
+    // Send data
+    String message = "Hello from client";
+    client.println(message);
+    Serial.println("Sent: " + message);
+    
+    // Read response
+    if (client.available()) {
+        String response = client.readStringUntil('\n');
+        Serial.println("Received: " + response);
+    }
+    
+    delay(2000);
+}
+
+// Include connectToWiFi() function from basic template</code></pre>
+                    </div>
+                </div>
+
+                <div class="template-section">
+                    <h2>UDP Server Template</h2>
+                    <div class="code-block">
+                        <pre><code>#include &lt;WiFi.h&gt;
+#include &lt;WiFiUdp.h&gt;
+
+const char* ssid = "YOUR_NETWORK_NAME";
+const char* password = "YOUR_PASSWORD";
+
+WiFiUDP udp;
+const int udpPort = 1234;
+char packetBuffer[255];
+
+void setup() {
+    Serial.begin(115200);
+    
+    // Connect to Wi-Fi
+    connectToWiFi();
+    
+    // Start UDP
+    udp.begin(udpPort);
+    Serial.println("UDP Server started on port " + String(udpPort));
+}
+
+void loop() {
+    int packetSize = udp.parsePacket();
+    
+    if (packetSize) {
+        Serial.print("Received packet from ");
+        Serial.print(udp.remoteIP());
+        Serial.print(":");
+        Serial.println(udp.remotePort());
+        
+        // Read packet
+        int len = udp.read(packetBuffer, 255);
+        if (len > 0) {
+            packetBuffer[len] = 0;
+        }
+        Serial.println("Contents: " + String(packetBuffer));
+        
+        // Send response
+        udp.beginPacket(udp.remoteIP(), udp.remotePort());
+        udp.print("Echo: " + String(packetBuffer));
+        udp.endPacket();
+    }
+}
+
+// Include connectToWiFi() function from basic template</code></pre>
+                    </div>
+                </div>
+
+                <div class="template-section">
+                    <h2>UDP Client Template</h2>
+                    <div class="code-block">
+                        <pre><code>#include &lt;WiFi.h&gt;
+#include &lt;WiFiUdp.h&gt;
+
+const char* ssid = "YOUR_NETWORK_NAME";
+const char* password = "YOUR_PASSWORD";
+const char* serverIP = "192.168.1.100";
+const int serverPort = 1234;
+
+WiFiUDP udp;
+char replyBuffer[255];
+
+void setup() {
+    Serial.begin(115200);
+    
+    // Connect to Wi-Fi
+    connectToWiFi();
+    
+    udp.begin(2390); // Local port
+}
+
+void loop() {
+    // Send UDP packet
+    String message = "Hello from UDP client";
+    
+    udp.beginPacket(serverIP, serverPort);
+    udp.print(message);
+    udp.endPacket();
+    
+    Serial.println("Sent: " + message);
+    
+    // Wait for response
+    unsigned long startTime = millis();
+    while (millis() - startTime < 1000) {
+        int packetSize = udp.parsePacket();
+        if (packetSize) {
+            int len = udp.read(replyBuffer, 255);
+            if (len > 0) {
+                replyBuffer[len] = 0;
+            }
+            Serial.println("Received: " + String(replyBuffer));
+            break;
+        }
+        delay(10);
+    }
+    
+    delay(2000);
+}
+
+// Include connectToWiFi() function from basic template</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Command Reference</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+    <main>
+        <section class="reference-header">
+            <div class="container">
+                <h1>Network Command Reference</h1>
+                <p>Essential commands for network troubleshooting and analysis</p>
+            </div>
+        </section>
+
+        <section class="reference-content">
+            <div class="container">
+                <div class="command-section">
+                    <h2>Network Configuration</h2>
+                    <div class="command-grid">
+                        <div class="command-card">
+                            <h3>View Network Interfaces</h3>
+                            <div class="code-block">
+                                <h4>Windows:</h4>
+                                <pre><code>ipconfig /all
+netsh interface show interface</code></pre>
+                                <h4>Linux:</h4>
+                                <pre><code>ifconfig -a
+ip addr show
+ip link show</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="command-card">
+                            <h3>DHCP Operations</h3>
+                            <div class="code-block">
+                                <h4>Windows:</h4>
+                                <pre><code>ipconfig /release
+ipconfig /renew
+ipconfig /displaydns
+ipconfig /flushdns</code></pre>
+                                <h4>Linux:</h4>
+                                <pre><code>sudo dhclient -r
+sudo dhclient
+sudo systemctl restart networking</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="command-section">
+                    <h2>Network Testing</h2>
+                    <div class="command-grid">
+                        <div class="command-card">
+                            <h3>Connectivity Testing</h3>
+                            <div class="code-block">
+                                <pre><code># Basic ping
+ping 8.8.8.8
+ping -c 4 google.com
+
+# Continuous ping
+ping -t 192.168.1.1
+
+# Ping with specific packet size
+ping -s 1472 8.8.8.8</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="command-card">
+                            <h3>Route Tracing</h3>
+                            <div class="code-block">
+                                <h4>Windows:</h4>
+                                <pre><code>tracert google.com
+pathping google.com</code></pre>
+                                <h4>Linux:</h4>
+                                <pre><code>traceroute google.com
+mtr google.com</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="command-section">
+                    <h2>DNS Operations</h2>
+                    <div class="command-grid">
+                        <div class="command-card">
+                            <h3>DNS Lookup</h3>
+                            <div class="code-block">
+                                <pre><code># Basic lookup
+nslookup google.com
+dig google.com
+
+# Specific record types
+dig google.com MX
+dig google.com TXT
+dig google.com AAAA
+
+# Reverse lookup
+dig -x 8.8.8.8</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="command-card">
+                            <h3>Advanced DNS</h3>
+                            <div class="code-block">
+                                <pre><code># Query specific DNS server
+dig @8.8.8.8 google.com
+
+# Trace DNS resolution
+dig +trace google.com
+
+# Short output format
+dig +short google.com</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="command-section">
+                    <h2>Port and Service Analysis</h2>
+                    <div class="command-grid">
+                        <div class="command-card">
+                            <h3>Port Scanning</h3>
+                            <div class="code-block">
+                                <pre><code># Basic port scan
+nmap 192.168.1.1
+
+# Scan specific ports
+nmap -p 80,443,22 192.168.1.1
+
+# Service detection
+nmap -sV 192.168.1.1
+
+# Network discovery
+nmap -sn 192.168.1.0/24</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="command-card">
+                            <h3>Active Connections</h3>
+                            <div class="code-block">
+                                <h4>Windows:</h4>
+                                <pre><code>netstat -an
+netstat -b
+netstat -r</code></pre>
+                                <h4>Linux:</h4>
+                                <pre><code>netstat -tulpn
+ss -tulpn
+lsof -i</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="command-section">
+                    <h2>ARP Operations</h2>
+                    <div class="command-grid">
+                        <div class="command-card">
+                            <h3>ARP Table Management</h3>
+                            <div class="code-block">
+                                <pre><code># View ARP table
+arp -a
+
+# Clear ARP cache
+arp -d *  # Windows
+sudo ip neigh flush all  # Linux
+
+# Add static ARP entry
+arp -s 192.168.1.100 00:11:22:33:44:55</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="troubleshooting-section">
+                    <h2>Common Troubleshooting Scenarios</h2>
+                    <div class="scenario-grid">
+                        <div class="scenario-card">
+                            <h3>No Internet Connectivity</h3>
+                            <ol>
+                                <li>Check physical connection: <code>ip link show</code></li>
+                                <li>Verify IP configuration: <code>ip addr show</code></li>
+                                <li>Test local gateway: <code>ping [gateway-ip]</code></li>
+                                <li>Test DNS resolution: <code>nslookup google.com</code></li>
+                                <li>Test external connectivity: <code>ping 8.8.8.8</code></li>
+                            </ol>
+                        </div>
+
+                        <div class="scenario-card">
+                            <h3>Slow Network Performance</h3>
+                            <ol>
+                                <li>Check interface statistics: <code>ip -s link show</code></li>
+                                <li>Test bandwidth: <code>iperf3 -c server-ip</code></li>
+                                <li>Analyze packet loss: <code>ping -c 100 target</code></li>
+                                <li>Check route path: <code>traceroute target</code></li>
+                                <li>Monitor with: <code>iftop</code> or <code>nethogs</code></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

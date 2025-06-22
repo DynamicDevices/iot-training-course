@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Configuration Examples</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+    <main>
+        <section class="config-header">
+            <div class="container">
+                <h1>Network Configuration Examples</h1>
+                <p>Common network settings for IoT lab environments</p>
+            </div>
+        </section>
+
+        <section class="config-content">
+            <div class="container">
+                <div class="config-section">
+                    <h2>Typical Home/Lab Network Settings</h2>
+                    <div class="config-table">
+                        <table>
+                            <tr><th>Parameter</th><th>Typical Value</th><th>Description</th></tr>
+                            <tr><td>Network Range</td><td>192.168.1.0/24</td><td>Private network subnet</td></tr>
+                            <tr><td>Gateway</td><td>192.168.1.1</td><td>Router IP address</td></tr>
+                            <tr><td>DHCP Range</td><td>192.168.1.100-200</td><td>Automatic IP assignment</td></tr>
+                            <tr><td>Static Range</td><td>192.168.1.50-99</td><td>Manual device configuration</td></tr>
+                            <tr><td>Primary DNS</td><td>8.8.8.8</td><td>Google DNS</td></tr>
+                            <tr><td>Secondary DNS</td><td>8.8.4.4</td><td>Google DNS backup</td></tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <h2>ESP32 Configuration Examples</h2>
+                    
+                    <h3>Static IP Configuration</h3>
+                    <div class="code-block">
+                        <pre><code>// Network settings for ESP32
+IPAddress local_IP(192, 168, 1, 100);    // Device IP
+IPAddress gateway(192, 168, 1, 1);       // Router IP
+IPAddress subnet(255, 255, 255, 0);      // Subnet mask
+IPAddress primaryDNS(8, 8, 8, 8);        // Primary DNS
+IPAddress secondaryDNS(8, 8, 4, 4);      // Secondary DNS</code></pre>
+                    </div>
+
+                    <h3>Alternative Network Ranges</h3>
+                    <div class="config-alternatives">
+                        <h4>Corporate/Enterprise Networks:</h4>
+                        <ul>
+                            <li>10.0.0.0/8 (10.0.0.1 - 10.255.255.254)</li>
+                            <li>172.16.0.0/12 (172.16.0.1 - 172.31.255.254)</li>
+                        </ul>
+                        
+                        <h4>Common Router Defaults:</h4>
+                        <ul>
+                            <li>Linksys: 192.168.1.1</li>
+                            <li>Netgear: 192.168.1.1 or 192.168.0.1</li>
+                            <li>TP-Link: 192.168.0.1</li>
+                            <li>ASUS: 192.168.1.1</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <h2>Port Assignments for Labs</h2>
+                    <div class="port-table">
+                        <table>
+                            <tr><th>Service</th><th>Port</th><th>Protocol</th><th>Lab Usage</th></tr>
+                            <tr><td>HTTP Server</td><td>80</td><td>TCP</td><td>Web interface, REST API</td></tr>
+                            <tr><td>Custom TCP</td><td>8080</td><td>TCP</td><td>TCP client-server lab</td></tr>
+                            <tr><td>Custom UDP</td><td>1234</td><td>UDP</td><td>UDP client-server lab</td></tr>
+                            <tr><td>MQTT</td><td>1883</td><td>TCP</td><td>IoT messaging (optional)</td></tr>
+                            <tr><td>Telnet</td><td>23</td><td>TCP</td><td>Remote debugging</td></tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <h2>Wi-Fi Security Settings</h2>
+                    <div class="security-settings">
+                        <h3>Recommended Settings:</h3>
+                        <ul>
+                            <li><strong>Security:</strong> WPA2-PSK or WPA3-PSK</li>
+                            <li><strong>Encryption:</strong> AES</li>
+                            <li><strong>Channel:</strong> 1, 6, or 11 (2.4GHz)</li>
+                            <li><strong>Channel Width:</strong> 20MHz for IoT devices</li>
+                        </ul>
+                        
+                        <h3>Avoid These Settings:</h3>
+                        <ul>
+                            <li>WEP encryption (deprecated)</li>
+                            <li>Open networks (no security)</li>
+                            <li>Hidden SSID (causes connection issues)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

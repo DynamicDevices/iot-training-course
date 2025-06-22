@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Troubleshooting Guide</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+    <main>
+        <section class="troubleshooting-header">
+            <div class="container">
+                <h1>Network Troubleshooting Guide</h1>
+                <p>Systematic approach to diagnosing and resolving network issues</p>
+            </div>
+        </section>
+
+        <section class="troubleshooting-content">
+            <div class="container">
+                <div class="methodology-section">
+                    <h2>Troubleshooting Methodology</h2>
+                    <div class="methodology-steps">
+                        <div class="step">
+                            <h3>1. Define the Problem</h3>
+                            <ul>
+                                <li>What exactly is not working?</li>
+                                <li>When did the problem start?</li>
+                                <li>What changed recently?</li>
+                                <li>Is it affecting one device or multiple?</li>
+                            </ul>
+                        </div>
+
+                        <div class="step">
+                            <h3>2. Gather Information</h3>
+                            <ul>
+                                <li>Network topology and configuration</li>
+                                <li>Error messages and logs</li>
+                                <li>Current network status</li>
+                                <li>Recent changes or updates</li>
+                            </ul>
+                        </div>
+
+                        <div class="step">
+                            <h3>3. Follow OSI Model</h3>
+                            <p>Work systematically through the layers:</p>
+                            <ol>
+                                <li><strong>Physical:</strong> Cables, power, LEDs</li>
+                                <li><strong>Data Link:</strong> Switch ports, MAC addresses</li>
+                                <li><strong>Network:</strong> IP configuration, routing</li>
+                                <li><strong>Transport:</strong> TCP/UDP connectivity</li>
+                                <li><strong>Application:</strong> Service-specific issues</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="common-issues-section">
+                    <h2>Common IoT Network Issues</h2>
+                    
+                    <div class="issue-card">
+                        <h3>Device Cannot Obtain IP Address</h3>
+                        <div class="symptoms">
+                            <h4>Symptoms:</h4>
+                            <ul>
+                                <li>Device shows "connecting" but never gets IP</li>
+                                <li>DHCP timeout errors</li>
+                                <li>IP address shows as 0.0.0.0 or 169.254.x.x</li>
+                            </ul>
+                        </div>
+                        <div class="diagnosis">
+                            <h4>Diagnosis Steps:</h4>
+                            <ol>
+                                <li>Check DHCP server status and available addresses</li>
+                                <li>Verify network credentials (Wi-Fi password)</li>
+                                <li>Check MAC address filtering</li>
+                                <li>Test with static IP configuration</li>
+                                <li>Analyze DHCP traffic with Wireshark</li>
+                            </ol>
+                        </div>
+                        <div class="solutions">
+                            <h4>Common Solutions:</h4>
+                            <ul>
+                                <li>Restart DHCP server or expand address pool</li>
+                                <li>Add device MAC to allowed list</li>
+                                <li>Configure static IP as temporary workaround</li>
+                                <li>Check for duplicate DHCP servers on network</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="issue-card">
+                        <h3>Intermittent Connectivity</h3>
+                        <div class="symptoms">
+                            <h4>Symptoms:</h4>
+                            <ul>
+                                <li>Connection drops randomly</li>
+                                <li>High packet loss</li>
+                                <li>Timeouts during data transfer</li>
+                            </ul>
+                        </div>
+                        <div class="diagnosis">
+                            <h4>Diagnosis Steps:</h4>
+                            <ol>
+                                <li>Monitor signal strength (Wi-Fi)</li>
+                                <li>Check for interference sources</li>
+                                <li>Analyze packet loss patterns</li>
+                                <li>Test with different network channels</li>
+                                <li>Monitor power supply stability</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="issue-card">
+                        <h3>DNS Resolution Failures</h3>
+                        <div class="symptoms">
+                            <h4>Symptoms:</h4>
+                            <ul>
+                                <li>Can ping IP addresses but not domain names</li>
+                                <li>"Host not found" errors</li>
+                                <li>Web services fail to connect</li>
+                            </ul>
+                        </div>
+                        <div class="diagnosis">
+                            <h4>Diagnosis Steps:</h4>
+                            <ol>
+                                <li>Test DNS servers: <code>nslookup google.com 8.8.8.8</code></li>
+                                <li>Check DNS configuration on device</li>
+                                <li>Try alternative DNS servers</li>
+                                <li>Verify firewall rules for DNS traffic</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tools-section">
+                    <h2>Essential Troubleshooting Tools</h2>
+                    <div class="tools-grid">
+                        <div class="tool-card">
+                            <h3>Wireshark</h3>
+                            <p><strong>Use for:</strong> Protocol analysis, packet capture, traffic patterns</p>
+                            <div class="tool-tips">
+                                <h4>Key Filters:</h4>
+                                <ul>
+                                    <li><code>dhcp</code> - DHCP traffic</li>
+                                    <li><code>arp</code> - ARP requests/replies</li>
+                                    <li><code>icmp</code> - Ping and error messages</li>
+                                    <li><code>tcp.flags.syn==1</code> - Connection attempts</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="tool-card">
+                            <h3>nmap</h3>
+                            <p><strong>Use for:</strong> Network discovery, port scanning, service detection</p>
+                            <div class="tool-tips">
+                                <h4>Common Commands:</h4>
+                                <ul>
+                                    <li><code>nmap -sn 192.168.1.0/24</code> - Host discovery</li>
+                                    <li><code>nmap -p- target</code> - Full port scan</li>
+                                    <li><code>nmap -sV target</code> - Service versions</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="tool-card">
+                            <h3>iperf3</h3>
+                            <p><strong>Use for:</strong> Bandwidth testing, network performance</p>
+                            <div class="tool-tips">
+                                <h4>Basic Usage:</h4>
+                                <ul>
+                                    <li>Server: <code>iperf3 -s</code></li>
+                                    <li>Client: <code>iperf3 -c server-ip</code></li>
+                                    <li>UDP test: <code>iperf3 -c server-ip -u</code></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="checklist-section">
+                    <h2>Pre-Deployment Checklist</h2>
+                    <div class="checklist">
+                        <h3>Network Configuration</h3>
+                        <ul class="checklist-items">
+                            <li>□ DHCP reservation configured for critical devices</li>
+                            <li>□ Static IP addresses documented</li>
+                            <li>□ DNS servers configured with fallbacks</li>
+                            <li>□ NTP servers accessible for time synchronization</li>
+                            <li>□ Firewall rules tested and documented</li>
+                        </ul>
+
+                        <h3>Device Configuration</h3>
+                        <ul class="checklist-items">
+                            <li>□ Network credentials securely stored</li>
+                            <li>□ Connection timeout values appropriate</li>
+                            <li>□ Retry mechanisms implemented</li>
+                            <li>□ Error handling and logging enabled</li>
+                            <li>□ Over-the-air update mechanism tested</li>
+                        </ul>
+
+                        <h3>Monitoring and Maintenance</h3>
+                        <ul class="checklist-items">
+                            <li>□ Network monitoring tools deployed</li>
+                            <li>□ Alert thresholds configured</li>
+                            <li>□ Backup connectivity options available</li>
+                            <li>□ Remote access methods established</li>
+                            <li>□ Documentation and runbooks created</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

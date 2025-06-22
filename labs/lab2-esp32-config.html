@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 2: ESP32 Network Configuration</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+    <main>
+        <section class="lab-header">
+            <div class="container">
+                <h1>Lab 2: ESP32 Network Configuration</h1>
+                <div class="lab-meta">
+                    <span class="duration">Duration: 2 hours</span>
+                    <span class="difficulty">Difficulty: Intermediate</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="lab-content">
+            <div class="container">
+                <div class="lab-section" id="exercise1">
+                    <h2>Exercise 1: DHCP Configuration</h2>
+                    <div class="code-block">
+                        <h4>Arduino Code - DHCP Client:</h4>
+                        <pre><code>#include &lt;WiFi.h&gt;
+
+const char* ssid = "your-network-name";
+const char* password = "your-password";
+
+void setup() {
+    Serial.begin(115200);
+    
+    // Start WiFi connection
+    WiFi.begin(ssid, password);
+    
+    Serial.print("Connecting to WiFi");
+    while (WiFi.status() != WL_CONNECTED) {
+        delay(500);
+        Serial.print(".");
+    }
+    
+    Serial.println();
+    Serial.println("WiFi connected!");
+    
+    // Print network configuration
+    printNetworkInfo();
+}
+
+void printNetworkInfo() {
+    Serial.println("=== Network Configuration ===");
+    Serial.print("IP Address: ");
+    Serial.println(WiFi.localIP());
+    Serial.print("Subnet Mask: ");
+    Serial.println(WiFi.subnetMask());
+    Serial.print("Gateway: ");
+    Serial.println(WiFi.gatewayIP());
+    Serial.print("DNS Server: ");
+    Serial.println(WiFi.dnsIP());
+    Serial.print("MAC Address: ");
+    Serial.println(WiFi.macAddress());
+    Serial.println("=============================");
+}
+
+void loop() {
+    // Monitor connection status
+    if (WiFi.status() != WL_CONNECTED) {
+        Serial.println("WiFi connection lost!");
+        WiFi.reconnect();
+    }
+    delay(10000);
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="lab-section" id="exercise2">
+                    <h2>Exercise 2: Static IP Configuration</h2>
+                    <div class="code-block">
+                        <h4>Arduino Code - Static IP:</h4>
+                        <pre><code>#include &lt;WiFi.h&gt;
+
+const char* ssid = "your-network-name";
+const char* password = "your-password";
+
+// Static IP configuration
+IPAddress local_IP(192, 168, 1, 100);
+IPAddress gateway(192, 168, 1, 1);
+IPAddress subnet(255, 255, 255, 0);
+IPAddress primaryDNS(8, 8, 8, 8);
+IPAddress secondaryDNS(8, 8, 4, 4);
+
+void setup() {
+    Serial.begin(115200);
+    
+    // Configure static IP
+    if (!WiFi.config(local_IP, gateway, subnet, primaryDNS, secondaryDNS)) {
+        Serial.println("Static IP configuration failed!");
+    }
+    
+    // Start WiFi connection
+    WiFi.begin(ssid, password);
+    
+    Serial.print("Connecting to WiFi with static IP");
+    while (WiFi.status() != WL_CONNECTED) {
+        delay(500);
+        Serial.print(".");
+    }
+    
+    Serial.println();
+    Serial.println("WiFi connected with static IP!");
+    printNetworkInfo();
+}
+
+void printNetworkInfo() {
+    Serial.println("=== Static Network Configuration ===");
+    Serial.print("IP Address: ");
+    Serial.println(WiFi.localIP());
+    Serial.print("Subnet Mask: ");
+    Serial.println(WiFi.subnetMask());
+    Serial.print("Gateway: ");
+    Serial.println(WiFi.gatewayIP());
+    Serial.print("Primary DNS: ");
+    Serial.println(WiFi.dnsIP(0));
+    Serial.print("Secondary DNS: ");
+    Serial.println(WiFi.dnsIP(1));
+    Serial.println("===================================");
+}
+
+void loop() {
+    delay(10000);
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="lab-section" id="exercise3">
+                    <h2>Exercise 3: Network Diagnostics</h2>
+                    <div class="code-block">
+                        <h4>Arduino Code - Network Testing:</h4>
+                        <pre><code>#include &lt;WiFi.h&gt;
+#include &lt;WiFiClient.h&gt;
+
+void setup() {
+    Serial.begin(115200);
+    
+    // Connect to WiFi (use previous connection code)
+    connectToWiFi();
+    
+    // Run network diagnostics
+    runNetworkDiagnostics();
+}
+
+void connectToWiFi() {
+    const char* ssid = "your-network-name";
+    const char* password = "your-password";
+    
+    WiFi.begin(ssid, password);
+    while (WiFi.status() != WL_CONNECTED) {
+        delay(1000);
+        Serial.println("Connecting to WiFi...");
+    }
+    Serial.println("WiFi connected!");
+}
+
+void runNetworkDiagnostics() {
+    Serial.println("\n=== Network Diagnostics ===");
+    
+    // Test gateway connectivity
+    IPAddress gateway = WiFi.gatewayIP();
+    Serial.print("Gateway IP: ");
+    Serial.println(gateway);
+    
+    // Test DNS resolution
+    IPAddress resolved;
+    if (WiFi.hostByName("google.com", resolved)) {
+        Serial.print("DNS Resolution SUCCESS - google.com: ");
+        Serial.println(resolved);
+    } else {
+        Serial.println("DNS Resolution FAILED");
+    }
+    
+    // Test HTTP connectivity
+    WiFiClient client;
+    if (client.connect("httpbin.org", 80)) {
+        Serial.println("HTTP Connection SUCCESS");
+        client.println("GET /ip HTTP/1.1");
+        client.println("Host: httpbin.org");
+        client.println("Connection: close");
+        client.println();
+        
+        // Read response
+        while (client.connected() && !client.available()) delay(1);
+        while (client.available()) {
+            String line = client.readStringUntil('\n');
+            if (line.indexOf("origin") > 0) {
+                Serial.println("Public IP: " + line);
+                break;
+            }
+        }
+        client.stop();
+    } else {
+        Serial.println("HTTP Connection FAILED");
+    }
+    
+    Serial.println("========================\n");
+}
+
+void loop() {
+    // Run diagnostics every 30 seconds
+    runNetworkDiagnostics();
+    delay(30000);
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="lab-questions">
+                    <h2>Lab Questions</h2>
+                    <ol>
+                        <li>What are the advantages and disadvantages of DHCP vs static IP for IoT devices?</li>
+                        <li>How would you handle IP address conflicts in a large IoT deployment?</li>
+                        <li>What happens to network connectivity when DNS servers are unreachable?</li>
+                        <li>How can you implement automatic fallback from static to DHCP configuration?</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 3: Protocol Implementation - Dynamic Devices IoT Training</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1><a href="../index.html">Dynamic Devices</a></h1>
+                    <span>Lab 3: Protocol Implementation</span>
+                </div>
+                <nav class="nav">
+                    <a href="#overview">Overview</a>
+                    <a href="#exercises">Exercises</a>
+                    <a href="#resources">Resources</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Lab 3: Protocol Implementation</h1>
+                <p class="hero-subtitle">Compare TCP and UDP protocols in IoT applications</p>
+            </div>
+        </section>
+
+        <section id="overview" class="section">
+            <div class="container">
+                <h2>Lab Overview</h2>
+                <div class="lab-meta">
+                    <span class="duration">Duration: 3 hours</span>
+                    <span class="difficulty">Difficulty: Advanced</span>
+                </div>
+                <p>Implement and compare TCP and UDP communication protocols for IoT applications, understanding when to use each protocol.</p>
+                
+                <div class="objectives">
+                    <h3>Learning Objectives</h3>
+                    <ul>
+                        <li>Implement TCP client/server communication</li>
+                        <li>Implement UDP client/server communication</li>
+                        <li>Compare reliability vs performance characteristics</li>
+                        <li>Handle connection management and error recovery</li>
+                        <li>Optimize protocols for IoT constraints</li>
+                    </ul>
+                </div>
+
+                <div class="prerequisites">
+                    <h3>Prerequisites</h3>
+                    <ul>
+                        <li>Two ESP32 development boards (or ESP32 + computer)</li>
+                        <li>Completed Lab 2 (Network Configuration)</li>
+                        <li>Understanding of socket programming concepts</li>
+                        <li>Network analyzer tool (Wireshark)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="exercises" class="section bg-light">
+            <div class="container">
+                <h2>Lab Exercises</h2>
+                <div class="exercise-grid">
+                    <div class="exercise-card">
+                        <h3>Exercise 1: TCP Implementation</h3>
+                        <p>Build reliable TCP client-server communication</p>
+                        <a href="lab3-protocols.html#tcp-implementation" class="exercise-link">Start Exercise</a>
+                    </div>
+                    <div class="exercise-card">
+                        <h3>Exercise 2: UDP Implementation</h3>
+                        <p>Implement fast UDP communication for sensor data</p>
+                        <a href="lab3-protocols.html#udp-implementation" class="exercise-link">Start Exercise</a>
+                    </div>
+                    <div class="exercise-card">
+                        <h3>Exercise 3: Protocol Comparison</h3>
+                        <p>Analyze performance and reliability differences</p>
+                        <a href="lab3-protocols.html#protocol-comparison" class="exercise-link">Start Exercise</a>
+                    </div>
+                </div>
+                
+                <div class="detailed-lab">
+                    <h3>Detailed Lab Instructions</h3>
+                    <p>For comprehensive protocol implementation guide:</p>
+                    <a href="lab3-protocols.html" class="btn-primary">Access Detailed Lab Guide</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="resources" class="section">
+            <div class="container">
+                <h2>Lab Resources</h2>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <h3>Protocol Reference</h3>
+                        <p>TCP vs UDP characteristics and use cases</p>
+                        <div class="comparison-table">
+                            <table>
+                                <tr><th>Feature</th><th>TCP</th><th>UDP</th></tr>
+                                <tr><td>Reliability</td><td>Guaranteed delivery</td><td>Best effort</td></tr>
+                                <tr><td>Speed</td><td>Slower</td><td>Faster</td></tr>
+                                <tr><td>Overhead</td><td>Higher</td><td>Lower</td></tr>
+                                <tr><td>Use Case</td><td>Critical data</td><td>Real-time data</td></tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="resource-card">
+                        <h3>Code Templates</h3>
+                        <p>Starting code templates for both protocols</p>
+                        <a href="../resources/code-templates.html" class="resource-link">Download Templates</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Dynamic Devices. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
