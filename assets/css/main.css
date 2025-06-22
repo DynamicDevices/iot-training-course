@@ -240,7 +240,7 @@ pre code {
    CARDS AND GRIDS
    ========================================================================== */
 
-.sessions-grid {
+   .sessions-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: var(--space-xl);
@@ -253,6 +253,9 @@ pre code {
     box-shadow: var(--shadow-md);
     border: 1px solid var(--gray-200);
     transition: all var(--transition-fast);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .session-card:hover {
@@ -281,6 +284,7 @@ pre code {
     list-style: none;
     padding: 0;
     margin-bottom: var(--space-lg);
+    flex-grow: 1;
 }
 
 .session-card li {
@@ -313,6 +317,8 @@ pre code {
     text-decoration: none;
     font-weight: 600;
     transition: all var(--transition-fast);
+    margin-top: auto;
+    align-self: flex-start;
 }
 
 .session-link:hover {
@@ -909,3 +915,4 @@ pre code {
         opacity: 1;
     }
 }
+
