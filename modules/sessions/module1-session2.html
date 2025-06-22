@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 2: Essential Command Line Tools - Module 1</title>
+    <link rel="stylesheet" href="../../assets/css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1><a href="../../index.html">Dynamic Devices</a></h1>
+                    <span>Module 1 - Session 2: Command Line Tools</span>
+                </div>
+                <nav class="nav">
+                    <a href="../../index.html">Home</a>
+                    <a href="../module1.html">Module 1</a>
+                    <a href="../../index.html#labs">Labs</a>
+                    <a href="../../tools/network-calculator.html">Tools</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="module-overview">
+            <div class="container">
+                <h1>Session 2: Essential Command Line Tools</h1>
+                <p>Master the core command-line utilities needed for file manipulation, text processing, and system navigation essential for IoT development.</p>
+                
+                <div class="module-meta">
+                    <div class="meta-item">
+                        <strong>Duration</strong>
+                        2 hours
+                    </div>
+                    <div class="meta-item">
+                        <strong>Module</strong>
+                        Linux Basics
+                    </div>
+                    <div class="meta-item">
+                        <strong>Session</strong>
+                        2 of 4
+                    </div>
+                    <div class="meta-item">
+                        <strong>Difficulty</strong>
+                        Beginner
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="learning-objectives">
+                    <h2>Session Learning Objectives</h2>
+                    <p>By the end of this session, you will be able to:</p>
+                    <div class="objectives-grid">
+                        <div class="objective-item">
+                            <h4>Master File Operations</h4>
+                            <p>Use essential commands like ls, cp, mv, rm, mkdir, and rmdir for file and directory management.</p>
+                        </div>
+                        <div class="objective-item">
+                            <h4>Process Text Efficiently</h4>
+                            <p>Utilize text processing tools like cat, less, head, tail, and grep for viewing and searching content.</p>
+                        </div>
+                        <div class="objective-item">
+                            <h4>Search and Locate Files</h4>
+                            <p>Find files and programs using find, locate, which, and whereis commands effectively.</p>
+                        </div>
+                        <div class="objective-item">
+                            <h4>Handle Archives</h4>
+                            <p>Create and extract compressed archives using tar, gzip, and zip for file management.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section bg-light">
+            <div class="container">
+                <h2>1. File Operations</h2>
+                
+                <div class="calculator-section">
+                    <h3>Listing Files and Directories (ls)</h3>
+                    <p>The <code>ls</code> command is fundamental for viewing directory contents. Understanding its options is crucial for effective file management.</p>
+                    
+                    <div class="code-block">
+                        <pre><code># Basic listing
+ls                          # List files in current directory
+ls /home/user              # List files in specific directory
+ls -l                      # Long format (detailed information)
+ls -la                     # Long format including hidden files
+ls -lh                     # Human-readable file sizes
+ls -lt                     # Sort by modification time
+ls -lS                     # Sort by file size
+ls -lr                     # Reverse order
+ls -R                      # Recursive listing (subdirectories)
+
+# Useful combinations for IoT development
+ls -la /dev/tty*           # List serial devices
+ls -lh /var/log/           # Check log file sizes
+ls -lt /etc/systemd/       # Recent system service changes</code></pre>
+                    </div>
+
+                    <h4>Understanding ls -l Output</h4>
+                    <div class="code-block">
+                        <pre><code># Example output: drwxr-xr-x 2 user group 4096 Jan 15 10:30 documents
+# d          rwx    r-x    r-x  2    user  group  4096      Jan 15 10:30  documents
+# |          |      |      |    |    |     |      |         |             |
+# File type  Owner  Group  Other Links User Group Size      Date          Name
+#
+# File types:
+# d = directory
+# - = regular file  
+# l = symbolic link
+# b = block device
+# c = character device</code></pre>
+                    </div>
+                </div>
+
+                <div class="calculator-section">
+                    <h3>Creating and Removing Directories</h3>
+                    <p>Directory management is essential for organizing IoT projects and system files.</p>
+                    
+                    <div class="code-block">
+                        <pre><code># Create directories
+mkdir project                    # Create single directory
+mkdir -p project/src/sensors    # Create nested directories
+mkdir dir1 dir2 dir3            # Create multiple directories
+mkdir -m 755 public_dir         # Create with specific permissions
+
+# Remove directories
+rmdir empty_directory           # Remove empty directory only
+rm -r directory_with_files      # Remove directory and contents
+rm -rf dangerous_removal        # Force remove (be careful!)
+
+# IoT project structure example
+mkdir -p iot_project/{src,docs,tests,config}
+mkdir -p iot_project/src/{sensors,networking,data}
+ls -la iot_project/</code></pre>
+                    </div>
+                </div>
+
+                <div class="calculator-section">
+                    <h3>Copying and Moving Files</h3>
+                    <p>File manipulation commands for managing code, configurations, and data files.</p>
+                    
+                    <div class="code-block">
+                        <pre><code># Copying files
+cp file.txt backup.txt          # Copy file
+cp file.txt /backup/            # Copy to directory
+cp -r project/ project_backup/  # Copy directory recursively
+cp -p file.txt backup.txt       # Preserve permissions and timestamps
+cp *.txt /backup/               # Copy all .txt files
+cp -u source.txt dest.txt       # Copy only if source is newer
+
+# Moving/renaming files
+mv old_name.txt new_name.txt    # Rename file
+mv file.txt /new/location/      # Move file
+mv *.log /var/log/              # Move all log files
+mv project/ /opt/               # Move directory
+
+# IoT configuration examples
+cp /etc/network/interfaces /etc/network/interfaces.backup
+mv sensor_config.json /etc/iot/
+cp -r firmware_v1/ firmware_v2/</code></pre>
+                    </div>
+                </div>
+
+                <div class="calculator-section">
+                    <h3>Removing Files</h3>
+                    <p>Safe file deletion practices for system maintenance and cleanup.</p>
+                    
+                    <div class="code-block">
+                        <pre><code># Remove files
+rm file.txt                     # Remove single file
+rm file1.txt file2.txt         # Remove multiple files
+rm *.tmp                       # Remove all .tmp files
+rm -i important.txt            # Interactive removal (asks confirmation)
+rm -f stubborn_file.txt        # Force removal
+rm -rf directory/              # Remove directory and contents (dangerous!)
+
+# Safe practices
+ls -la *.log                   # List files before removing
+rm -i *.log                    # Use interactive mode for important files
+find /tmp -name "*.tmp" -delete # Find and remove specific files
+
+# IoT cleanup examples
+rm /var/log/sensor_data_*.old
+rm -f /tmp/iot_temp_*
+find /var/cache/iot -type f -mtime +7 -delete</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2>2. Text Processing Tools</h2>
+                
+                <div class="calculator-section">
+                    <h3>Viewing File Contents</h3>
+                    <p>Essential tools for examining configuration files, logs, and code in IoT systems.</p>
+                    
+                    <div class="code-block">
+                        <pre><code># Display entire file
+cat file.txt                   # Show complete file content
+cat file1.txt file2.txt       # Concatenate multiple files
+cat -n file.txt               # Show with line numbers
+cat -b file.txt               # Number only non-blank lines
+
+# View large files
+less file.txt                 # Paginated viewing (q to quit)
+more file.txt                 # Simple pager
+head file.txt                 # First 10 lines
+head -n 20 file.txt          # First 20 lines
+tail file.txt                 # Last 10 lines
+tail -n 5 file.txt           # Last 5 lines
+tail -f /var/log/syslog      # Follow file changes (real-time)
+
+# IoT monitoring examples
+tail -f /var/log/iot_sensor.log    # Monitor sensor logs
+head -n 50 /etc/iot/config.json    # Check configuration start
+cat /proc/cpuinfo | head -n 20     # System information</code></pre>
+                    </div>
+                </div>
+
+                <div class="calculator-section">
+                    <h3>Searching Text with grep</h3>
+                    <p>Powerful text searching for finding specific information in files and logs.</p>
+                    
+                    <div class="code-block">
+                        <pre><code># Basic searching
+grep "error" logfile.txt           # Find lines containing "error"
+grep -i "ERROR" logfile.txt        # Case-insensitive search
+grep -n "config" file.txt          # Show line numbers
+grep -v "debug" logfile.txt        # Show lines NOT containing "debug"
+grep -c "warning" logfile.txt      # Count matching lines
+grep -r "TODO" project/            # Recursive search in directory
+
+# Advanced patterns
+grep "^Error" logfile.txt          # Lines starting with "Error"
+grep "\.txt$" filelist.txt         # Lines ending with ".txt"
+grep -E "(error|warning)" log.txt  # Multiple patterns
+grep -A 3 -B 3 "error" log.txt     # Show 3 lines before/after match
+
+# IoT specific examples
+grep "temperature" /var/log/sensors.log
+grep -i "wifi.*connected" /var/log/network.log
+grep -r "192.168" /etc/network/
+ps aux | grep "iot_daemon"</code></pre>
+                    </div>
+                </div>
+
+                <div class="calculator-section">
+                    <h3>Text Processing Pipeline</h3>
+                    <p>Combining commands with pipes for powerful text processing workflows.</p>
+                    
+                    <div class="code-block">
+                        <pre><code># Using pipes to combine commands
+cat /var/log/syslog | grep "error" | head -10
+ls -la | grep "\.txt$"
+ps aux | grep "python" | wc -l
+cat sensor_data.csv | cut -d',' -f2 | sort | uniq
+
+# Practical IoT examples
+# Find recent errors in system logs
+journalctl | grep -i error | tail -20
+
+# Count different sensor types
+cat sensor_config.json | grep "type" | sort | uniq -c
+
+# Monitor network connections
+netstat -an | grep ":80" | wc -l
+
+# Find large log files
+find /var/log -name "*.log" -exec ls -lh {} \; | sort -k5 -hr</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section bg-light">
+            <div class="container">
+                <h2>3. File Searching and Location</h2>
+                
+                <div class="calculator-section">
+                    <h3>Finding Files with find</h3>
+                    <p>The most powerful tool for locating files based on various criteria.</p>
+                    
+                    <div class="code-block">
+                        <pre><code># Basic find syntax
+find /path -name "filename"        # Find by exact name
+find /home -name "*.txt"          # Find by pattern
+find . -name "config*"            # Find in current directory
+find /etc -iname "*.CONF"         # Case-insensitive search
+
+# Find by file properties
+find /var -size +100M             # Files larger than 100MB
+find /tmp -mtime -7               # Modified in last 7 days
+find /home -type f                # Files only
+find /home -type d                # Directories only
+find /dev -type c                 # Character devices
+
+# Advanced find operations
+find /var/log -name "*.log" -exec ls -lh {} \;
+find /tmp -name "*.tmp" -delete
+find . -name "*.py" -exec grep -l "import" {} \;
+
+# IoT specific searches
+find /etc -name "*network*"
+find /var/log -name "*sensor*" -mtime -1
+find /home -name "*.ino" -o -name "*.cpp"
+find /sys -name "*gpio*" -type d</code></pre>
+                    </div>
+                </div>
+
+                <div class="calculator-section">
+                    <h3>Quick File Location Tools</h3>
+                    <p>Faster alternatives for common file location tasks.</p>
+                    
+                    <div class="code-block">
+                        <pre><code># Locate command (uses database)
+locate filename.txt               # Quick search in database
+locate "*.conf" | head -10       # Find config files
+updatedb                         # Update locate database (as root)
+
+# Which and whereis
+which python3                    # Find executable location
+which -a python                  # Show all instances
+whereis python3                  # Show binary, source, manual locations
+type python3                     # Show command type and location
+
+# IoT development examples
+which gcc                        # Find compiler
+which pip3                       # Find Python package manager
+whereis systemctl                # Find systemd control command
+locate arduino                   # Find Arduino-related files
+which mosquitto_pub              # Find MQTT tools</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2>4. Archive and Compression</h2>
+                
+                <div class="calculator-section">
+                    <h3>Working with tar Archives</h3>
+                    <p>Essential for backing up projects, distributing code, and managing system files.</p>
+                    
+                    <div class="code-block">
+                        <pre><code># Creating archives
+tar -cf archive.tar files/           # Create tar archive
+tar -czf archive.tar.gz files/       # Create compressed archive
+tar -cjf archive.tar.bz2 files/      # Create bzip2 compressed archive
+tar -czf backup-$(date +%Y%m%d).tar.gz project/
+
+# Extracting archives
+tar -tf archive.tar                  # List contents without extracting
+tar -xf archive.tar                  # Extract archive
+tar -xzf archive.tar.gz              # Extract compressed archive
+tar -xzf archive.tar.gz -C /opt/     # Extract to specific directory
+
+# Useful tar options
+tar -czf project.tar.gz --exclude="*.tmp" project/
+tar -czf backup.tar.gz --exclude-vcs project/
+tar -xzf archive.tar.gz --strip-components=1
+
+# IoT project examples
+tar -czf iot_firmware_v1.2.tar.gz firmware/
+tar -czf sensor_configs_backup.tar.gz /etc/sensors/
+tar -xzf esp32_libraries.tar.gz -C ~/Arduino/libraries/</code></pre>
+                    </div>
+                </div>
+
+                <div class="calculator-section">
+                    <h3>Compression Tools</h3>
+                    <p>Additional compression utilities for different file types and use cases.</p>
+                    
+                    <div class="code-block">
+                        <pre><code># gzip compression
+gzip large_file.txt              # Compress file (replaces original)
+gzip -k large_file.txt           # Keep original file
+gunzip file.txt.gz               # Decompress file
+zcat file.txt.gz                 # View compressed file without extracting
+
+# zip archives (cross-platform)
+zip archive.zip file1.txt file2.txt
+zip -r project.zip project/      # Recursive zip
+unzip archive.zip                # Extract zip file
+unzip -l archive.zip             # List zip contents
+
+# IoT data management examples
+gzip /var/log/sensor_data_old.csv
+zip -r iot_project_$(date +%Y%m%d).zip ~/iot_project/
+unzip arduino_libraries.zip -d ~/Arduino/libraries/
+tar -czf daily_backup.tar.gz /etc/iot/ /var/log/iot/</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section bg-light">
+            <div class="container">
+                <h2>5. Command History and Shortcuts</h2>
+                
+                <div class="calculator-section">
+                    <h3>Command History Management</h3>
+                    <p>Efficient command-line navigation and reuse for faster development workflows.</p>
+                    
+                    <div class="code-block">
+                        <pre><code># History commands
+history                          # Show command history
+history | grep "git"            # Search command history
+!!                              # Repeat last command
+!n                              # Repeat command number n
+!string                         # Repeat last command starting with string
+^old^new                        # Replace 'old' with 'new' in last command
+
+# History shortcuts
+Ctrl+R                          # Reverse search through history
+Ctrl+P / Up Arrow               # Previous command
+Ctrl+N / Down Arrow             # Next command
+Ctrl+A                          # Move to beginning of line
+Ctrl+E                          # Move to end of line
+Ctrl+U                          # Clear line before cursor
+Ctrl+K                          # Clear line after cursor
+
+# IoT development workflow examples
+history | grep "mosquitto"      # Find MQTT commands
+!ssh                            # Repeat last SSH command
+sudo !!                         # Run last command with sudo</code></pre>
+                    </div>
+                </div>
+
+                <div class="calculator-section">
+                    <h3>Tab Completion and Wildcards</h3>
+                    <p>Speed up command entry and reduce typing errors.</p>
+                    
+                    <div class="code-block">
+                        <pre><code># Tab completion
+ls /etc/net[TAB]                # Complete to /etc/network/
+systemctl status iot[TAB]       # Complete service names
+cd ~/proj[TAB]                  # Complete directory names
+
+# Wildcards
+ls *.txt                        # All .txt files
+ls sensor_*.log                 # Files matching pattern
+cp config_?.json backup/        # Single character wildcard
+rm temp[0-9].txt               # Files with numbers 0-9
+ls {*.py,*.cpp,*.h}            # Multiple patterns
+
+# Brace expansion
+mkdir project/{src,docs,tests}   # Create multiple directories
+cp file.txt{,.backup}          # Create backup copy
+echo {1..10}                    # Generate sequence 1 to 10
+
+# IoT examples
+ls /dev/ttyUSB*                 # List USB serial devices
+cp sensor_config_{dev,prod}.json /etc/
+find . -name "*.{ino,cpp,h}"    # Arduino source files</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2>6. Hands-on Practice Exercises</h2>
+                
+                <div class="calculator-section">
+                    <h3>Practice Scenarios</h3>
+                    <p>Real-world exercises to reinforce command-line skills for IoT development.</p>
+                    
+                    <div class="example-grid">
+                        <div class="example-item">
+                            <div class="ip">Exercise 1</div>
+                            <div class="description">Create an IoT project structure with directories for source, config, logs, and documentation</div>
+                        </div>
+                        <div class="example-item">
+                            <div class="ip">Exercise 2</div>
+                            <div class="description">Find all configuration files in /etc containing "network" and copy them to a backup directory</div>
+                        </div>
+                        <div class="example-item">
+                            <div class="ip">Exercise 3</div>
+                            <div class="description">Monitor system logs for IoT-related entries and save recent errors to a file</div>
+                        </div>
+                        <div class="example-item">
+                            <div class="ip">Exercise 4</div>
+                            <div class="description">Create a compressed backup of your project directory with timestamp</div>
+                        </div>
+                    </div>
+                    
+                    <div class="code-block">
+                        <pre><code># Exercise Solutions
+
+# Exercise 1: Create IoT project structure
+mkdir -p iot_project/{src/{sensors,networking,data},config,logs,docs}
+mkdir -p iot_project/src/sensors/{temperature,humidity,motion}
+ls -la iot_project/
+tree iot_project/  # If tree command is available
+
+# Exercise 2: Find and backup network configs
+mkdir -p ~/config_backup
+find /etc -name "*network*" -type f 2>/dev/null
+sudo find /etc -name "*network*" -type f -exec cp {} ~/config_backup/ \;
+ls -la ~/config_backup/
+
+# Exercise 3: Monitor and save IoT logs
+grep -i "iot\|sensor\|mqtt" /var/log/syslog | tail -20
+journalctl | grep -i "iot\|sensor" | grep -i error > iot_errors.log
+tail -f /var/log/syslog | grep --line-buffered "sensor"
+
+# Exercise 4: Create timestamped backup
+tar -czf "iot_project_backup_$(date +%Y%m%d_%H%M%S).tar.gz" iot_project/
+ls -lh iot_project_backup_*.tar.gz</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section bg-light">
+            <div class="container">
+                <h2>Session Summary & Next Steps</h2>
+                
+                <div class="calculator-section">
+                    <h3>What You've Learned</h3>
+                    <ul>
+                        <li>File operations: listing, creating, copying, moving, and removing files and directories</li>
+                        <li>Text processing: viewing, searching, and manipulating file contents</li>
+                        <li>File searching: using find, locate, which, and whereis commands</li>
+                        <li>Archive management: creating and extracting tar, gzip, and zip archives</li>
+                        <li>Command efficiency: history, shortcuts, tab completion, and wildcards</li>
+                        <li>IoT-specific applications of command-line tools</li>
+                    </ul>
+                </div>
+
+                <div class="calculator-section">
+                    <h3>Key Commands Summary</h3>
+                    <div class="result-grid">
+                        <div class="result-item">
+                            <label>File Operations</label>
+                            <div class="value">ls, cp, mv, rm, mkdir, rmdir</div>
+                        </div>
+                        <div class="result-item">
+                            <label>Text Processing</label>
+                            <div class="value">cat, less, head, tail, grep</div>
+                        </div>
+                        <div class="result-item">
+                            <label>File Search</label>
+                            <div class="value">find, locate, which, whereis</div>
+                        </div>
+                        <div class="result-item">
+                            <label>Archives</label>
+                            <div class="value">tar, gzip, zip, unzip</div>
+                        </div>
+                        <div class="result-item">
+                            <label>Efficiency</label>
+                            <div class="value">history, !!, Tab, *, ?, {}</div>
+                        </div>
+                        <div class="result-item">
+                            <label>Pipes</label>
+                            <div class="value">|, >, >>, <, tee</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="calculator-section">
+                    <h3>Preparation for Session 3</h3>
+                    <p>In the next session, we'll explore permissions and process management. To prepare:</p>
+                    <ul>
+                        <li>Practice the file operations and text processing commands</li>
+                        <li>Experiment with finding files in different system directories</li>
+                        <li>Try creating and extracting archives with different compression methods</li>
+                        <li>Use command history and shortcuts to improve your efficiency</li>
+                        <li>Explore the /proc and /sys directories to understand system information</li>
+                    </ul>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; margin-top: 2rem;">
+                    <a href="module1-session1.html" class="session-link" style="background: var(--gray-600);">← Session 1</a>
+                    <button onclick="markSessionComplete()" class="session-link">Mark Complete</button>
+                    <a href="module1-session3.html" class="session-link">Session 3 →</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <p>&copy; 2024 Dynamic Devices. All rights reserved.</p>
+                <div style="display: flex; gap: 2rem;">
+                    <a href="../../docs/setup.html" style="color: var(--gray-400);">Setup Guide</a>
+                    <a href="../../resources/troubleshooting.html" style="color: var(--gray-400);">Support</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function markSessionComplete() {
+            localStorage.setItem('module1_session2_completed', 'true');
+            alert('Session 2 marked as complete! Great job mastering command-line tools.');
+            
+            // Update progress in parent module if we're in an iframe or opened from module page
+            if (window.parent && window.parent.updateProgress) {
+                window.parent.updateProgress();
+            }
+        }
+
+        // Check if session is already completed
+        document.addEventListener('DOMContentLoaded', function() {
+            if (localStorage.getItem('module1_session2_completed')) {
+                const completeBtn = document.querySelector('button[onclick="markSessionComplete()"]');
+                if (completeBtn) {
+                    completeBtn.textContent = '✓ Completed';
+                    completeBtn.style.background = 'var(--success-color)';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
