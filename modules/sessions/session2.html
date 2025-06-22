@@ -10,6 +10,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1><a href="../../index.html">Dynamic Devices</a></h1>
+                    <span>Session 2: Inter-Network Communication</span>
+                </div>
+                <nav class="nav">
+                    <a href="../../index.html">Home</a>
+                    <a href="../module1.html">Module 1</a>
+                    <a href="session1.html">Previous</a>
+                    <a href="session3.html">Next Session</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
     <main>
         <section class="session-header">
             <div class="container">
@@ -24,167 +41,1030 @@
         <section class="session-content">
             <div class="container">
                 <div class="topic-section">
-                    <h2>DHCP vs Static IP Configuration</h2>
+                    <h2>DHCP: Dynamic Host Configuration Protocol</h2>
                     
-                    <h3>DHCP (Dynamic Host Configuration Protocol)</h3>
-                    <div class="dhcp-process">
-                        <h4>DHCP Process (DORA):</h4>
-                        <ol>
-                            <li><strong>Discover:</strong> Client broadcasts request for IP</li>
-                            <li><strong>Offer:</strong> Server offers available IP address</li>
-                            <li><strong>Request:</strong> Client requests the offered IP</li>
-                            <li><strong>Acknowledge:</strong> Server confirms IP assignment</li>
-                        </ol>
+                    <h3>The Problem DHCP Solves</h3>
+                    <p>Imagine managing a network with hundreds of IoT devices, each needing a unique IP address, subnet mask, default gateway, and DNS servers. Without DHCP, you'd need to manually configure each device - a nightmare for scalability and maintenance. DHCP automates this process, making network management feasible for large IoT deployments.</p>
+
+                    <p>DHCP is like having an automated hotel check-in system: when a guest (device) arrives, they're automatically assigned a room (IP address) along with all the necessary information (network configuration) to use the hotel's facilities (network services).</p>
+
+                    <h3>The DHCP Process: DORA in Detail</h3>
+                    <p>DHCP uses a four-step process known as DORA (Discover, Offer, Request, Acknowledge). Understanding this process is crucial for troubleshooting IoT connectivity issues.</p>
+
+                    <div class="code-block">
+                        <h4>DHCP DORA Process Step-by-Step:</h4>
+                        <pre><code>1. DISCOVER (Client → Broadcast)
+   - Client broadcasts: "I need an IP address!"
+   - Source IP: 0.0.0.0 (client doesn't have one yet)
+   - Destination IP: 255.255.255.255 (broadcast)
+   - Destination MAC: FF:FF:FF:FF:FF:FF (broadcast)
+   - Contains: Client MAC address, requested options
+
+2. OFFER (Server → Client)
+   - Server responds: "Here's an available IP address"
+   - Source IP: DHCP server IP
+   - Destination IP: Offered IP address (or broadcast)
+   - Contains: Offered IP, subnet mask, lease time, server ID
+   - Multiple servers may respond with different offers
+
+3. REQUEST (Client → Broadcast)
+   - Client accepts one offer: "I want this specific IP"
+   - Still broadcasts to inform all servers
+   - Source IP: 0.0.0.0 (still not confirmed)
+   - Destination IP: 255.255.255.255 (broadcast)
+   - Contains: Requested IP, chosen server ID
+
+4. ACKNOWLEDGE (Server → Client)
+   - Chosen server confirms: "IP address is yours"
+   - Source IP: DHCP server IP
+   - Destination IP: Assigned IP address
+   - Contains: Final configuration, lease time
+   - Client can now use the IP address</code></pre>
                     </div>
 
+                    <h3>DHCP Message Types and Options</h3>
+                    <p>DHCP is incredibly flexible, supporting numerous message types and configuration options beyond basic IP assignment.</p>
+
                     <div class="comparison-table">
+                        <h4>Common DHCP Message Types:</h4>
                         <table>
-                            <tr><th>Aspect</th><th>DHCP</th><th>Static IP</th></tr>
-                            <tr><td>Configuration</td><td>Automatic</td><td>Manual</td></tr>
-                            <tr><td>Management</td><td>Centralized</td><td>Per-device</td></tr>
-                            <tr><td>Flexibility</td><td>High</td><td>Low</td></tr>
-                            <tr><td>Reliability</td><td>Depends on server</td><td>Independent</td></tr>
-                            <tr><td>IoT Suitability</td><td>Development/Testing</td><td>Production</td></tr>
+                            <tr><th>Message Type</th><th>Direction</th><th>Purpose</th><th>IoT Relevance</th></tr>
+                            <tr>
+                                <td>DHCPDISCOVER</td>
+                                <td>Client → Broadcast</td>
+                                <td>Initial request for configuration</td>
+                                <td>IoT device startup, network reconnection</td>
+                            </tr>
+                            <tr>
+                                <td>DHCPOFFER</td>
+                                <td>Server → Client</td>
+                                <td>Offer IP address and configuration</td>
+                                <td>Server proposes settings for IoT device</td>
+                            </tr>
+                            <tr>
+                                <td>DHCPREQUEST</td>
+                                <td>Client → Broadcast</td>
+                                <td>Accept offer or renew lease</td>
+                                <td>IoT device accepts configuration</td>
+                            </tr>
+                            <tr>
+                                <td>DHCPACK</td>
+                                <td>Server → Client</td>
+                                <td>Confirm IP address assignment</td>
+                                <td>Final confirmation for IoT device</td>
+                            </tr>
+                            <tr>
+                                <td>DHCPNAK</td>
+                                <td>Server → Client</td>
+                                <td>Reject request (IP unavailable)</td>
+                                <td>Forces IoT device to restart process</td>
+                            </tr>
+                            <tr>
+                                <td>DHCPRELEASE</td>
+                                <td>Client → Server</td>
+                                <td>Release IP address early</td>
+                                <td>IoT device shutting down gracefully</td>
+                            </tr>
+                            <tr>
+                                <td>DHCPINFORM</td>
+                                <td>Client → Server</td>
+                                <td>Request additional options only</td>
+                                <td>IoT device with static IP needs DNS info</td>
+                            </tr>
                         </table>
                     </div>
 
-                    <h3>IoT Considerations</h3>
-                    <ul>
-                        <li><strong>DHCP Reservations:</strong> Assign same IP to specific MAC</li>
-                        <li><strong>Lease Time:</strong> Longer leases for IoT devices</li>
-                        <li><strong>Fallback:</strong> Static IP if DHCP fails</li>
-                        <li><strong>Security:</strong> MAC filtering, separate VLAN</li>
-                    </ul>
+                    <h3>Critical DHCP Options for IoT</h3>
+                    <p>DHCP can provide much more than just IP addresses. Understanding these options is crucial for IoT deployments:</p>
+
+                    <div class="comparison-table">
+                        <table>
+                            <tr><th>Option</th><th>Code</th><th>Purpose</th><th>IoT Application</th></tr>
+                            <tr>
+                                <td>Subnet Mask</td>
+                                <td>1</td>
+                                <td>Define network boundaries</td>
+                                <td>Essential for all IoT devices</td>
+                            </tr>
+                            <tr>
+                                <td>Router (Gateway)</td>
+                                <td>3</td>
+                                <td>Default route for internet access</td>
+                                <td>Required for cloud-connected IoT</td>
+                            </tr>
+                            <tr>
+                                <td>DNS Servers</td>
+                                <td>6</td>
+                                <td>Domain name resolution</td>
+                                <td>IoT devices connecting to cloud services</td>
+                            </tr>
+                            <tr>
+                                <td>Domain Name</td>
+                                <td>15</td>
+                                <td>Local domain suffix</td>
+                                <td>Local service discovery</td>
+                            </tr>
+                            <tr>
+                                <td>NTP Servers</td>
+                                <td>42</td>
+                                <td>Time synchronization</td>
+                                <td>Critical for logging, certificates</td>
+                            </tr>
+                            <tr>
+                                <td>Vendor Specific</td>
+                                <td>43</td>
+                                <td>Custom configuration</td>
+                                <td>IoT-specific settings, firmware URLs</td>
+                            </tr>
+                            <tr>
+                                <td>TFTP Server</td>
+                                <td>66</td>
+                                <td>Boot file server</td>
+                                <td>Firmware updates, configuration files</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <h3>DHCP Lease Management</h3>
+                    <p>Understanding lease management is crucial for IoT deployments, especially for battery-powered devices that may sleep for extended periods.</p>
+
+                    <div class="code-block">
+                        <h4>DHCP Lease Lifecycle:</h4>
+                        <pre><code>Lease Time: 24 hours (example)
+
+Timeline:
+T=0:     Lease granted (IP address assigned)
+T=12h:   50% of lease time - Client attempts renewal (DHCPREQUEST)
+T=18h:   75% of lease time - If renewal failed, try rebinding
+T=21h:   87.5% of lease time - Continue rebinding attempts
+T=24h:   Lease expires - Must start DORA process again
+
+IoT Considerations:
+- Short leases (1-4 hours): Good for dynamic environments, more DHCP traffic
+- Long leases (days/weeks): Better for stable IoT deployments, less traffic
+- Battery devices: May sleep through renewal periods
+- Always-on devices: Can reliably renew leases</code></pre>
+                    </div>
+
+                    <h3>DHCP vs Static IP: The IoT Decision Matrix</h3>
+                    <p>Choosing between DHCP and static IP for IoT devices isn't always straightforward. The decision depends on multiple factors:</p>
+
+                    <div class="comparison-table">
+                        <table>
+                            <tr><th>Factor</th><th>DHCP Advantage</th><th>Static IP Advantage</th><th>IoT Recommendation</th></tr>
+                            <tr>
+                                <td>Deployment Speed</td>
+                                <td>Automatic configuration</td>
+                                <td>No dependency on DHCP server</td>
+                                <td>DHCP for development, Static for production</td>
+                            </tr>
+                            <tr>
+                                <td>Network Changes</td>
+                                <td>Automatic adaptation</td>
+                                <td>Predictable addressing</td>
+                                <td>DHCP for dynamic environments</td>
+                            </tr>
+                            <tr>
+                                <td>Troubleshooting</td>
+                                <td>Centralized management</td>
+                                <td>Known, fixed addresses</td>
+                                <td>Static for critical infrastructure</td>
+                            </tr>
+                            <tr>
+                                <td>Security</td>
+                                <td>MAC-based reservations</td>
+                                <td>No broadcast discovery</td>
+                                <td>Static for high-security devices</td>
+                            </tr>
+                            <tr>
+                                <td>Scalability</td>
+                                <td>Automatic address management</td>
+                                <td>Manual configuration required</td>
+                                <td>DHCP for large deployments</td>
+                            </tr>
+                            <tr>
+                                <td>Reliability</td>
+                                <td>Depends on DHCP server</td>
+                                <td>Independent operation</td>
+                                <td>Static for mission-critical devices</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <h3>DHCP Reservations: Best of Both Worlds</h3>
+                    <p>DHCP reservations (also called static DHCP) provide a compromise solution, offering the management benefits of DHCP with the predictability of static addressing.</p>
+
+                    <div class="code-block">
+                        <h4>DHCP Reservation Configuration Example:</h4>
+                        <pre><code># Cisco IOS DHCP Reservation
+ip dhcp pool IoT_Sensors
+ network 10.10.1.0 255.255.255.0
+ default-router 10.10.1.1
+ dns-server 8.8.8.8 8.8.4.4
+ lease 7
+
+# Specific reservations
+ip dhcp pool Temperature_Sensor_01
+ host 10.10.1.100 255.255.255.0
+ client-identifier 01aa.bbcc.ddee.ff
+ default-router 10.10.1.1
+ dns-server 8.8.8.8
+
+# Linux ISC DHCP Server
+host temperature-sensor-01 {
+    hardware ethernet aa:bb:cc:dd:ee:ff;
+    fixed-address 10.10.1.100;
+    option routers 10.10.1.1;
+    option domain-name-servers 8.8.8.8, 8.8.4.4;
+}</code></pre>
+                    </div>
                 </div>
 
                 <div class="topic-section">
-                    <h2>ARP (Address Resolution Protocol)</h2>
+                    <h2>ARP: Address Resolution Protocol</h2>
                     
-                    <h3>ARP Purpose</h3>
-                    <p>Maps IP addresses to MAC addresses on the local network segment.</p>
-                    
-                    <h3>ARP Process</h3>
-                    <ol>
-                        <li>Device needs to send data to an IP address</li>
-                        <li>Checks ARP cache for MAC address</li>
-                        <li>If not found, broadcasts ARP request</li>
-                        <li>Target device responds with its MAC address</li>
-                        <li>Sender caches the MAC address for future use</li>
-                    </ol>
+                    <h3>The Layer 2/Layer 3 Bridge</h3>
+                    <p>ARP solves a fundamental problem in networking: how to deliver data to a device when you know its IP address (Layer 3) but need its MAC address (Layer 2) for actual frame delivery. Think of ARP as a phone book that translates names (IP addresses) to phone numbers (MAC addresses).</p>
 
-                    <h3>ARP Message Types</h3>
-                    <ul>
-                        <li><strong>ARP Request:</strong> "Who has IP x.x.x.x?"</li>
-                        <li><strong>ARP Reply:</strong> "IP x.x.x.x is at MAC yy:yy:yy:yy:yy:yy"</li>
-                        <li><strong>Gratuitous ARP:</strong> Announces own IP/MAC mapping</li>
-                    </ul>
+                    <p>This translation is essential because while IP addresses are logical and can change, MAC addresses are physical identifiers burned into network hardware. Every time a device needs to send data on the local network, it must perform this translation.</p>
+
+                    <h3>ARP Operation in Detail</h3>
+                    <p>Understanding ARP operation is crucial for IoT engineers because ARP failures are a common cause of connectivity issues, especially in environments with many devices.</p>
+
+                    <div class="code-block">
+                        <h4>ARP Process Step-by-Step:</h4>
+                        <pre><code>Scenario: Device A (192.168.1.10) wants to send data to Device B (192.168.1.20)
+
+Step 1: Check ARP Cache
+Device A checks its ARP table for 192.168.1.20
+- If found and not expired: Use cached MAC address
+- If not found or expired: Continue to Step 2
+
+Step 2: ARP Request (Broadcast)
+Device A broadcasts ARP request:
+- Ethernet Header:
+  * Source MAC: AA:BB:CC:DD:EE:FF (Device A's MAC)
+  * Destination MAC: FF:FF:FF:FF:FF:FF (broadcast)
+- ARP Header:
+  * Operation: Request (1)
+  * Sender MAC: AA:BB:CC:DD:EE:FF
+  * Sender IP: 192.168.1.10
+  * Target MAC: 00:00:00:00:00:00 (unknown)
+  * Target IP: 192.168.1.20
+
+Step 3: ARP Reply (Unicast)
+Device B responds with ARP reply:
+- Ethernet Header:
+  * Source MAC: 11:22:33:44:55:66 (Device B's MAC)
+  * Destination MAC: AA:BB:CC:DD:EE:FF (Device A's MAC)
+- ARP Header:
+  * Operation: Reply (2)
+  * Sender MAC: 11:22:33:44:55:66
+  * Sender IP: 192.168.1.20
+  * Target MAC: AA:BB:CC:DD:EE:FF
+  * Target IP: 192.168.1.10
+
+Step 4: Cache Update
+Both devices update their ARP caches:
+- Device A learns: 192.168.1.20 → 11:22:33:44:55:66
+- Device B learns: 192.168.1.10 → AA:BB:CC:DD:EE:FF</code></pre>
+                    </div>
 
                     <h3>ARP Cache Management</h3>
-                    <div class="code-examples">
-                        <h4>View ARP Cache:</h4>
-                        <pre><code>arp -a                    # Windows/Linux
-ip neigh show             # Linux</code></pre>
-                        
-                        <h4>Clear ARP Cache:</h4>
-                        <pre><code>arp -d *                 # Windows
-sudo ip neigh flush all   # Linux</code></pre>
+                    <p>ARP caches are temporary storage that prevent the need for constant ARP requests. Understanding cache behavior is important for IoT network performance and troubleshooting.</p>
+
+                    <div class="comparison-table">
+                        <table>
+                            <tr><th>Operating System</th><th>Default Timeout</th><th>Max Entries</th><th>Behavior</th></tr>
+                            <tr>
+                                <td>Windows</td>
+                                <td>2 minutes (dynamic)<br>10 minutes (static)</td>
+                                <td>~1024</td>
+                                <td>Automatic cleanup, LRU eviction</td>
+                            </tr>
+                            <tr>
+                                <td>Linux</td>
+                                <td>30 seconds (reachable)<br>5 minutes (stale)</td>
+                                <td>Configurable</td>
+                                <td>State-based aging</td>
+                            </tr>
+                            <tr>
+                                <td>ESP32/Arduino</td>
+                                <td>5-10 minutes</td>
+                                <td>8-16 entries</td>
+                                <td>Limited memory, aggressive cleanup</td>
+                            </tr>
+                            <tr>
+                                <td>Cisco IOS</td>
+                                <td>4 hours</td>
+                                <td>Varies by platform</td>
+                                <td>Configurable aging</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <h3>ARP in Different Network Scenarios</h3>
+                    <p>ARP behavior changes depending on the network topology and destination. Understanding these scenarios helps troubleshoot IoT connectivity issues.</p>
+
+                    <div class="code-block">
+                        <h4>ARP Scenarios:</h4>
+                        <pre><code>Scenario 1: Local Network Communication
+Source: 192.168.1.10/24
+Destination: 192.168.1.20/24
+ARP Target: 192.168.1.20 (direct ARP for destination)
+Result: Direct communication using destination's MAC
+
+Scenario 2: Remote Network Communication  
+Source: 192.168.1.10/24
+Destination: 10.0.1.20/24
+Gateway: 192.168.1.1
+ARP Target: 192.168.1.1 (ARP for gateway, not destination)
+Result: Frame sent to gateway's MAC, but with destination IP
+
+Scenario 3: Same Subnet, Different VLAN
+Source: 192.168.1.10/24 (VLAN 10)
+Destination: 192.168.1.20/24 (VLAN 20)
+ARP Target: 192.168.1.1 (default gateway)
+Result: Inter-VLAN routing required despite same subnet
+
+Scenario 4: Proxy ARP
+Source: 192.168.1.10/24
+Destination: 192.168.1.20/24 (behind router)
+ARP Response: Router responds with its own MAC
+Result: Router acts as proxy for unreachable device</code></pre>
+                    </div>
+
+                    <h3>Gratuitous ARP and Its IoT Applications</h3>
+                    <p>Gratuitous ARP is a special type of ARP where a device announces its own IP-to-MAC mapping without being asked. This is particularly useful in IoT environments.</p>
+
+                    <div class="code-block">
+                        <h4>Gratuitous ARP Use Cases:</h4>
+                        <pre><code>1. IP Address Conflict Detection
+   - Device sends GARP for its own IP
+   - If another device responds, there's a conflict
+   - Critical for IoT devices with static IPs
+
+2. Network Announcement
+   - Device announces its presence after connecting
+   - Updates ARP caches of other devices
+   - Useful for IoT devices that sleep/wake frequently
+
+3. Failover and Redundancy
+   - Backup device takes over IP address
+   - Sends GARP to update network's ARP caches
+   - Essential for high-availability IoT systems
+
+4. DHCP Lease Renewal
+   - Device confirms IP address ownership
+   - Prevents accidental duplicate assignments
+   - Important in dynamic IoT environments
+
+Example GARP packet:
+- Sender IP: 192.168.1.100 (device's own IP)
+- Target IP: 192.168.1.100 (same as sender)
+- Operation: Request or Reply
+- Purpose: "I am 192.168.1.100 at MAC AA:BB:CC:DD:EE:FF"</code></pre>
+                    </div>
+
+                    <h3>ARP Security Considerations for IoT</h3>
+                    <p>ARP's simplicity makes it vulnerable to attacks, which is particularly concerning in IoT environments with many devices and limited security capabilities.</p>
+
+                    <ul>
+                        <li><strong>ARP Spoofing/Poisoning:</strong> Attacker sends false ARP replies to redirect traffic</li>
+                        <li><strong>ARP Flooding:</strong> Overwhelming ARP tables with false entries</li>
+                        <li><strong>Man-in-the-Middle:</strong> Intercepting traffic by spoofing gateway MAC</li>
+                        <li><strong>DoS Attacks:</strong> Corrupting ARP caches to break connectivity</li>
+                    </ul>
+
+                    <div class="code-block">
+                        <h4>ARP Security Mitigation Strategies:</h4>
+                        <pre><code>1. Static ARP Entries (High Security Environments)
+   # Windows
+   arp -s 192.168.1.1 aa-bb-cc-dd-ee-ff
+   
+   # Linux  
+   arp -s 192.168.1.1 aa:bb:cc:dd:ee:ff
+
+2. ARP Inspection (Managed Switches)
+   # Cisco switch configuration
+   ip arp inspection vlan 10
+   ip arp inspection validate src-mac dst-mac ip
+
+3. Network Segmentation
+   - Separate IoT devices into VLANs
+   - Limit ARP broadcast domains
+   - Implement inter-VLAN security policies
+
+4. Monitoring and Detection
+   - Monitor for ARP anomalies
+   - Detect rapid ARP cache changes
+   - Alert on duplicate MAC addresses</code></pre>
                     </div>
                 </div>
 
                 <div class="topic-section">
-                    <h2>Gateways and Routing</h2>
+                    <h2>Routing and Gateways: Connecting Networks</h2>
                     
-                    <h3>Default Gateway Role</h3>
-                    <ul>
-                        <li><strong>Local Traffic:</strong> Direct communication within subnet</li>
-                        <li><strong>Remote Traffic:</strong> Forwarded to default gateway</li>
-                        <li><strong>Routing Decision:</strong> Based on destination IP and subnet mask</li>
-                    </ul>
+                    <h3>Understanding the Default Gateway</h3>
+                    <p>The default gateway is like the post office for your local network - when a device needs to send data to an address it doesn't recognize as local, it hands the data to the gateway, trusting it to know how to reach the destination.</p>
 
-                    <h3>Routing Table Basics</h3>
-                    <div class="code-examples">
-                        <h4>View Routing Table:</h4>
-                        <pre><code>route print              # Windows
-ip route show            # Linux
-netstat -rn              # Unix/Linux</code></pre>
+                    <p>For IoT devices, the gateway is typically the most critical network component because it provides access to cloud services, remote management, and inter-network communication.</p>
+
+                    <h3>Routing Decision Process</h3>
+                    <p>Every time a device sends data, it must make a routing decision. Understanding this process is crucial for IoT network design and troubleshooting.</p>
+
+                    <div class="code-block">
+                        <h4>Routing Decision Algorithm:</h4>
+                        <pre><code>When Device A (192.168.1.100/24) wants to send to Destination X:
+
+Step 1: Determine if destination is local or remote
+- Apply subnet mask to both source and destination IPs
+- Source network: 192.168.1.100 & 255.255.255.0 = 192.168.1.0
+- Destination network: X & 255.255.255.0 = ?
+
+Step 2A: If networks match (LOCAL)
+- Destination is on same subnet
+- Use ARP to find destination's MAC address
+- Send frame directly to destination
+
+Step 2B: If networks don't match (REMOTE)  
+- Destination is on different network
+- Use ARP to find gateway's MAC address
+- Send frame to gateway's MAC with destination's IP
+
+Example 1: Local Communication
+Source: 192.168.1.100/24
+Destination: 192.168.1.50
+Decision: 192.168.1.0 = 192.168.1.0 → LOCAL
+Action: ARP for 192.168.1.50, send direct
+
+Example 2: Remote Communication
+Source: 192.168.1.100/24  
+Destination: 8.8.8.8
+Decision: 192.168.1.0 ≠ 8.8.8.0 → REMOTE
+Action: ARP for gateway (192.168.1.1), send to gateway</code></pre>
                     </div>
 
-                    <h3>Common Routing Entries</h3>
-                    <ul>
-                        <li><strong>0.0.0.0/0:</strong> Default route (all traffic)</li>
-                        <li><strong>127.0.0.0/8:</strong> Loopback network</li>
-                        <li><strong>Local subnet:</strong> Direct delivery</li>
-                        <li><strong>Multicast:</strong> 224.0.0.0/4</li>
-                    </ul>
+                    <h3>Routing Tables: The Network's GPS</h3>
+                    <p>Routing tables contain the "directions" for reaching different networks. Even simple IoT devices maintain basic routing tables.</p>
+
+                    <div class="code-block">
+                        <h4>Typical IoT Device Routing Table:</h4>
+                        <pre><code># Windows: route print
+# Linux: ip route show
+
+Destination     Gateway         Interface    Metric
+0.0.0.0/0       192.168.1.1     eth0         1      # Default route
+127.0.0.0/8     127.0.0.1       lo           1      # Loopback
+192.168.1.0/24  0.0.0.0         eth0         1      # Local network
+224.0.0.0/4     0.0.0.0         eth0         1      # Multicast
+
+Explanation:
+- 0.0.0.0/0: Default route (all traffic not matching other routes)
+- 127.0.0.0/8: Loopback network (local machine communication)  
+- 192.168.1.0/24: Directly connected network (no gateway needed)
+- 224.0.0.0/4: Multicast addresses (group communication)
+
+Route Selection Priority:
+1. Most specific match (longest prefix)
+2. Lowest metric (if multiple routes to same destination)
+3. Administrative distance (route source preference)</code></pre>
+                    </div>
+
+                    <h3>Gateway Redundancy for IoT</h3>
+                    <p>Single points of failure are problematic in IoT deployments. Understanding gateway redundancy options helps design resilient networks.</p>
+
+                    <div class="comparison-table">
+                        <table>
+                            <tr><th>Method</th><th>How It Works</th><th>Pros</th><th>Cons</th><th>IoT Suitability</th></tr>
+                            <tr>
+                                <td>HSRP/VRRP</td>
+                                <td>Multiple routers share virtual IP</td>
+                                <td>Transparent failover</td>
+                                <td>Complex configuration</td>
+                                <td>Enterprise IoT deployments</td>
+                            </tr>
+                            <tr>
+                                <td>Multiple Default Routes</td>
+                                <td>Different metrics for backup routes</td>
+                                <td>Simple configuration</td>
+                                <td>Slower convergence</td>
+                                <td>Small to medium IoT networks</td>
+                            </tr>
+                            <tr>
+                                <td>Dynamic Routing</td>
+                                <td>OSPF, EIGRP automatic updates</td>
+                                <td>Automatic failover</td>
+                                <td>Overhead, complexity</td>
+                                <td>Large, complex IoT networks</td>
+                            </tr>
+                            <tr>
+                                <td>Application-Level</td>
+                                <td>IoT device detects and switches</td>
+                                <td>Device-controlled</td>
+                                <td>Application complexity</td>
+                                <td>Critical IoT applications</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <h3>NAT: Network Address Translation</h3>
+                    <p>NAT is crucial for IoT deployments because it allows private IP addresses to access the internet while providing a security barrier. However, NAT also creates challenges for IoT device management.</p>
+
+                    <div class="code-block">
+                        <h4>NAT Operation Example:</h4>
+                        <pre><code>IoT Device Communication Through NAT:
+
+Internal Network: 192.168.1.0/24
+NAT Router: 192.168.1.1 (internal), 203.0.113.1 (external)
+IoT Device: 192.168.1.100
+Cloud Server: 8.8.8.8:80
+
+Outbound Communication:
+1. IoT device sends: 192.168.1.100:12345 → 8.8.8.8:80
+2. NAT router translates: 203.0.113.1:54321 → 8.8.8.8:80
+3. Cloud server sees: 203.0.113.1:54321 as source
+
+NAT Translation Table:
+Internal IP:Port    External IP:Port    Destination
+192.168.1.100:12345 203.0.113.1:54321  8.8.8.8:80
+
+Return Traffic:
+1. Cloud server responds: 8.8.8.8:80 → 203.0.113.1:54321
+2. NAT router translates: 8.8.8.8:80 → 192.168.1.100:12345
+3. IoT device receives response
+
+Challenges for IoT:
+- Inbound connections blocked (no port forwarding)
+- Connection state must be maintained
+- Multiple devices may share external ports
+- Complicates device-to-device communication</code></pre>
+                    </div>
+
+                    <h3>Port Forwarding for IoT Management</h3>
+                    <p>When IoT devices need to accept inbound connections (for management, monitoring, or peer-to-peer communication), port forwarding becomes necessary.</p>
+
+                    <div class="code-block">
+                        <h4>Port Forwarding Configuration Examples:</h4>
+                        <pre><code># Cisco Router Port Forwarding
+ip nat inside source static tcp 192.168.1.100 80 203.0.113.1 8080
+ip nat inside source static tcp 192.168.1.101 80 203.0.113.1 8081
+
+# Linux iptables Port Forwarding  
+iptables -t nat -A PREROUTING -p tcp --dport 8080 -j DNAT --to-destination 192.168.1.100:80
+iptables -t nat -A POSTROUTING -p tcp -d 192.168.1.100 --dport 80 -j SNAT --to-source 192.168.1.1
+
+# Home Router Web Interface
+External Port: 8080 → Internal IP: 192.168.1.100, Internal Port: 80
+
+Security Considerations:
+- Only forward necessary ports
+- Use non-standard external ports
+- Implement firewall rules
+- Consider VPN access instead
+- Monitor forwarded connections</code></pre>
+                    </div>
                 </div>
 
                 <div class="topic-section">
                     <h2>Public vs Private IP Addresses</h2>
                     
-                    <h3>Private IP Ranges (RFC 1918)</h3>
-                    <div class="ip-ranges">
-                        <div class="range-card">
-                            <h4>10.0.0.0/8</h4>
-                            <p>Large networks (16.7M addresses)</p>
-                            <p>Enterprise, ISP internal</p>
-                        </div>
-                        <div class="range-card">
-                            <h4>172.16.0.0/12</h4>
-                            <p>Medium networks (1M addresses)</p>
-                            <p>Corporate networks</p>
-                        </div>
-                        <div class="range-card">
-                            <h4>192.168.0.0/16</h4>
-                            <p>Small networks (65K addresses)</p>
-                            <p>Home, small office</p>
-                        </div>
+                    <h3>The IPv4 Address Space Crisis</h3>
+                    <p>IPv4 provides only 4.3 billion addresses, but we have more devices than that. Private addressing (RFC 1918) solves this by allowing address reuse in different networks, with NAT providing internet access. This is why understanding private vs public addressing is crucial for IoT engineers.</p>
+
+                    <h3>Private Address Ranges in Detail</h3>
+                    <p>RFC 1918 defines three private address ranges, each suited for different deployment scenarios:</p>
+
+                    <div class="comparison-table">
+                        <table>
+                            <tr><th>Range</th><th>CIDR</th><th>Addresses</th><th>Typical Use</th><th>IoT Applications</th></tr>
+                            <tr>
+                                <td>10.0.0.0 - 10.255.255.255</td>
+                                <td>10.0.0.0/8</td>
+                                <td>16,777,216</td>
+                                <td>Large enterprises, ISPs</td>
+                                <td>Massive IoT deployments, smart cities</td>
+                            </tr>
+                            <tr>
+                                <td>172.16.0.0 - 172.31.255.255</td>
+                                <td>172.16.0.0/12</td>
+                                <td>1,048,576</td>
+                                <td>Medium enterprises</td>
+                                <td>Industrial IoT, campus networks</td>
+                            </tr>
+                            <tr>
+                                <td>192.168.0.0 - 192.168.255.255</td>
+                                <td>192.168.0.0/16</td>
+                                <td>65,536</td>
+                                <td>Small offices, homes</td>
+                                <td>Home automation, small IoT deployments</td>
+                            </tr>
+                        </table>
                     </div>
 
-                    <h3>NAT (Network Address Translation)</h3>
-                    <ul>
-                        <li><strong>Purpose:</strong> Allow private IPs to access internet</li>
-                        <li><strong>Process:</strong> Router translates private to public IP</li>
-                        <li><strong>Port Mapping:</strong> Tracks connections by port numbers</li>
-                        <li><strong>IoT Impact:</strong> Devices not directly accessible from internet</li>
-                    </ul>
+                    <h3>IoT Network Design with Private Addressing</h3>
+                    <p>Proper use of private addressing enables scalable, secure IoT deployments. Here's how to design networks for different IoT scenarios:</p>
 
-                    <h3>Special IP Addresses</h3>
-                    <ul>
-                        <li><strong>127.0.0.1:</strong> Loopback (localhost)</li>
-                        <li><strong>169.254.x.x:</strong> APIPA (Automatic Private IP)</li>
-                        <li><strong>224.0.0.0-239.255.255.255:</strong> Multicast</li>
-                        <li><strong>255.255.255.255:</strong> Limited broadcast</li>
-                    </ul>
+                    <div class="code-block">
+                        <h4>IoT Network Design Examples:</h4>
+                        <pre><code>Scenario 1: Smart Home (192.168.x.x)
+192.168.1.0/24   - Family devices (phones, laptops, tablets)
+192.168.2.0/24   - Smart home devices (lights, thermostats, locks)  
+192.168.3.0/24   - Security devices (cameras, sensors, alarms)
+192.168.4.0/24   - Entertainment (smart TVs, speakers, gaming)
+192.168.10.0/24  - Guest network (isolated)
+
+Benefits:
+- Clear device categorization
+- Easy firewall rule implementation
+- Simplified troubleshooting
+- Room for expansion (192.168.5-9.x available)
+
+Scenario 2: Industrial IoT (10.x.x.x)
+10.1.0.0/16      - Corporate network (offices, servers)
+10.10.0.0/16     - Manufacturing floor IoT
+10.11.0.0/16     - Environmental monitoring
+10.12.0.0/16     - Security and access control
+10.13.0.0/16     - Maintenance and diagnostics
+10.20.0.0/16     - Guest and contractor access
+
+Subnetting within IoT networks:
+10.10.1.0/24     - Production line 1 sensors
+10.10.2.0/24     - Production line 2 sensors  
+10.10.10.0/24    - Quality control systems
+10.10.20.0/24    - Predictive maintenance devices
+
+Scenario 3: Smart City (Hierarchical Design)
+10.0.0.0/8       - Entire smart city network
+
+10.1.0.0/16      - Traffic management systems
+  10.1.1.0/24    - Traffic lights (intersection 1-254)
+  10.1.2.0/24    - Traffic cameras
+  10.1.3.0/24    - Vehicle detection sensors
+
+10.2.0.0/16      - Environmental monitoring
+  10.2.1.0/24    - Air quality sensors
+  10.2.2.0/24    - Weather stations
+  10.2.3.0/24    - Noise monitoring
+
+10.3.0.0/16      - Public safety
+  10.3.1.0/24    - Emergency call boxes
+  10.3.2.0/24    - Security cameras
+  10.3.3.0/24    - Gunshot detection sensors</code></pre>
+                    </div>
+
+                    <h3>Special-Use IP Addresses</h3>
+                    <p>Beyond RFC 1918 private addresses, several other address ranges have special meanings important for IoT deployments:</p>
+
+                    <div class="comparison-table">
+                        <table>
+                            <tr><th>Range</th><th>Purpose</th><th>IoT Relevance</th><th>Example Use</th></tr>
+                            <tr>
+                                <td>127.0.0.0/8</td>
+                                <td>Loopback</td>
+                                <td>Local testing, inter-process communication</td>
+                                <td>IoT device self-diagnostics</td>
+                            </tr>
+                            <tr>
+                                <td>169.254.0.0/16</td>
+                                <td>Link-local (APIPA)</td>
+                                <td>Automatic addressing when DHCP fails</td>
+                                <td>IoT device fallback addressing</td>
+                            </tr>
+                            <tr>
+                                <td>224.0.0.0/4</td>
+                                <td>Multicast</td>
+                                <td>One-to-many communication</td>
+                                <td>IoT device discovery, group updates</td>
+                            </tr>
+                            <tr>
+                                <td>240.0.0.0/4</td>
+                                <td>Reserved (Class E)</td>
+                                <td>Experimental use</td>
+                                <td>Research IoT networks</td>
+                            </tr>
+                            <tr>
+                                <td>0.0.0.0</td>
+                                <td>This network</td>
+                                <td>Default route, unknown source</td>
+                                <td>DHCP requests, routing tables</td>
+                            </tr>
+                            <tr>
+                                <td>255.255.255.255</td>
+                                <td>Limited broadcast</td>
+                                <td>Local network broadcasts</td>
+                                <td>DHCP discovery, ARP requests</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <h3>IPv6 and IoT: The Future of Addressing</h3>
+                    <p>While this course focuses on IPv4, IPv6 is increasingly important for IoT due to its massive address space and built-in features designed for device-to-device communication.</p>
+
+                    <div class="code-block">
+                        <h4>IPv6 Advantages for IoT:</h4>
+                        <pre><code>Address Space:
+- IPv4: 4.3 billion addresses (2^32)
+- IPv6: 340 undecillion addresses (2^128)
+- Enough for every grain of sand on Earth to have billions of addresses
+
+IoT-Friendly Features:
+- No NAT required (end-to-end connectivity)
+- Built-in autoconfiguration (SLAAC)
+- Improved multicast support
+- Better security integration (IPSec mandatory)
+- Efficient routing (hierarchical addressing)
+
+IPv6 Address Types for IoT:
+- Link-local: fe80::/10 (automatic, no router needed)
+- Unique local: fc00::/7 (private addressing equivalent)  
+- Global unicast: 2000::/3 (internet routable)
+- Multicast: ff00::/8 (group communication)
+
+Example IoT IPv6 Addresses:
+Link-local:    fe80::1234:5678:9abc:def0
+Unique local:  fd12:3456:789a::bcde:f012
+Global:        2001:db8:1234:5678::abcd:ef01</code></pre>
+                    </div>
                 </div>
 
                 <div class="practical-exercises">
-                    <h2>Practical Exercises</h2>
+                    <h2>Advanced Hands-On Exercises</h2>
+                    
                     <div class="exercise-list">
                         <div class="exercise-item">
-                            <h3>Exercise 1: DHCP Analysis</h3>
-                            <p>Release and renew your IP address while capturing with Wireshark:</p>
+                            <h3>Exercise 1: DHCP Traffic Analysis</h3>
+                            <p><strong>Objective:</strong> Capture and analyze the complete DHCP DORA process to understand each step in detail.</p>
+                            
+                            <h4>Prerequisites:</h4>
+                            <ul>
+                                <li>Wireshark installed with administrator privileges</li>
+                                <li>Ability to release/renew IP address</li>
+                                <li>Access to network interface configuration</li>
+                            </ul>
+
+                            <h4>Detailed Steps:</h4>
                             <ol>
-                                <li>Start Wireshark capture with filter: <code>dhcp</code></li>
-                                <li>Release IP: <code>ipconfig /release</code></li>
-                                <li>Renew IP: <code>ipconfig /renew</code></li>
-                                <li>Analyze the DORA process in captured packets</li>
+                                <li><strong>Prepare Wireshark:</strong>
+                                    <ul>
+                                        <li>Start Wireshark as administrator</li>
+                                        <li>Select your active network interface</li>
+                                        <li>Apply filter: <code>bootp or dhcp</code></li>
+                                        <li>Start capture</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Trigger DHCP Process:</strong>
+                                    <div class="code-block">
+                                        <pre><code># Windows
+ipconfig /release
+ipconfig /renew
+
+# Linux
+sudo dhclient -r eth0
+sudo dhclient eth0
+
+# macOS
+sudo ipconfig set en0 DHCP</code></pre>
+                                    </div>
+                                </li>
+                                <li><strong>Stop capture and analyze each packet</strong></li>
                             </ol>
+
+                            <h4>Analysis Tasks:</h4>
+                            <ol>
+                                <li><strong>DHCP Discover Analysis:</strong>
+                                    <ul>
+                                        <li>What is the source IP address and why?</li>
+                                        <li>What is the destination IP and MAC address?</li>
+                                        <li>What options does the client request?</li>
+                                        <li>How does the client identify itself?</li>
+                                    </ul>
+                                </li>
+                                <li><strong>DHCP Offer Analysis:</strong>
+                                    <ul>
+                                        <li>What IP address is offered?</li>
+                                        <li>What is the lease time?</li>
+                                        <li>What additional options are provided?</li>
+                                        <li>How does the server identify itself?</li>
+                                    </ul>
+                                </li>
+                                <li><strong>DHCP Request Analysis:</strong>
+                                    <ul>
+                                        <li>Why is this still a broadcast?</li>
+                                        <li>What server does the client choose?</li>
+                                        <li>What happens if multiple servers offered addresses?</li>
+                                    </ul>
+                                </li>
+                                <li><strong>DHCP ACK Analysis:</strong>
+                                    <ul>
+                                        <li>What final configuration is provided?</li>
+                                        <li>When will the client need to renew?</li>
+                                        <li>What happens if the server sends a NAK instead?</li>
+                                    </ul>
+                                </li>
+                            </ol>
+
+                            <h4>Advanced Analysis:</h4>
+                            <ul>
+                                <li>Calculate the exact renewal times (T1, T2)</li>
+                                <li>Identify all DHCP options and their purposes</li>
+                                <li>Compare timing between different DHCP implementations</li>
+                                <li>Analyze what happens during lease renewal vs. new lease</li>
+                            </ul>
                         </div>
 
                         <div class="exercise-item">
-                            <h3>Exercise 2: ARP Investigation</h3>
-                            <p>Observe ARP behavior:</p>
+                            <h3>Exercise 2: ARP Behavior Investigation</h3>
+                            <p><strong>Objective:</strong> Understand ARP behavior in different network scenarios and its impact on IoT device communication.</p>
+                            
+                            <h4>Part A: Basic ARP Operation</h4>
                             <ol>
-                                <li>Clear ARP cache: <code>arp -d *</code></li>
-                                <li>Ping your gateway: <code>ping [gateway-ip]</code></li>
-                                <li>Check ARP cache: <code>arp -a</code></li>
-                                <li>Capture ARP traffic with Wireshark</li>
+                                <li><strong>Clear ARP cache and monitor rebuilding:</strong>
+                                    <div class="code-block">
+                                        <pre><code># Clear ARP cache
+# Windows: arp -d *
+# Linux: sudo ip neigh flush all
+
+# Monitor ARP table
+# Windows: arp -a
+# Linux: ip neigh show
+
+# Generate traffic to rebuild cache
+ping [gateway-ip]
+ping [another-device-ip]</code></pre>
+                                    </div>
+                                </li>
+                                <li><strong>Document ARP cache behavior:</strong>
+                                    <ul>
+                                        <li>How quickly do entries appear?</li>
+                                        <li>What is the initial state of new entries?</li>
+                                        <li>How long do entries persist without traffic?</li>
+                                    </ul>
+                                </li>
                             </ol>
+
+                            <h4>Part B: ARP in Different Scenarios</h4>
+                            <ol>
+                                <li><strong>Local vs. Remote Communication:</strong>
+                                    <ul>
+                                        <li>Ping a device on your local subnet</li>
+                                        <li>Ping a device on the internet (e.g., 8.8.8.8)</li>
+                                        <li>Compare ARP entries created in each case</li>
+                                        <li>Explain why the ARP entries are different</li>
+                                    </ul>
+                                </li>
+                                <li><strong>ARP Timeout Testing:</strong>
+                                    <ul>
+                                        <li>Note current ARP entries and their ages</li>
+                                        <li>Wait for entries to age out (may take several minutes)</li>
+                                        <li>Document which entries disappear first</li>
+                                        <li>Test what happens when you try to communicate with an aged-out entry</li>
+                                    </ul>
+                                </li>
+                            </ol>
+
+                            <h4>Part C: Wireshark ARP Analysis</h4>
+                            <ol>
+                                <li>Start Wireshark with filter: <code>arp</code></li>
+                                <li>Clear ARP cache</li>
+                                <li>Generate various types of network traffic</li>
+                                <li>Analyze captured ARP packets for:
+                                    <ul>
+                                        <li>Request vs. Reply packets</li>
+                                        <li>Gratuitous ARP packets</li>
+                                        <li>ARP packet structure and fields</li>
+                                        <li>Timing between requests and replies</li>
+                                    </ul>
+                                </li>
+                            </ol>
+
+                            <h4>IoT-Specific Analysis:</h4>
+                            <ul>
+                                <li>How would limited ARP cache size affect IoT devices?</li>
+                                <li>What happens when an IoT device sleeps and its ARP entry ages out?</li>
+                                <li>How could ARP storms affect IoT network performance?</li>
+                                <li>Design ARP optimization strategies for battery-powered IoT devices</li>
+                            </ul>
+                        </div>
+
+                        <div class="exercise-item">
+                            <h3>Exercise 3: Network Segmentation Design</h3>
+                            <p><strong>Objective:</strong> Design a comprehensive network segmentation strategy for a complex IoT deployment.</p>
+                            
+                            <h4>Scenario:</h4>
+                            <p>You're designing the network for a smart office building with the following requirements:</p>
+                            <ul>
+                                <li>500 employee devices (laptops, phones, tablets)</li>
+                                <li>200 environmental sensors (temperature, humidity, air quality)</li>
+                                <li>50 security cameras (indoor and outdoor)</li>
+                                <li>30 access control devices (card readers, door locks)</li>
+                                <li>20 HVAC controllers</li>
+                                <li>100 lighting controllers</li>
+                                <li>50 guest devices (visitors, contractors)</li>
+                                <li>10 building management servers</li>
+                                <li>Future expansion capability (50% growth)</li>
+                            </ul>
+
+                            <h4>Design Requirements:</h4>
+                            <ol>
+                                <li><strong>Address Space Selection:</strong>
+                                    <ul>
+                                        <li>Choose appropriate private address range</li>
+                                        <li>Justify your choice based on scale and growth</li>
+                                        <li>Consider integration with existing corporate networks</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Subnet Design:</strong>
+                                    <ul>
+                                        <li>Create logical subnets for each device category</li>
+                                        <li>Size subnets appropriately with growth margin</li>
+                                        <li>Use hierarchical addressing for easy management</li>
+                                        <li>Document subnet purposes and VLAN assignments</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Security Considerations:</strong>
+                                    <ul>
+                                        <li>Identify which subnets need isolation</li>
+                                        <li>Design inter-subnet communication policies</li>
+                                        <li>Plan for guest network isolation</li>
+                                        <li>Consider management network separation</li>
+                                    </ul>
+                                </li>
+                                <li><strong>DHCP Strategy:</strong>
+                                    <ul>
+                                        <li>Determine which devices get DHCP vs. static IPs</li>
+                                        <li>Plan DHCP scope sizes and lease times</li>
+                                        <li>Design DHCP options for different device types</li>
+                                        <li>Consider DHCP reservations for critical devices</li>
+                                    </ul>
+                                </li>
+                            </ol>
+
+                            <h4>Deliverables:</h4>
+                            <ol>
+                                <li><strong>Network Diagram:</strong> Visual representation of your design</li>
+                                <li><strong>Addressing Plan:</strong> Complete subnet allocation table</li>
+                                <li><strong>DHCP Configuration:</strong> Scope definitions and options</li>
+                                <li><strong>Security Matrix:</strong> Inter-subnet communication rules</li>
+                                <li><strong>Implementation Plan:</strong> Step-by-step deployment strategy</li>
+                            </ol>
+
+                            <h4>Bonus Challenges:</h4>
+                            <ul>
+                                <li>Design redundancy for critical network services</li>
+                                <li>Plan for IPv6 dual-stack implementation</li>
+                                <li>Consider QoS requirements for different traffic types</li>
+                                <li>Design monitoring and troubleshooting strategies</li>
+                            </ul>
                         </div>
                     </div>
+                </div>
+
+                <div class="lab-questions">
+                    <h2>Comprehensive Review Questions</h2>
+                    <ol>
+                        <li><strong>DHCP Deep Dive:</strong>
+                            <ul>
+                                <li>Explain why DHCP uses broadcasts for the initial discovery and request phases, even though the client could unicast to a known server after receiving an offer.</li>
+                                <li>Describe what happens when a DHCP client's lease expires while the device is powered off. How does this affect network planning?</li>
+                                <li>Compare the advantages and disadvantages of short vs. long DHCP lease times for different types of IoT devices.</li>
+                                <li>Design a DHCP failover strategy for a critical IoT deployment where network connectivity cannot be interrupted.</li>
+                            </ul>
+                        </li>
+                        <li><strong>ARP Analysis:</strong>
+                            <ul>
+                                <li>Explain why ARP is necessary even though we have IP addresses. Why can't devices communicate using only Layer 3 addressing?</li>
+                                <li>Describe the security implications of ARP's design. How could an attacker exploit ARP to compromise IoT devices?</li>
+                                <li>Analyze the performance impact of ARP in a network with 1000 IoT devices. What optimization strategies would you recommend?</li>
+                                <li>Explain how ARP behaves differently in switched vs. hub-based networks and why this matters for modern IoT deployments.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Routing and Gateways:</strong>
+                            <ul>
+                                <li>Describe the complete packet flow when an IoT device communicates with a cloud service, including all routing decisions and address translations.</li>
+                                <li>Explain how NAT affects IoT device-to-device communication and propose solutions for scenarios requiring peer-to-peer connectivity.</li>
+                                <li>Design a multi-homed network setup where IoT devices can automatically failover between internet connections.</li>
+                                <li>Analyze the trade-offs between using a single default gateway vs. multiple gateways for different types of IoT traffic.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Network Design Integration:</strong>
+                            <ul>
+                                <li>Design a network architecture that supports both IPv4 and IPv6 IoT devices, explaining the transition strategy and dual-stack considerations.</li>
+                                <li>Explain how your network design would handle a scenario where IoT devices need to communicate across multiple physical locations connected by VPN.</li>
+                                <li>Describe how you would implement network segmentation to isolate compromised IoT devices while maintaining necessary connectivity for legitimate traffic.</li>
+                                <li>Propose a monitoring strategy to detect and alert on network anomalies that might indicate IoT device compromise or malfunction.</li>
+                            </ul>
+                        </li>
+                    </ol>
                 </div>
             </div>
         </section>
     </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Dynamic Devices. All rights reserved.</p>
+        </div>
+    </footer>
 </body>
 </html>

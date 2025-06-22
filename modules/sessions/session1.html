@@ -10,6 +10,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1><a href="../../index.html">Dynamic Devices</a></h1>
+                    <span>Session 1: Network Fundamentals</span>
+                </div>
+                <nav class="nav">
+                    <a href="../../index.html">Home</a>
+                    <a href="../module1.html">Module 1</a>
+                    <a href="session2.html">Next Session</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
     <main>
         <section class="session-header">
             <div class="container">
@@ -24,130 +40,657 @@
         <section class="session-content">
             <div class="container">
                 <div class="topic-section">
-                    <h2>OSI Model vs TCP/IP Stack</h2>
+                    <h2>Understanding Network Communication Models</h2>
+                    
+                    <h3>Why Do We Need Network Models?</h3>
+                    <p>Imagine trying to build a complex IoT system where devices from different manufacturers need to communicate. Without standardized rules, each device might "speak" a different language. Network models provide a structured framework that ensures interoperability between different systems and vendors.</p>
+                    
+                    <p>Think of network models like the postal system: you don't need to know how mail sorting facilities work to send a letter - you just follow the addressing format. Similarly, network models abstract the complexity of communication into manageable layers.</p>
+
+                    <h3>The OSI Model: A Theoretical Foundation</h3>
+                    <p>The Open Systems Interconnection (OSI) model was developed by the International Organization for Standardization (ISO) in the 1980s as a conceptual framework to understand network communication. While rarely implemented exactly as specified, it provides an excellent educational tool for understanding how networks operate.</p>
+
                     <div class="comparison-table">
+                        <h4>OSI Model Layers (Bottom to Top):</h4>
                         <table>
-                            <tr><th>OSI Layer</th><th>TCP/IP Layer</th><th>Function</th><th>Examples</th></tr>
-                            <tr><td>Application</td><td rowspan="3">Application</td><td>User interface</td><td>HTTP, FTP, SMTP</td></tr>
-                            <tr><td>Presentation</td><td>Data formatting</td><td>SSL, JPEG, ASCII</td></tr>
-                            <tr><td>Session</td><td>Session management</td><td>NetBIOS, RPC</td></tr>
-                            <tr><td>Transport</td><td>Transport</td><td>End-to-end delivery</td><td>TCP, UDP</td></tr>
-                            <tr><td>Network</td><td>Internet</td><td>Routing</td><td>IP, ICMP, ARP</td></tr>
-                            <tr><td>Data Link</td><td rowspan="2">Network Access</td><td>Frame formatting</td><td>Ethernet, Wi-Fi</td></tr>
-                            <tr><td>Physical</td><td>Physical transmission</td><td>Cables, Radio waves</td></tr>
+                            <tr><th>Layer</th><th>Name</th><th>Function</th><th>Real-World Analogy</th><th>IoT Examples</th></tr>
+                            <tr>
+                                <td>1</td>
+                                <td>Physical</td>
+                                <td>Electrical signals, cables, radio waves</td>
+                                <td>The actual roads and highways</td>
+                                <td>Wi-Fi radio, Ethernet cables, LoRa transceivers</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Data Link</td>
+                                <td>Frame formatting, error detection, MAC addresses</td>
+                                <td>Traffic rules on local roads</td>
+                                <td>Wi-Fi frames, Ethernet frames, Zigbee MAC</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Network</td>
+                                <td>Routing between networks, IP addresses</td>
+                                <td>GPS navigation between cities</td>
+                                <td>IP routing, IPv6 for IoT, mesh routing</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Transport</td>
+                                <td>Reliable delivery, flow control</td>
+                                <td>Postal service delivery confirmation</td>
+                                <td>TCP for critical data, UDP for sensor readings</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>Session</td>
+                                <td>Managing connections and sessions</td>
+                                <td>Phone call setup and management</td>
+                                <td>TLS sessions, MQTT persistent connections</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td>Presentation</td>
+                                <td>Data formatting, encryption, compression</td>
+                                <td>Language translation</td>
+                                <td>JSON formatting, SSL/TLS encryption</td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                                <td>Application</td>
+                                <td>User interface and application services</td>
+                                <td>The actual conversation content</td>
+                                <td>HTTP APIs, MQTT messages, CoAP requests</td>
+                            </tr>
                         </table>
                     </div>
-                    
-                    <h3>Key Concepts:</h3>
-                    <ul>
-                        <li><strong>Encapsulation:</strong> Each layer adds its own header</li>
-                        <li><strong>Abstraction:</strong> Upper layers don't need to know lower layer details</li>
-                        <li><strong>Modularity:</strong> Changes in one layer don't affect others</li>
-                    </ul>
-                </div>
 
-                <div class="topic-section">
-                    <h2>MAC Addresses and Physical Layer</h2>
-                    <h3>MAC Address Structure</h3>
-                    <ul>
-                        <li><strong>Format:</strong> 48-bit (6 bytes) hexadecimal</li>
-                        <li><strong>Example:</strong> 00:1B:44:11:3A:B7</li>
-                        <li><strong>OUI:</strong> First 3 bytes identify manufacturer</li>
-                        <li><strong>NIC:</strong> Last 3 bytes are device-specific</li>
-                    </ul>
-                    
-                    <h3>Physical Layer Considerations for IoT</h3>
-                    <ul>
-                        <li><strong>Wi-Fi:</strong> 2.4GHz vs 5GHz bands</li>
-                        <li><strong>Range:</strong> Signal strength affects reliability</li>
-                        <li><strong>Interference:</strong> Other devices, microwaves, etc.</li>
-                        <li><strong>Power consumption:</strong> Critical for battery-powered devices</li>
-                    </ul>
-                </div>
+                    <h3>The TCP/IP Model: Practical Implementation</h3>
+                    <p>While the OSI model provides theoretical understanding, the TCP/IP model (also called the Internet Protocol Suite) is what actually runs the internet and most modern networks. It was developed by DARPA in the 1970s and has proven more practical and flexible than OSI.</p>
 
-                <div class="topic-section">
-                    <h2>IP Address Classes and Subnetting</h2>
-                    <h3>IPv4 Address Classes</h3>
-                    <div class="address-classes">
-                        <div class="class-card">
-                            <h4>Class A</h4>
-                            <p><strong>Range:</strong> 1.0.0.0 - 126.255.255.255</p>
-                            <p><strong>Default Mask:</strong> 255.0.0.0 (/8)</p>
-                            <p><strong>Hosts:</strong> 16,777,214 per network</p>
-                        </div>
-                        <div class="class-card">
-                            <h4>Class B</h4>
-                            <p><strong>Range:</strong> 128.0.0.0 - 191.255.255.255</p>
-                            <p><strong>Default Mask:</strong> 255.255.0.0 (/16)</p>
-                            <p><strong>Hosts:</strong> 65,534 per network</p>
-                        </div>
-                        <div class="class-card">
-                            <h4>Class C</h4>
-                            <p><strong>Range:</strong> 192.0.0.0 - 223.255.255.255</p>
-                            <p><strong>Default Mask:</strong> 255.255.255.0 (/24)</p>
-                            <p><strong>Hosts:</strong> 254 per network</p>
-                        </div>
+                    <div class="comparison-table">
+                        <h4>TCP/IP vs OSI Mapping:</h4>
+                        <table>
+                            <tr><th>TCP/IP Layer</th><th>OSI Equivalent</th><th>Key Protocols</th><th>IoT Relevance</th></tr>
+                            <tr>
+                                <td><strong>Application</strong></td>
+                                <td>Application + Presentation + Session</td>
+                                <td>HTTP, HTTPS, MQTT, CoAP, DNS</td>
+                                <td>Where your IoT application logic lives</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Transport</strong></td>
+                                <td>Transport</td>
+                                <td>TCP, UDP, SCTP</td>
+                                <td>Critical for IoT reliability vs. performance trade-offs</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Internet</strong></td>
+                                <td>Network</td>
+                                <td>IP, ICMP, ARP, IGMP</td>
+                                <td>Enables IoT devices to communicate across networks</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Network Access</strong></td>
+                                <td>Data Link + Physical</td>
+                                <td>Ethernet, Wi-Fi, Cellular, LoRa</td>
+                                <td>The physical connection method for IoT devices</td>
+                            </tr>
+                        </table>
                     </div>
 
-                    <h3>Private IP Ranges (RFC 1918)</h3>
+                    <h3>Data Encapsulation: How Messages Travel</h3>
+                    <p>Understanding encapsulation is crucial for IoT engineers because it explains how your application data gets packaged for transmission and why network overhead matters for battery-powered devices.</p>
+
+                    <div class="code-block">
+                        <h4>Encapsulation Process (Sending Data):</h4>
+                        <pre><code>Application Layer:    [Your IoT Data: "Temperature: 23.5°C"]
+Transport Layer:      [TCP Header][Your IoT Data: "Temperature: 23.5°C"]
+Internet Layer:       [IP Header][TCP Header][Your IoT Data: "Temperature: 23.5°C"]
+Network Access:       [Ethernet Header][IP Header][TCP Header][Your IoT Data][Ethernet Trailer]
+
+Total overhead for simple message: ~54 bytes (Ethernet) + ~20 bytes (IP) + ~20 bytes (TCP) = ~94 bytes
+Your actual data: ~20 bytes
+Efficiency: 20/(20+94) = 17.5% - This is why protocol choice matters for IoT!</code></pre>
+                    </div>
+
+                    <h3>Why This Matters for IoT Engineers</h3>
                     <ul>
-                        <li><strong>Class A:</strong> 10.0.0.0/8 (10.0.0.0 - 10.255.255.255)</li>
-                        <li><strong>Class B:</strong> 172.16.0.0/12 (172.16.0.0 - 172.31.255.255)</li>
-                        <li><strong>Class C:</strong> 192.168.0.0/16 (192.168.0.0 - 192.168.255.255)</li>
+                        <li><strong>Protocol Selection:</strong> Understanding layers helps you choose the right protocol stack for your application</li>
+                        <li><strong>Troubleshooting:</strong> Network problems can occur at any layer - knowing the model helps isolate issues</li>
+                        <li><strong>Performance Optimization:</strong> Each layer adds overhead - critical for battery-powered devices</li>
+                        <li><strong>Security:</strong> Security measures can be implemented at multiple layers for defense in depth</li>
+                        <li><strong>Interoperability:</strong> Understanding standards ensures your devices work with existing infrastructure</li>
                     </ul>
+                </div>
+
+                <div class="topic-section">
+                    <h2>MAC Addresses: The Hardware Identity</h2>
+                    
+                    <h3>What is a MAC Address?</h3>
+                    <p>A Media Access Control (MAC) address is a unique identifier assigned to network interfaces at the hardware level. Think of it as a permanent "serial number" for network hardware - like a VIN number for cars, but for network devices.</p>
+
+                    <h3>MAC Address Structure and Format</h3>
+                    <div class="code-block">
+                        <h4>MAC Address Anatomy:</h4>
+                        <pre><code>Example MAC: 00:1B:44:11:3A:B7
+
+Structure:   XX:XX:XX:YY:YY:YY
+             |-------|-------|
+                OUI     NIC
+                
+OUI (Organizationally Unique Identifier): 00:1B:44
+- First 3 bytes (24 bits)
+- Assigned by IEEE to manufacturers
+- 00:1B:44 = Intel Corporation
+
+NIC (Network Interface Controller): 11:3A:B7  
+- Last 3 bytes (24 bits)
+- Assigned by manufacturer
+- Should be unique for each device from that manufacturer
+
+Total: 48 bits = 281,474,976,710,656 possible addresses</code></pre>
+                    </div>
+
+                    <h3>MAC Address Types and Special Cases</h3>
+                    <div class="comparison-table">
+                        <table>
+                            <tr><th>Type</th><th>Format</th><th>Purpose</th><th>IoT Usage</th></tr>
+                            <tr>
+                                <td>Unicast</td>
+                                <td>LSB of first byte = 0</td>
+                                <td>Single device communication</td>
+                                <td>Normal device-to-device communication</td>
+                            </tr>
+                            <tr>
+                                <td>Multicast</td>
+                                <td>LSB of first byte = 1</td>
+                                <td>Group communication</td>
+                                <td>IoT device discovery, group updates</td>
+                            </tr>
+                            <tr>
+                                <td>Broadcast</td>
+                                <td>FF:FF:FF:FF:FF:FF</td>
+                                <td>All devices on network</td>
+                                <td>DHCP discovery, ARP requests</td>
+                            </tr>
+                            <tr>
+                                <td>Locally Administered</td>
+                                <td>2nd LSB of first byte = 1</td>
+                                <td>Software-assigned addresses</td>
+                                <td>Virtual interfaces, testing</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <h3>Physical Layer Considerations for IoT</h3>
+                    
+                    <h4>Wi-Fi Frequency Bands and IoT</h4>
+                    <p>Understanding Wi-Fi bands is crucial for IoT deployment because different bands have different characteristics that affect your device's performance, range, and battery life.</p>
+
+                    <div class="comparison-table">
+                        <table>
+                            <tr><th>Band</th><th>Frequency</th><th>Advantages</th><th>Disadvantages</th><th>IoT Use Cases</th></tr>
+                            <tr>
+                                <td>2.4 GHz</td>
+                                <td>2.400-2.485 GHz</td>
+                                <td>
+                                    • Longer range<br>
+                                    • Better wall penetration<br>
+                                    • Lower power consumption<br>
+                                    • Universal device support
+                                </td>
+                                <td>
+                                    • More congested<br>
+                                    • Lower data rates<br>
+                                    • Interference from microwaves, Bluetooth
+                                </td>
+                                <td>
+                                    • Battery-powered sensors<br>
+                                    • Smart home devices<br>
+                                    • Agricultural IoT<br>
+                                    • Industrial monitoring
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>5 GHz</td>
+                                <td>5.150-5.825 GHz</td>
+                                <td>
+                                    • Less congested<br>
+                                    • Higher data rates<br>
+                                    • More channels available<br>
+                                    • Less interference
+                                </td>
+                                <td>
+                                    • Shorter range<br>
+                                    • Poor wall penetration<br>
+                                    • Higher power consumption<br>
+                                    • Not supported by all IoT devices
+                                </td>
+                                <td>
+                                    • High-bandwidth IoT (cameras)<br>
+                                    • Real-time control systems<br>
+                                    • Dense IoT deployments<br>
+                                    • Indoor applications
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <h4>Signal Propagation and IoT Deployment</h4>
+                    <p>Understanding how radio signals behave is essential for planning IoT deployments:</p>
+
+                    <ul>
+                        <li><strong>Free Space Path Loss:</strong> Signal strength decreases with distance (inverse square law)</li>
+                        <li><strong>Obstacles:</strong> Walls, furniture, and people absorb and reflect signals</li>
+                        <li><strong>Multipath:</strong> Signals can take multiple paths, causing interference</li>
+                        <li><strong>Fresnel Zones:</strong> Areas around the direct path that affect signal quality</li>
+                    </ul>
+
+                    <div class="code-block">
+                        <h4>Practical Signal Strength Guidelines:</h4>
+                        <pre><code>Excellent: -30 to -50 dBm  (Close to access point, no obstacles)
+Good:      -50 to -60 dBm  (Same room as access point)
+Fair:      -60 to -70 dBm  (Adjacent rooms, some walls)
+Poor:      -70 to -80 dBm  (Multiple walls, long distance)
+Unusable:  -80 dBm and below
+
+For IoT devices:
+- Battery-powered sensors: Aim for -65 dBm or better
+- Critical applications: -60 dBm or better  
+- High-data applications: -50 dBm or better</code></pre>
+                    </div>
+                </div>
+
+                <div class="topic-section">
+                    <h2>IP Addressing: The Internet's Postal System</h2>
+                    
+                    <h3>Understanding IP Addresses</h3>
+                    <p>An IP (Internet Protocol) address is like a postal address for devices on a network. Just as your home address has a country, state, city, and street address, an IP address has network and host portions that help route data to the correct destination.</p>
+
+                    <h3>IPv4 Address Structure</h3>
+                    <p>IPv4 addresses are 32-bit numbers, typically written in dotted decimal notation (four numbers from 0-255 separated by dots).</p>
+
+                    <div class="code-block">
+                        <h4>IPv4 Address Breakdown:</h4>
+                        <pre><code>Example: 192.168.1.100
+
+Binary representation:
+192 = 11000000
+168 = 10101000  
+1   = 00000001
+100 = 01100100
+
+Full binary: 11000000.10101000.00000001.01100100
+
+This 32-bit address provides 2^32 = 4,294,967,296 possible addresses
+(But many are reserved for special purposes)</code></pre>
+                    </div>
+
+                    <h3>IP Address Classes: Historical Context</h3>
+                    <p>Originally, IP addresses were divided into classes based on the first few bits. While classful addressing is largely obsolete (replaced by CIDR), understanding classes helps grasp network design principles.</p>
+
+                    <div class="comparison-table">
+                        <table>
+                            <tr><th>Class</th><th>First Bits</th><th>Range</th><th>Default Mask</th><th>Networks</th><th>Hosts/Network</th><th>Typical Use</th></tr>
+                            <tr>
+                                <td><strong>A</strong></td>
+                                <td>0</td>
+                                <td>1.0.0.0 - 126.255.255.255</td>
+                                <td>255.0.0.0 (/8)</td>
+                                <td>126</td>
+                                <td>16,777,214</td>
+                                <td>Large organizations, ISPs</td>
+                            </tr>
+                            <tr>
+                                <td><strong>B</strong></td>
+                                <td>10</td>
+                                <td>128.0.0.0 - 191.255.255.255</td>
+                                <td>255.255.0.0 (/16)</td>
+                                <td>16,384</td>
+                                <td>65,534</td>
+                                <td>Medium organizations</td>
+                            </tr>
+                            <tr>
+                                <td><strong>C</strong></td>
+                                <td>110</td>
+                                <td>192.0.0.0 - 223.255.255.255</td>
+                                <td>255.255.255.0 (/24)</td>
+                                <td>2,097,152</td>
+                                <td>254</td>
+                                <td>Small networks, home/office</td>
+                            </tr>
+                            <tr>
+                                <td><strong>D</strong></td>
+                                <td>1110</td>
+                                <td>224.0.0.0 - 239.255.255.255</td>
+                                <td>N/A</td>
+                                <td>N/A</td>
+                                <td>N/A</td>
+                                <td>Multicast</td>
+                            </tr>
+                            <tr>
+                                <td><strong>E</strong></td>
+                                <td>1111</td>
+                                <td>240.0.0.0 - 255.255.255.255</td>
+                                <td>N/A</td>
+                                <td>N/A</td>
+                                <td>N/A</td>
+                                <td>Reserved/Experimental</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <h3>Subnet Masks: Defining Network Boundaries</h3>
+                    <p>A subnet mask determines which part of an IP address represents the network and which part represents the host. This is crucial for routing decisions and network segmentation.</p>
+
+                    <div class="code-block">
+                        <h4>Subnet Mask Examples:</h4>
+                        <pre><code>Example 1: 192.168.1.100 with subnet mask 255.255.255.0
+
+IP Address:    192.168.1.100  = 11000000.10101000.00000001.01100100
+Subnet Mask:   255.255.255.0  = 11111111.11111111.11111111.00000000
+                                 |--------Network--------|--Host--|
+
+Network portion: 192.168.1.0 (first 24 bits)
+Host portion: 100 (last 8 bits)
+Network can have 2^8 - 2 = 254 hosts (subtract network and broadcast addresses)
+
+Example 2: 10.0.50.25 with subnet mask 255.255.0.0
+
+IP Address:    10.0.50.25     = 00001010.00000000.00110010.00011001  
+Subnet Mask:   255.255.0.0    = 11111111.11111111.00000000.00000000
+                                 |--Network--|------Host------|
+
+Network portion: 10.0.0.0 (first 16 bits)
+Host portion: 50.25 (last 16 bits)  
+Network can have 2^16 - 2 = 65,534 hosts</code></pre>
+                    </div>
+
+                    <h3>CIDR Notation: Modern Subnetting</h3>
+                    <p>Classless Inter-Domain Routing (CIDR) replaced classful addressing, allowing more flexible network allocation. The "/24" notation indicates how many bits are used for the network portion.</p>
+
+                    <div class="code-block">
+                        <h4>CIDR Examples:</h4>
+                        <pre><code>/8  = 255.0.0.0     = 16,777,214 hosts (Class A equivalent)
+/16 = 255.255.0.0   = 65,534 hosts    (Class B equivalent)  
+/24 = 255.255.255.0 = 254 hosts       (Class C equivalent)
+/25 = 255.255.255.128 = 126 hosts     (Half of Class C)
+/26 = 255.255.255.192 = 62 hosts      (Quarter of Class C)
+/27 = 255.255.255.224 = 30 hosts      (Eighth of Class C)
+/28 = 255.255.255.240 = 14 hosts      (Small office)
+/29 = 255.255.255.248 = 6 hosts       (Point-to-point links)
+/30 = 255.255.255.252 = 2 hosts       (Point-to-point links)
+
+Common IoT subnetting:
+/24 - Home networks, small IoT deployments
+/22 - Medium IoT deployments (1,022 devices)
+/20 - Large IoT deployments (4,094 devices)</code></pre>
+                    </div>
                 </div>
 
                 <div class="topic-section">
                     <h2>Network vs Device Identification</h2>
-                    <h3>Understanding Network Portions</h3>
-                    <div class="example-breakdown">
-                        <h4>Example: 192.168.1.100/24</h4>
-                        <ul>
-                            <li><strong>Network portion:</strong> 192.168.1.0 (first 24 bits)</li>
-                            <li><strong>Host portion:</strong> 100 (last 8 bits)</li>
-                            <li><strong>Subnet mask:</strong> 255.255.255.0</li>
-                            <li><strong>Network address:</strong> 192.168.1.0</li>
-                            <li><strong>Broadcast address:</strong> 192.168.1.255</li>
-                            <li><strong>Usable range:</strong> 192.168.1.1 - 192.168.1.254</li>
-                        </ul>
+                    
+                    <h3>Understanding Network Segmentation</h3>
+                    <p>Proper network segmentation is crucial for IoT deployments for security, performance, and management reasons. Understanding how devices identify their network helps in designing robust IoT architectures.</p>
+
+                    <h3>Determining Network Membership</h3>
+                    <p>When a device wants to communicate, it must first determine if the destination is on the same network (local) or a different network (remote). This decision affects how the data is sent.</p>
+
+                    <div class="code-block">
+                        <h4>Network Determination Process:</h4>
+                        <pre><code>Device IP: 192.168.1.100/24
+Subnet Mask: 255.255.255.0
+Destination: 192.168.1.50
+
+Step 1: Apply subnet mask to both addresses
+Source network:      192.168.1.100 & 255.255.255.0 = 192.168.1.0
+Destination network: 192.168.1.50  & 255.255.255.0 = 192.168.1.0
+
+Step 2: Compare network portions
+192.168.1.0 = 192.168.1.0 → Same network (LOCAL)
+→ Send directly to destination MAC address
+
+Different network example:
+Destination: 10.0.1.50
+Destination network: 10.0.1.50 & 255.255.255.0 = 10.0.1.0
+192.168.1.0 ≠ 10.0.1.0 → Different network (REMOTE)  
+→ Send to default gateway</code></pre>
                     </div>
 
                     <h3>Subnetting for IoT Networks</h3>
+                    <p>Proper subnetting in IoT environments provides several benefits:</p>
+
+                    <h4>Security Benefits:</h4>
                     <ul>
-                        <li><strong>Segmentation:</strong> Separate IoT devices from other traffic</li>
-                        <li><strong>Security:</strong> Isolate devices with different trust levels</li>
-                        <li><strong>Management:</strong> Easier to monitor and troubleshoot</li>
-                        <li><strong>Performance:</strong> Reduce broadcast domains</li>
+                        <li><strong>Isolation:</strong> Separate IoT devices from corporate networks</li>
+                        <li><strong>Access Control:</strong> Implement different security policies per subnet</li>
+                        <li><strong>Breach Containment:</strong> Limit the spread of security incidents</li>
+                        <li><strong>Monitoring:</strong> Easier to monitor and audit specific device types</li>
                     </ul>
+
+                    <h4>Performance Benefits:</h4>
+                    <ul>
+                        <li><strong>Broadcast Domain Reduction:</strong> Smaller subnets mean less broadcast traffic</li>
+                        <li><strong>Traffic Optimization:</strong> Keep local traffic local</li>
+                        <li><strong>QoS Implementation:</strong> Apply different quality of service policies</li>
+                        <li><strong>Load Distribution:</strong> Spread devices across multiple subnets</li>
+                    </ul>
+
+                    <div class="code-block">
+                        <h4>Example IoT Network Design:</h4>
+                        <pre><code>Corporate Network: 10.0.0.0/8
+
+Subnetting scheme:
+10.1.0.0/16   - Corporate users and servers
+10.2.0.0/16   - Guest network  
+10.10.0.0/16  - IoT devices (main subnet)
+
+IoT subnet breakdown:
+10.10.1.0/24  - Environmental sensors (254 devices)
+10.10.2.0/24  - Security cameras (254 devices)  
+10.10.3.0/24  - Access control systems (254 devices)
+10.10.4.0/24  - HVAC controllers (254 devices)
+10.10.5.0/24  - Lighting systems (254 devices)
+10.10.10.0/24 - Management and monitoring tools
+
+Benefits:
+- Clear device categorization
+- Separate security policies per device type
+- Easier troubleshooting and monitoring
+- Scalable design (can add more /24 subnets as needed)</code></pre>
+                    </div>
+
+                    <h3>Special IP Address Ranges</h3>
+                    <p>Several IP address ranges have special meanings and uses in networking:</p>
+
+                    <div class="comparison-table">
+                        <table>
+                            <tr><th>Range</th><th>Purpose</th><th>IoT Relevance</th></tr>
+                            <tr>
+                                <td>127.0.0.0/8</td>
+                                <td>Loopback addresses</td>
+                                <td>Local testing, inter-process communication</td>
+                            </tr>
+                            <tr>
+                                <td>169.254.0.0/16</td>
+                                <td>Link-local (APIPA)</td>
+                                <td>Automatic addressing when DHCP fails</td>
+                            </tr>
+                            <tr>
+                                <td>224.0.0.0/4</td>
+                                <td>Multicast</td>
+                                <td>IoT device discovery, group communication</td>
+                            </tr>
+                            <tr>
+                                <td>255.255.255.255</td>
+                                <td>Limited broadcast</td>
+                                <td>DHCP discovery, local network announcements</td>
+                            </tr>
+                            <tr>
+                                <td>0.0.0.0</td>
+                                <td>Default route, unknown address</td>
+                                <td>DHCP requests, routing table default</td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
 
                 <div class="practical-exercises">
-                    <h2>Practical Exercises</h2>
+                    <h2>Hands-On Exercises</h2>
+                    
                     <div class="exercise-list">
                         <div class="exercise-item">
-                            <h3>Exercise 1: Identify Your Network</h3>
-                            <p>Use <code>ipconfig</code> or <code>ifconfig</code> to identify:</p>
+                            <h3>Exercise 1: Network Discovery and Analysis</h3>
+                            <p><strong>Objective:</strong> Understand your current network configuration and identify all network parameters.</p>
+                            
+                            <h4>Steps:</h4>
+                            <ol>
+                                <li>Open a command prompt/terminal</li>
+                                <li>Run network configuration commands</li>
+                                <li>Analyze the output to understand your network setup</li>
+                            </ol>
+
+                            <div class="code-block">
+                                <h4>Commands to run:</h4>
+                                <pre><code># Windows:
+ipconfig /all
+arp -a
+route print
+nslookup google.com
+
+# Linux/macOS:
+ifconfig -a
+ip addr show
+ip route show  
+arp -a
+dig google.com</code></pre>
+                            </div>
+
+                            <h4>Analysis Questions:</h4>
+                            <ol>
+                                <li>What is your device's IP address and subnet mask?</li>
+                                <li>Calculate the network address and broadcast address</li>
+                                <li>How many other devices could theoretically be on your network?</li>
+                                <li>What is your default gateway's IP and MAC address?</li>
+                                <li>What DNS servers are configured?</li>
+                                <li>How many devices are currently in your ARP table?</li>
+                                <li>What does this tell you about recent network communication?</li>
+                            </ol>
+                        </div>
+
+                        <div class="exercise-item">
+                            <h3>Exercise 2: Subnet Calculation Practice</h3>
+                            <p><strong>Objective:</strong> Master subnet calculations for IoT network planning.</p>
+                            
+                            <h4>Scenarios to solve:</h4>
+                            <ol>
+                                <li><strong>Home IoT Network:</strong> You have 192.168.1.0/24. Plan subnets for:
+                                    <ul>
+                                        <li>Family devices (phones, laptops) - need 50 addresses</li>
+                                        <li>Smart home devices - need 30 addresses</li>
+                                        <li>Security cameras - need 10 addresses</li>
+                                        <li>Guest network - need 20 addresses</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Office IoT Deployment:</strong> You have 10.50.0.0/16. Plan for:
+                                    <ul>
+                                        <li>Employee devices - need 500 addresses</li>
+                                        <li>Environmental sensors - need 100 addresses</li>
+                                        <li>Access control - need 50 addresses</li>
+                                        <li>HVAC systems - need 20 addresses</li>
+                                        <li>Future expansion - reserve 50% capacity</li>
+                                    </ul>
+                                </li>
+                            </ol>
+
+                            <h4>For each scenario, determine:</h4>
                             <ul>
-                                <li>Your IP address and subnet mask</li>
-                                <li>Network and broadcast addresses</li>
-                                <li>Default gateway</li>
-                                <li>MAC address of your network interface</li>
+                                <li>Appropriate subnet sizes (CIDR notation)</li>
+                                <li>Subnet addresses and ranges</li>
+                                <li>Number of usable host addresses per subnet</li>
+                                <li>Broadcast addresses for each subnet</li>
                             </ul>
                         </div>
 
                         <div class="exercise-item">
-                            <h3>Exercise 2: Subnet Calculation</h3>
-                            <p>Given the network 192.168.10.0/24, calculate:</p>
-                            <ul>
-                                <li>How many host addresses are available?</li>
-                                <li>What is the broadcast address?</li>
-                                <li>What would be the first and last usable host addresses?</li>
-                            </ul>
+                            <h3>Exercise 3: MAC Address Investigation</h3>
+                            <p><strong>Objective:</strong> Understand MAC addresses and their role in local network communication.</p>
+                            
+                            <h4>Investigation steps:</h4>
+                            <ol>
+                                <li>Find your device's MAC address</li>
+                                <li>Look up the manufacturer using the OUI</li>
+                                <li>Examine your ARP table</li>
+                                <li>Identify different types of MAC addresses</li>
+                            </ol>
+
+                            <div class="code-block">
+                                <h4>Commands and tools:</h4>
+                                <pre><code># Find your MAC address:
+# Windows: ipconfig /all
+# Linux: ip link show or ifconfig
+# macOS: ifconfig
+
+# Look up manufacturer:
+# Visit: https://maclookup.app/
+# Or use: nmap --script broadcast-dhcp-discover
+
+# Examine ARP table:
+arp -a
+
+# Monitor MAC addresses on network:
+# Windows: arp -a
+# Linux: ip neigh show</code></pre>
+                            </div>
+
+                            <h4>Analysis tasks:</h4>
+                            <ol>
+                                <li>Identify the manufacturer of your network interface</li>
+                                <li>Find examples of unicast, multicast, and broadcast MAC addresses</li>
+                                <li>Explain why MAC addresses are needed in addition to IP addresses</li>
+                                <li>Describe what happens when a device changes networks</li>
+                            </ol>
                         </div>
                     </div>
+                </div>
+
+                <div class="lab-questions">
+                    <h2>Review Questions</h2>
+                    <ol>
+                        <li><strong>Conceptual Understanding:</strong>
+                            <ul>
+                                <li>Explain why network models use layers. What are the advantages?</li>
+                                <li>Compare the OSI and TCP/IP models. Why is TCP/IP more widely used?</li>
+                                <li>Describe the encapsulation process and its impact on IoT device efficiency.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Addressing and Identification:</strong>
+                            <ul>
+                                <li>Why do we need both MAC addresses and IP addresses?</li>
+                                <li>Explain how a device determines if another device is on the same network.</li>
+                                <li>Design a subnetting scheme for a smart building with 500 IoT devices.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Practical Application:</strong>
+                            <ul>
+                                <li>How would you troubleshoot an IoT device that can't connect to the internet?</li>
+                                <li>What factors would influence your choice of 2.4GHz vs 5GHz for IoT devices?</li>
+                                <li>Describe the security implications of different subnetting strategies.</li>
+                            </ul>
+                        </li>
+                    </ol>
                 </div>
             </div>
         </section>
     </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Dynamic Devices. All rights reserved.</p>
+        </div>
+    </footer>
 </body>
 </html>

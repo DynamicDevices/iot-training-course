@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Devices IoT Training Course</title>
+    <title>Dynamic Devices - IoT TCP/IP Networking Training</title>
     <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -15,13 +14,13 @@
         <div class="container">
             <div class="header-content">
                 <div class="logo">
-                    <h1>Dynamic Devices</h1>
-                    <span>IoT Training Course</span>
+                    <h1><a href="index.html">Dynamic Devices</a></h1>
+                    <span>IoT TCP/IP Networking Training</span>
                 </div>
                 <nav class="nav">
-                    <a href="#overview">Overview</a>
                     <a href="#modules">Modules</a>
                     <a href="#labs">Labs</a>
+                    <a href="#tools">Tools</a>
                     <a href="#resources">Resources</a>
                 </nav>
             </div>
@@ -31,156 +30,92 @@
     <main>
         <section class="hero">
             <div class="container">
-                <h1>TCP/IP Networking for Embedded Engineers</h1>
-                <p class="hero-subtitle">Module 1 of the Complete IoT Development Training Programme</p>
-                <div class="hero-stats">
-                    <div class="stat">
-                        <span class="stat-number">3</span>
-                        <span class="stat-label">Days</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">18</span>
-                        <span class="stat-label">Hours</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">9</span>
-                        <span class="stat-label">Sessions</span>
-                    </div>
-                </div>
-                <a href="#modules" class="cta-button">Start Learning</a>
+                <h1>Master TCP/IP Networking for IoT</h1>
+                <p class="hero-subtitle">Comprehensive training course covering network fundamentals, protocols, and practical implementation for embedded systems</p>
             </div>
         </section>
 
-        <section id="overview" class="section">
-            <div class="container">
-                <h2>Course Overview</h2>
-                <div class="overview-grid">
-                    <div class="overview-card">
-                        <h3>🎯 Learning Objectives</h3>
-                        <ul>
-                            <li>Master network protocol fundamentals for embedded IoT systems</li>
-                            <li>Configure and troubleshoot network interfaces, DHCP, and static addressing</li>
-                            <li>Implement reliable communication using TCP, UDP, HTTP, and MQTT protocols</li>
-                            <li>Use professional tools like Wireshark for network analysis and debugging</li>
-                            <li>Apply systematic troubleshooting methodologies for connectivity issues</li>
-                            <li>Design secure, scalable network architectures for IoT deployments</li>
-                        </ul>
-                    </div>
-                    <div class="overview-card">
-                        <h3>👥 Target Audience</h3>
-                        <p>Graduate and junior embedded engineers entering IoT development</p>
-                        <h4>Prerequisites:</h4>
-                        <ul>
-                            <li>Basic understanding of digital systems</li>
-                            <li>C/C++ programming experience</li>
-                            <li>Familiarity with embedded development concepts</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="modules" class="section bg-light">
+        <section id="modules" class="section">
             <div class="container">
                 <h2>Training Modules</h2>
-                <div class="modules-grid">
-                    <div class="module-card current">
-                        <div class="module-header">
-                            <span class="module-number">Module 1</span>
-                            <span class="module-status available">✅ Available</span>
-                        </div>
-                        <h3>TCP/IP Networking</h3>
-                        <p>Essential foundation for all IoT projects</p>
-                        <div class="module-duration">3 days</div>
-                        <a href="modules/module1.html" class="module-link">Start Module</a>
+                <div class="sessions-grid">
+                    <div class="session-card">
+                        <h3>Module 1: TCP/IP Networking</h3>
+                        <div class="session-duration">6 hours</div>
+                        <p>Master the fundamentals of TCP/IP networking for IoT applications</p>
+                        <ul>
+                            <li>Network fundamentals and OSI model</li>
+                            <li>IP addressing and subnetting</li>
+                            <li>DHCP vs static configuration</li>
+                            <li>TCP vs UDP protocols</li>
+                        </ul>
+                        <a href="modules/module1.html" class="session-link">Start Module</a>
                     </div>
-                    
-                    <div class="module-card upcoming">
-                        <div class="module-header">
-                            <span class="module-number">Module 2</span>
-                            <span class="module-status coming-soon">🔄 Coming Soon</span>
-                        </div>
-                        <h3>Version Control & Git</h3>
-                        <p>Collaborative development workflows</p>
-                        <div class="module-duration">2 days</div>
-                    </div>
-                    
-                    <div class="module-card upcoming">
-                        <div class="module-header">
-                            <span class="module-number">Module 3</span>
-                            <span class="module-status coming-soon">🔄 Coming Soon</span>
-                        </div>
-                        <h3>Continuous Integration</h3>
-                        <p>Automated testing and deployment</p>
-                        <div class="module-duration">2 days</div>
-                    </div>
-                    
-                    <div class="module-card upcoming">
-                        <div class="module-header">
-                            <span class="module-number">Module 4</span>
-                            <span class="module-status coming-soon">🔄 Coming Soon</span>
-                        </div>
-                        <h3>Virtual Machines</h3>
-                        <p>Development environment setup</p>
-                        <div class="module-duration">2 days</div>
-                    </div>
-                    
-                    <div class="module-card upcoming">
-                        <div class="module-header">
-                            <span class="module-number">Module 5</span>
-                            <span class="module-status coming-soon">🔄 Coming Soon</span>
-                        </div>
-                        <h3>Docker & Containers</h3>
-                        <p>Container-based IoT deployments</p>
-                        <div class="module-duration">2 days</div>
-                    </div>
-                    
-                    <div class="module-card upcoming">
-                        <div class="module-header">
-                            <span class="module-number">Module 6</span>
-                            <span class="module-status coming-soon">🔄 Coming Soon</span>
-                        </div>
-                        <h3>Linux for Embedded</h3>
-                        <p>Embedded Linux fundamentals</p>
-                        <div class="module-duration">3 days</div>
-                    </div>
-                    
-                    <div class="module-card upcoming">
-                        <div class="module-header">
-                            <span class="module-number">Module 7</span>
-                            <span class="module-status coming-soon">🔄 Coming Soon</span>
-                        </div>
-                        <h3>IoT Security</h3>
-                        <p>Secure device lifecycle management</p>
-                        <div class="module-duration">3 days</div>
-                    </div>
-                </div>
-                
-                <div class="course-summary">
-                    <h3>Complete Programme</h3>
-                    <p><strong>Total Duration:</strong> 17 days of comprehensive IoT engineering training</p>
                 </div>
             </div>
         </section>
 
-        <section id="labs" class="section">
+        <section id="labs" class="section bg-light">
             <div class="container">
-                <h2>Hands-on Labs</h2>
+                <h2>Practical Labs</h2>
                 <div class="labs-grid">
                     <div class="lab-card">
-                        <h3>Lab 1: Network Setup & Configuration</h3>
-                        <p>Configure ESP32 devices with DHCP and static IP addressing</p>
-                        <a href="labs/lab1.html" class="lab-link">View Lab</a>
+                        <h3>Lab 1: Network Fundamentals</h3>
+                        <p>Explore network configuration and analysis using Wireshark</p>
+                        <ul>
+                            <li>Network discovery and configuration</li>
+                            <li>DHCP traffic analysis</li>
+                            <li>ARP resolution process</li>
+                        </ul>
+                        <a href="labs/lab1.html" class="lab-link">Start Lab</a>
                     </div>
                     <div class="lab-card">
-                        <h3>Lab 2: Protocol Analysis with Wireshark</h3>
-                        <p>Capture and analyze network traffic patterns</p>
-                        <a href="labs/lab2.html" class="lab-link">View Lab</a>
+                        <h3>Lab 2: IoT Device Configuration</h3>
+                        <p>Configure ESP32 devices for network connectivity</p>
+                        <ul>
+                            <li>DHCP and static IP setup</li>
+                            <li>Network diagnostics implementation</li>
+                            <li>Connection failure handling</li>
+                        </ul>
+                        <a href="labs/lab2.html" class="lab-link">Start Lab</a>
                     </div>
                     <div class="lab-card">
-                        <h3>Lab 3: TCP vs UDP Implementation</h3>
-                        <p>Build client-server applications using both protocols</p>
-                        <a href="labs/lab3.html" class="lab-link">View Lab</a>
+                        <h3>Lab 3: Protocol Implementation</h3>
+                        <p>Build and compare TCP vs UDP communication</p>
+                        <ul>
+                            <li>TCP client-server implementation</li>
+                            <li>UDP messaging protocols</li>
+                            <li>Performance comparison analysis</li>
+                        </ul>
+                        <a href="labs/lab3.html" class="lab-link">Start Lab</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tools" class="section">
+            <div class="container">
+                <h2>Network Tools</h2>
+                <div class="tools-grid">
+                    <div class="tool-card">
+                        <h3>Network Calculator</h3>
+                        <p>Calculate subnets, IP ranges, and network parameters</p>
+                        <ul>
+                            <li>IP address class analysis</li>
+                            <li>Subnet calculations</li>
+                            <li>Binary/hex conversion</li>
+                        </ul>
+                        <a href="tools/network-calculator.html" class="resource-link">Open Tool</a>
+                    </div>
+                    <div class="tool-card">
+                        <h3>IP Class Calculator</h3>
+                        <p>Analyze IP addresses and understand network classes</p>
+                        <ul>
+                            <li>Class identification</li>
+                            <li>Private/public detection</li>
+                            <li>Communication range analysis</li>
+                        </ul>
+                        <a href="tools/ip-class-calculator.html" class="resource-link">Open Tool</a>
                     </div>
                 </div>
             </div>
@@ -188,34 +123,27 @@
 
         <section id="resources" class="section bg-light">
             <div class="container">
-                <h2>Resources & Tools</h2>
+                <h2>Resources</h2>
                 <div class="resources-grid">
-                    <div class="resource-category">
-                        <h3>Essential Tools</h3>
-                        <ul>
-                            <li><strong>Wireshark</strong> - Packet analysis and protocol debugging</li>
-                            <li><strong>nmap</strong> - Network discovery and port scanning</li>
-                            <li><strong>iperf3</strong> - Network performance testing</li>
-                            <li><strong>Arduino IDE/PlatformIO</strong> - Embedded development</li>
-                        </ul>
+                    <div class="resource-card">
+                        <h3>Command Reference</h3>
+                        <p>Essential networking commands for troubleshooting</p>
+                        <a href="resources/command-reference.html" class="resource-link">View Commands</a>
                     </div>
-                    <div class="resource-category">
-                        <h3>Hardware Requirements</h3>
-                        <ul>
-                            <li>ESP32 development boards (multiple units)</li>
-                            <li>Various sensors (temperature, humidity, light)</li>
-                            <li>Managed switch for network experimentation</li>
-                            <li>Wi-Fi access point for testing</li>
-                        </ul>
+                    <div class="resource-card">
+                        <h3>Troubleshooting Guide</h3>
+                        <p>Systematic approach to network problem solving</p>
+                        <a href="resources/troubleshooting.html" class="resource-link">Get Help</a>
                     </div>
-                    <div class="resource-category">
-                        <h3>Reference Materials</h3>
-                        <ul>
-                            <li><a href="https://tools.ietf.org/rfc/rfc793.txt">RFC 793 (TCP)</a></li>
-                            <li><a href="https://tools.ietf.org/rfc/rfc791.txt">RFC 791 (IP)</a></li>
-                            <li><a href="https://tools.ietf.org/rfc/rfc768.txt">RFC 768 (UDP)</a></li>
-                            <li><a href="resources/command-reference.html">Command Reference</a></li>
-                        </ul>
+                    <div class="resource-card">
+                        <h3>Network Configuration</h3>
+                        <p>Common network settings and examples</p>
+                        <a href="resources/network-config.html" class="resource-link">View Examples</a>
+                    </div>
+                    <div class="resource-card">
+                        <h3>Code Templates</h3>
+                        <p>ESP32 code templates for networking</p>
+                        <a href="resources/code-templates.html" class="resource-link">Download Code</a>
                     </div>
                 </div>
             </div>
@@ -224,32 +152,14 @@
 
     <footer class="footer">
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>Dynamic Devices Ltd</h4>
-                    <p>Professional IoT training and embedded systems development</p>
-                    <p>Email: <a href="mailto:info@dynamicdevices.co.uk">info@dynamicdevices.co.uk</a></p>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <p>&copy; 2024 Dynamic Devices. All rights reserved.</p>
+                <div style="display: flex; gap: 2rem;">
+                    <a href="docs/setup.html" style="color: var(--gray-400);">Setup Guide</a>
+                    <a href="resources/troubleshooting.html" style="color: var(--gray-400);">Support</a>
                 </div>
-                <div class="footer-section">
-                    <h4>Course Information</h4>
-                    <p>This training material is licensed under CC BY-NC-ND 4.0</p>
-                    <p>For commercial licensing inquiries, please contact us</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="docs/setup.html">Setup Guide</a></li>
-                        <li><a href="resources/troubleshooting.html">Troubleshooting</a></li>
-                        <li><a href="https://github.com/dynamicdevices/iot-training">GitHub Repository</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 Dynamic Devices Ltd. All rights reserved.</p>
             </div>
         </div>
     </footer>
-
-    <script src="assets/js/main.js"></script>
 </body>
 </html>
