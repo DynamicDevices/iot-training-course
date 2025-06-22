@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 1: Linux Fundamentals & File System - Module 1</title>
+    <link rel="stylesheet" href="../../assets/css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1><a href="../../index.html">Dynamic Devices</a></h1>
+                    <span>Module 1 - Session 1: Linux Fundamentals</span>
+                </div>
+                <nav class="nav">
+                    <a href="../../index.html">Home</a>
+                    <a href="../module1.html">Module 1</a>
+                    <a href="../../index.html#labs">Labs</a>
+                    <a href="../../tools/network-calculator.html">Tools</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="module-overview">
+            <div class="container">
+                <h1>Session 1: Linux Fundamentals & File System</h1>
+                <p>Introduction to Linux operating system, distributions, and file system structure essential for IoT development.</p>
+                
+                <div class="module-meta">
+                    <div class="meta-item">
+                        <strong>Duration</strong>
+                        2 hours
+                    </div>
+                    <div class="meta-item">
+                        <strong>Module</strong>
+                        Linux Basics
+                    </div>
+                    <div class="meta-item">
+                        <strong>Session</strong>
+                        1 of 4
+                    </div>
+                    <div class="meta-item">
+                        <strong>Difficulty</strong>
+                        Beginner
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="learning-objectives">
+                    <h2>Session Learning Objectives</h2>
+                    <p>By the end of this session, you will be able to:</p>
+                    <div class="objectives-grid">
+                        <div class="objective-item">
+                            <h4>Understand Linux History</h4>
+                            <p>Explain the origins of Linux and identify key distributions suitable for IoT development.</p>
+                        </div>
+                        <div class="objective-item">
+                            <h4>Navigate File System</h4>
+                            <p>Understand the Linux file system hierarchy and navigate directories using absolute and relative paths.</p>
+                        </div>
+                        <div class="objective-item">
+                            <h4>Identify File Types</h4>
+                            <p>Recognize different file types and understand Linux naming conventions and case sensitivity.</p>
+                        </div>
+                        <div class="objective-item">
+                            <h4>Understand Directory Structure</h4>
+                            <p>Explain the purpose of key system directories like /bin, /etc, /home, /var, and /usr.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section bg-light">
+            <div class="container">
+                <h2>1. Introduction to Linux</h2>
+                
+                <div class="calculator-section">
+                    <h3>What is Linux?</h3>
+                    <p>Linux is a free, open-source operating system kernel originally created by Linus Torvalds in 1991. It forms the foundation of many operating systems (called distributions) that are widely used in servers, embedded systems, and IoT devices.</p>
+                    
+                    <h4>Key Characteristics:</h4>
+                    <ul>
+                        <li><strong>Open Source:</strong> Source code is freely available and modifiable</li>
+                        <li><strong>Multi-user:</strong> Multiple users can work simultaneously</li>
+                        <li><strong>Multi-tasking:</strong> Can run multiple processes concurrently</li>
+                        <li><strong>Portable:</strong> Runs on various hardware architectures</li>
+                        <li><strong>Secure:</strong> Built-in security features and permission system</li>
+                        <li><strong>Stable:</strong> Reliable and rarely requires rebooting</li>
+                    </ul>
+                </div>
+
+                <div class="calculator-section">
+                    <h3>Linux Distributions for IoT</h3>
+                    <p>Different Linux distributions are optimized for various use cases. Here are key distributions relevant to IoT development:</p>
+                    
+                    <div class="class-grid">
+                        <div class="class-card class-a">
+                            <h4>Ubuntu/Debian</h4>
+                            <div class="range">General Purpose & Development</div>
+                            <div class="details">
+                                <strong>Use Cases:</strong> Development workstations, prototyping<br>
+                                <strong>Package Manager:</strong> apt<br>
+                                <strong>IoT Relevance:</strong> Ubuntu Core for IoT devices
+                            </div>
+                        </div>
+                        
+                        <div class="class-card class-b">
+                            <h4>Raspberry Pi OS</h4>
+                            <div class="range">Educational & Prototyping</div>
+                            <div class="details">
+                                <strong>Use Cases:</strong> Learning, rapid prototyping<br>
+                                <strong>Hardware:</strong> Raspberry Pi boards<br>
+                                <strong>IoT Relevance:</strong> Perfect for IoT learning projects
+                            </div>
+                        </div>
+                        
+                        <div class="class-card class-c">
+                            <h4>Yocto/OpenEmbedded</h4>
+                            <div class="range">Custom Embedded Systems</div>
+                            <div class="details">
+                                <strong>Use Cases:</strong> Production IoT devices<br>
+                                <strong>Advantage:</strong> Highly customizable<br>
+                                <strong>IoT Relevance:</strong> Industry standard for embedded Linux
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2>2. Linux File System Hierarchy</h2>
+                
+                <div class="calculator-section">
+                    <h3>Understanding the File System Structure</h3>
+                    <p>Linux uses a hierarchical file system that starts from the root directory (/). Everything in Linux is treated as a file, including directories, devices, and processes.</p>
+                    
+                    <div class="code-block">
+                        <pre><code>/                    # Root directory (top level)
+├── bin/             # Essential user binaries
+├── boot/            # Boot loader files
+├── dev/             # Device files
+├── etc/             # System configuration files
+├── home/            # User home directories
+│   ├── user1/       # Individual user directory
+│   └── user2/       # Another user directory
+├── lib/             # Essential shared libraries
+├── media/           # Removable media mount points
+├── mnt/             # Temporary mount points
+├── opt/             # Optional software packages
+├── proc/            # Process and kernel information
+├── root/            # Root user's home directory
+├── run/             # Runtime data
+├── sbin/            # System binaries
+├── srv/             # Service data
+├── sys/             # System information
+├── tmp/             # Temporary files
+├── usr/             # User programs and data
+│   ├── bin/         # User binaries
+│   ├── lib/         # User libraries
+│   └── local/       # Local software
+└── var/             # Variable data (logs, databases)
+    ├── log/         # System logs
+    └── tmp/         # More temporary files</code></pre>
+                    </div>
+                </div>
+
+                <div class="calculator-section">
+                    <h3>Key Directories Explained</h3>
+                    <div class="result-grid">
+                        <div class="result-item">
+                            <label>/bin</label>
+                            <div class="value">Essential user commands (ls, cp, mv)</div>
+                        </div>
+                        <div class="result-item">
+                            <label>/etc</label>
+                            <div class="value">System configuration files</div>
+                        </div>
+                        <div class="result-item">
+                            <label>/home</label>
+                            <div class="value">User home directories</div>
+                        </div>
+                        <div class="result-item">
+                            <label>/var</label>
+                            <div class="value">Variable data (logs, databases)</div>
+                        </div>
+                        <div class="result-item">
+                            <label>/usr</label>
+                            <div class="value">User programs and libraries</div>
+                        </div>
+                        <div class="result-item">
+                            <label>/dev</label>
+                            <div class="value">Device files (hardware interfaces)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section bg-light">
+            <div class="container">
+                <h2>3. Path Concepts and Navigation</h2>
+                
+                <div class="calculator-section">
+                    <h3>Absolute vs Relative Paths</h3>
+                    <p>Understanding paths is crucial for navigating the Linux file system effectively.</p>
+                    
+                    <h4>Absolute Paths</h4>
+                    <p>Start from the root directory (/) and specify the complete path to a file or directory.</p>
+                    <div class="code-block">
+                        <pre><code># Examples of absolute paths
+/home/user/documents/project.txt
+/etc/network/interfaces
+/var/log/syslog
+/usr/bin/python3</code></pre>
+                    </div>
+
+                    <h4>Relative Paths</h4>
+                    <p>Start from the current working directory and use shortcuts to navigate.</p>
+                    <div class="code-block">
+                        <pre><code># Relative path shortcuts
+.          # Current directory
+..         # Parent directory
+~          # User's home directory
+-          # Previous directory
+
+# Examples of relative paths
+./documents/project.txt    # File in current directory's documents folder
+../config/settings.conf   # File in parent directory's config folder
+~/Desktop/notes.txt       # File in user's Desktop folder</code></pre>
+                    </div>
+                </div>
+
+                <div class="calculator-section">
+                    <h3>Basic Navigation Commands</h3>
+                    <p>Essential commands for moving around the file system:</p>
+                    
+                    <div class="code-block">
+                        <pre><code># Print working directory (show current location)
+pwd
+
+# Change directory
+cd /home/user          # Go to specific directory
+cd ~                   # Go to home directory
+cd ..                  # Go to parent directory
+cd -                   # Go to previous directory
+cd                     # Go to home directory (same as cd ~)
+
+# List directory contents
+ls                     # List files in current directory
+ls -l                  # Long format (detailed information)
+ls -la                 # Include hidden files (starting with .)
+ls /etc                # List contents of /etc directory</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2>4. File Types and Naming Conventions</h2>
+                
+                <div class="calculator-section">
+                    <h3>Linux File Types</h3>
+                    <p>Linux recognizes several types of files, each serving different purposes:</p>
+                    
+                    <div class="result-grid">
+                        <div class="result-item">
+                            <label>Regular Files (-)</label>
+                            <div class="value">Text, binary, executable files</div>
+                        </div>
+                        <div class="result-item">
+                            <label>Directories (d)</label>
+                            <div class="value">Folders containing other files</div>
+                        </div>
+                        <div class="result-item">
+                            <label>Symbolic Links (l)</label>
+                            <div class="value">Shortcuts to other files</div>
+                        </div>
+                        <div class="result-item">
+                            <label>Device Files (b/c)</label>
+                            <div class="value">Hardware device interfaces</div>
+                        </div>
+                        <div class="result-item">
+                            <label>Named Pipes (p)</label>
+                            <div class="value">Inter-process communication</div>
+                        </div>
+                        <div class="result-item">
+                            <label>Sockets (s)</label>
+                            <div class="value">Network communication</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="calculator-section">
+                    <h3>Naming Conventions and Rules</h3>
+                    <ul>
+                        <li><strong>Case Sensitive:</strong> "File.txt" and "file.txt" are different files</li>
+                        <li><strong>Hidden Files:</strong> Files starting with "." are hidden (e.g., .bashrc)</li>
+                        <li><strong>No File Extensions Required:</strong> Linux doesn't rely on extensions like Windows</li>
+                        <li><strong>Special Characters:</strong> Avoid spaces and special characters in filenames</li>
+                        <li><strong>Length Limit:</strong> Filenames can be up to 255 characters long</li>
+                        <li><strong>Reserved Names:</strong> Avoid names like "." and ".."</li>
+                    </ul>
+                    
+                    <div class="code-block">
+                        <pre><code># Good filename examples
+project_report.txt
+sensor_data_2024.csv
+iot_device_config
+backup-2024-01-15.tar.gz
+
+# Avoid these patterns
+"file with spaces.txt"    # Spaces require quotes
+file@#$.txt              # Special characters can cause issues
+CON, PRN, AUX            # Reserved names on some systems</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section bg-light">
+            <div class="container">
+                <h2>5. Hands-on Practice</h2>
+                
+                <div class="calculator-section">
+                    <h3>Practice Exercises</h3>
+                    <p>Try these commands in your Linux terminal to reinforce the concepts:</p>
+                    
+                    <div class="example-grid">
+                        <div class="example-item">
+                            <div class="ip">Exercise 1</div>
+                            <div class="description">Navigate to your home directory and list all files including hidden ones</div>
+                        </div>
+                        <div class="example-item">
+                            <div class="ip">Exercise 2</div>
+                            <div class="description">Explore the /etc directory and identify configuration files</div>
+                        </div>
+                        <div class="example-item">
+                            <div class="ip">Exercise 3</div>
+                            <div class="description">Use both absolute and relative paths to navigate between directories</div>
+                        </div>
+                        <div class="example-item">
+                            <div class="ip">Exercise 4</div>
+                            <div class="description">Identify different file types in /dev directory</div>
+                        </div>
+                    </div>
+                    
+                    <div class="code-block">
+                        <pre><code># Exercise solutions
+# Exercise 1: Navigate home and list all files
+cd ~
+ls -la
+
+# Exercise 2: Explore /etc directory
+cd /etc
+ls -l
+ls -l *.conf
+
+# Exercise 3: Practice path navigation
+cd /home/user/Documents    # Absolute path
+cd ../Downloads            # Relative path
+cd ~                       # Home shortcut
+pwd                        # Check current location
+
+# Exercise 4: Examine file types in /dev
+ls -l /dev | head -20      # Show first 20 device files
+ls -l /dev/tty*            # Show terminal devices</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2>Session Summary & Next Steps</h2>
+                
+                <div class="calculator-section">
+                    <h3>What You've Learned</h3>
+                    <ul>
+                        <li>Linux history and its importance in IoT development</li>
+                        <li>Key Linux distributions for different IoT use cases</li>
+                        <li>Linux file system hierarchy and directory structure</li>
+                        <li>Difference between absolute and relative paths</li>
+                        <li>Basic navigation commands (pwd, cd, ls)</li>
+                        <li>File types and naming conventions in Linux</li>
+                    </ul>
+                </div>
+
+                <div class="calculator-section">
+                    <h3>Preparation for Session 2</h3>
+                    <p>In the next session, we'll dive deeper into command-line tools for file manipulation and text processing. To prepare:</p>
+                    <ul>
+                        <li>Practice the navigation commands covered in this session</li>
+                        <li>Explore different directories on your Linux system</li>
+                        <li>Try creating and identifying different file types</li>
+                        <li>Familiarize yourself with the terminal environment</li>
+                    </ul>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; margin-top: 2rem;">
+                    <a href="../module1.html" class="session-link" style="background: var(--gray-600);">← Back to Module</a>
+                    <button onclick="markSessionComplete()" class="session-link">Mark Complete</button>
+                    <a href="session2.html" class="session-link">Next Session →</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <p>&copy; 2024 Dynamic Devices. All rights reserved.</p>
+                <div style="display: flex; gap: 2rem;">
+                    <a href="../../docs/setup.html" style="color: var(--gray-400);">Setup Guide</a>
+                    <a href="../../resources/troubleshooting.html" style="color: var(--gray-400);">Support</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function markSessionComplete() {
+            localStorage.setItem('module1_session1_completed', 'true');
+            alert('Session 1 marked as complete! Great job learning Linux fundamentals.');
+            
+            // Update progress in parent module if we're in an iframe or opened from module page
+            if (window.parent && window.parent.updateProgress) {
+                window.parent.updateProgress();
+            }
+        }
+
+        // Check if session is already completed
+        document.addEventListener('DOMContentLoaded', function() {
+            if (localStorage.getItem('module1_session1_completed')) {
+                const completeBtn = document.querySelector('button[onclick="markSessionComplete()"]');
+                if (completeBtn) {
+                    completeBtn.textContent = '✓ Completed';
+                    completeBtn.style.background = 'var(--success-color)';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
