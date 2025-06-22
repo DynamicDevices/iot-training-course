@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Module 1: TCP/IP Networking - Dynamic Devices IoT Training</title>
     <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/module.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -18,87 +19,290 @@
                     <span>Module 1: TCP/IP Networking</span>
                 </div>
                 <nav class="nav">
+                    <a href="../index.html">Home</a>
                     <a href="#sessions">Sessions</a>
-                    <a href="#labs">Labs</a>
-                    <a href="#resources">Resources</a>
+                    <a href="../labs/lab1.html">Labs</a>
+                    <a href="../tools/network-calculator.html">Tools</a>
                 </nav>
             </div>
         </div>
     </header>
 
     <main>
-        <section class="hero">
+        <section class="module-overview">
             <div class="container">
-                <h1>TCP/IP Networking for IoT Engineers</h1>
-                <p class="hero-subtitle">Master the fundamentals of network communication for embedded systems</p>
-            </div>
-        </section>
-
-        <section id="sessions" class="section">
-            <div class="container">
-                <h2>Training Sessions</h2>
-                <div class="sessions-grid">
-                    <div class="session-card">
-                        <h3>Session 1: Network Fundamentals</h3>
-                        <div class="session-duration">2 hours</div>
-                        <ul>
-                            <li>OSI Model vs TCP/IP Stack</li>
-                            <li>MAC Addresses and Physical Layer</li>
-                            <li>IP Address Classes and Subnetting</li>
-                            <li>Network vs Device Identification</li>
-                        </ul>
-                        <a href="sessions/session1.html" class="session-link">Start Session</a>
+                <h1>Module 1: TCP/IP Networking Fundamentals</h1>
+                <p class="hero-subtitle">Master the essential networking concepts and protocols that power IoT communication. From basic network models to advanced transport protocols, this comprehensive module provides the foundation for successful IoT deployments.</p>
+                
+                <div class="module-meta">
+                    <div class="meta-item">
+                        <strong>Duration</strong>
+                        6 Hours Total
                     </div>
-
-                    <div class="session-card">
-                        <h3>Session 2: Inter-Network Communication</h3>
-                        <div class="session-duration">2 hours</div>
-                        <ul>
-                            <li>DHCP vs Static IP Configuration</li>
-                            <li>ARP (Address Resolution Protocol)</li>
-                            <li>Gateways and Routing</li>
-                            <li>Public vs Private IP Addresses</li>
-                        </ul>
-                        <a href="sessions/session2.html" class="session-link">Start Session</a>
+                    <div class="meta-item">
+                        <strong>Sessions</strong>
+                        3 Interactive Sessions
                     </div>
-
-                    <div class="session-card">
-                        <h3>Session 3: Transport Protocols</h3>
-                        <div class="session-duration">2 hours</div>
-                        <ul>
-                            <li>UDP: Connectionless Communication</li>
-                            <li>TCP: Reliable Data Transfer</li>
-                            <li>Socket Programming Concepts</li>
-                            <li>Port Numbers and Services</li>
-                        </ul>
-                        <a href="sessions/session3.html" class="session-link">Start Session</a>
+                    <div class="meta-item">
+                        <strong>Level</strong>
+                        Beginner to Advanced
+                    </div>
+                    <div class="meta-item">
+                        <strong>Format</strong>
+                        Theory + Hands-on Labs
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="labs" class="section bg-light">
+        <section class="section">
             <div class="container">
-                <h2>Practical Labs</h2>
-                <div class="labs-grid">
-                    <div class="lab-card">
-                        <h3>Lab 1: Network Discovery with Wireshark</h3>
-                        <p>Capture and analyze DHCP, ARP, and ping traffic</p>
-                        <a href="../labs/lab1-wireshark.html" class="lab-link">Start Lab</a>
+                <div class="learning-objectives">
+                    <h2>Learning Objectives</h2>
+                    <p>By the end of this module, you will be able to:</p>
+                    
+                    <div class="objectives-grid">
+                        <div class="objective-item">
+                            <h4>Network Fundamentals</h4>
+                            <ul>
+                                <li>Explain OSI and TCP/IP models</li>
+                                <li>Understand data encapsulation</li>
+                                <li>Analyze MAC address structures</li>
+                                <li>Design network topologies for IoT</li>
+                            </ul>
+                        </div>
+                        <div class="objective-item">
+                            <h4>IP Addressing & Routing</h4>
+                            <ul>
+                                <li>Calculate subnets and CIDR notation</li>
+                                <li>Configure DHCP vs static addressing</li>
+                                <li>Understand ARP resolution process</li>
+                                <li>Design scalable addressing schemes</li>
+                            </ul>
+                        </div>
+                        <div class="objective-item">
+                            <h4>Transport Protocols</h4>
+                            <ul>
+                                <li>Compare TCP vs UDP characteristics</li>
+                                <li>Implement socket programming</li>
+                                <li>Optimize for IoT constraints</li>
+                                <li>Troubleshoot connectivity issues</li>
+                            </ul>
+                        </div>
+                        <div class="objective-item">
+                            <h4>Practical Application</h4>
+                            <ul>
+                                <li>Configure ESP32 network settings</li>
+                                <li>Analyze traffic with Wireshark</li>
+                                <li>Design secure IoT networks</li>
+                                <li>Implement performance monitoring</li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="lab-card">
-                        <h3>Lab 2: ESP32 Network Configuration</h3>
-                        <p>Configure embedded devices for network communication</p>
-                        <a href="../labs/lab2-esp32-config.html" class="lab-link">Start Lab</a>
+                </div>
+
+                <div class="prerequisites">
+                    <h2>Prerequisites & Requirements</h2>
+                    <p>To get the most out of this module, please ensure you have the following:</p>
+                    
+                    <div class="prerequisites-grid">
+                        <div class="prerequisite-item required">
+                            <h4>Required</h4>
+                            <ul>
+                                <li>Basic computer literacy</li>
+                                <li>Command line familiarity</li>
+                                <li>Access to Windows/Linux/macOS</li>
+                                <li>Internet connection</li>
+                            </ul>
+                        </div>
+                        <div class="prerequisite-item recommended">
+                            <h4>Recommended</h4>
+                            <ul>
+                                <li>Basic programming knowledge</li>
+                                <li>Understanding of binary/hex</li>
+                                <li>Network troubleshooting experience</li>
+                                <li>ESP32 development board</li>
+                            </ul>
+                        </div>
+                        <div class="prerequisite-item optional">
+                            <h4>Optional</h4>
+                            <ul>
+                                <li>Electronics background</li>
+                                <li>Previous IoT experience</li>
+                                <li>Wireshark familiarity</li>
+                                <li>Arduino IDE setup</li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="lab-card">
-                        <h3>Lab 3: TCP vs UDP Implementation</h3>
-                        <p>Build and compare reliable vs unreliable protocols</p>
-                        <a href="../labs/lab3-protocols.html" class="lab-link">Start Lab</a>
+                </div>
+
+                <div class="progress-tracker">
+                    <h2>Your Progress</h2>
+                    <p>Track your completion through the module sessions:</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    <p id="progress-text">0% Complete - Ready to start Session 1</p>
+                </div>
+
+                <div id="sessions" class="sessions-overview">
+                    <div class="session-overview-card">
+                        <div class="session-number">1</div>
+                        <h3>Network Fundamentals</h3>
+                        <div class="session-duration">Duration: 2 hours</div>
+                        <p>Build a solid foundation in networking concepts essential for IoT development. Understand how devices communicate and the protocols that make it possible.</p>
+                        
+                        <ul class="session-topics">
+                            <li>OSI and TCP/IP network models</li>
+                            <li>Data encapsulation and protocol stacks</li>
+                            <li>MAC addresses and hardware identification</li>
+                            <li>IP addressing and subnet fundamentals</li>
+                            <li>Network vs device identification</li>
+                        </ul>
+                        
+                        <a href="sessions/session1.html" class="session-link">
+                            Start Session 1 →
+                        </a>
+                    </div>
+
+                    <div class="session-overview-card">
+                        <div class="session-number">2</div>
+                        <h3>Inter-Network Communication</h3>
+                        <div class="session-duration">Duration: 2 hours</div>
+                        <p>Dive deep into how devices discover each other and communicate across networks. Master DHCP, ARP, and routing concepts critical for IoT deployments.</p>
+                        
+                        <ul class="session-topics">
+                            <li>DHCP process and lease management</li>
+                            <li>ARP resolution and cache behavior</li>
+                            <li>Routing decisions and gateway functions</li>
+                            <li>NAT and port forwarding for IoT</li>
+                            <li>Public vs private addressing strategies</li>
+                        </ul>
+                        
+                        <a href="sessions/session2.html" class="session-link">
+                            Start Session 2 →
+                        </a>
+                    </div>
+
+                    <div class="session-overview-card">
+                        <div class="session-number">3</div>
+                        <h3>Transport Protocols</h3>
+                        <div class="session-duration">Duration: 2 hours</div>
+                        <p>Master TCP and UDP protocols, understanding when to use each for optimal IoT performance. Learn socket programming and protocol optimization techniques.</p>
+                        
+                        <ul class="session-topics">
+                            <li>Transport layer services and port numbers</li>
+                            <li>UDP characteristics and IoT applications</li>
+                            <li>TCP reliability and connection management</li>
+                            <li>Socket programming for embedded devices</li>
+                            <li>Performance optimization strategies</li>
+                        </ul>
+                        
+                        <a href="sessions/session3.html" class="session-link">
+                            Start Session 3 →
+                        </a>
+                    </div>
+                </div>
+
+                <div class="quick-access">
+                    <h2>Quick Access</h2>
+                    <p>Jump to specific resources and tools:</p>
+                    
+                    <div class="quick-access-grid">
+                        <a href="../tools/network-calculator.html" class="quick-access-item">
+                            <div class="quick-access-icon">🧮</div>
+                            <span>Network Calculator</span>
+                        </a>
+                        <a href="../tools/ip-class-calculator.html" class="quick-access-item">
+                            <div class="quick-access-icon">🔍</div>
+                            <span>IP Class Analyzer</span>
+                        </a>
+                        <a href="../labs/lab1.html" class="quick-access-item">
+                            <div class="quick-access-icon">🧪</div>
+                            <span>Hands-on Labs</span>
+                        </a>
+                        <a href="../resources/command-reference.html" class="quick-access-item">
+                            <div class="quick-access-icon">📋</div>
+                            <span>Command Reference</span>
+                        </a>
+                        <a href="../resources/troubleshooting.html" class="quick-access-item">
+                            <div class="quick-access-icon">🔧</div>
+                            <span>Troubleshooting</span>
+                        </a>
+                        <a href="../resources/code-templates.html" class="quick-access-item">
+                            <div class="quick-access-icon">💻</div>
+                            <span>Code Templates</span>
+                        </a>
                     </div>
                 </div>
             </div>
         </section>
     </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <p>&copy; 2024 Dynamic Devices. All rights reserved.</p>
+                <div style="display: flex; gap: 2rem;">
+                    <a href="../docs/setup.html" style="color: var(--gray-400);">Setup Guide</a>
+                    <a href="../resources/troubleshooting.html" style="color: var(--gray-400);">Support</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Progress tracking functionality
+        function updateProgress() {
+            const sessions = ['session1', 'session2', 'session3'];
+            let completedSessions = 0;
+            
+            // Check localStorage for completed sessions
+            sessions.forEach(session => {
+                if (localStorage.getItem(`completed_${session}`) === 'true') {
+                    completedSessions++;
+                }
+            });
+            
+            const progressPercentage = (completedSessions / sessions.length) * 100;
+            const progressFill = document.getElementById('progress-fill');
+            const progressText = document.getElementById('progress-text');
+            
+            if (progressFill && progressText) {
+                progressFill.style.width = progressPercentage + '%';
+                
+                if (progressPercentage === 0) {
+                    progressText.textContent = '0% Complete - Ready to start Session 1';
+                } else if (progressPercentage === 100) {
+                    progressText.textContent = '100% Complete - Module 1 Finished! 🎉';
+                } else {
+                    progressText.textContent = `${Math.round(progressPercentage)}% Complete - ${completedSessions} of ${sessions.length} sessions finished`;
+                }
+            }
+        }
+        
+        // Update progress on page load
+        document.addEventListener('DOMContentLoaded', updateProgress);
+        
+        // Add click tracking for session links
+        document.querySelectorAll('.session-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const sessionNumber = this.href.split('session')[1].split('.html')[0];
+                console.log(`Starting Session ${sessionNumber}`);
+                // You could add analytics tracking here
+            });
+        });
+        
+        // Add hover effects for session cards
+        document.querySelectorAll('.session-overview-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.borderColor = 'var(--primary-color)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.borderColor = 'var(--gray-200)';
+            });
+        });
+    </script>
 </body>
 </html>
