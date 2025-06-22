@@ -8,6 +8,37 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        .coming-soon {
+            position: relative;
+            opacity: 0.7;
+        }
+        
+        .coming-soon::before {
+            content: "Coming Soon";
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+        
+        .coming-soon .session-link {
+            background: var(--gray-400);
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        
+        .coming-soon .session-link:hover {
+            transform: none;
+            background: var(--gray-400);
+        }
+    </style>
 </head>
 <body>
     <header class="header">
@@ -50,6 +81,76 @@
                             <li>TCP vs UDP protocols</li>
                         </ul>
                         <a href="modules/module1.html" class="session-link">Start Module</a>
+                    </div>
+                    
+                    <div class="session-card coming-soon">
+                        <h3>Module 2: Wireless Technologies</h3>
+                        <div class="session-duration">8 hours</div>
+                        <p>Deep dive into wireless communication protocols for IoT devices</p>
+                        <ul>
+                            <li>Wi-Fi 6 and IoT optimization</li>
+                            <li>Bluetooth and BLE protocols</li>
+                            <li>LoRa and LoRaWAN networks</li>
+                            <li>Zigbee and Thread mesh networks</li>
+                            <li>Cellular IoT (NB-IoT, LTE-M)</li>
+                        </ul>
+                        <a href="#" class="session-link">Coming Soon</a>
+                    </div>
+                    
+                    <div class="session-card coming-soon">
+                        <h3>Module 3: IoT Security</h3>
+                        <div class="session-duration">10 hours</div>
+                        <p>Implement robust security measures for IoT deployments</p>
+                        <ul>
+                            <li>TLS/SSL for IoT devices</li>
+                            <li>Certificate management</li>
+                            <li>Network segmentation strategies</li>
+                            <li>Secure boot and firmware updates</li>
+                            <li>Threat detection and response</li>
+                        </ul>
+                        <a href="#" class="session-link">Coming Soon</a>
+                    </div>
+                    
+                    <div class="session-card coming-soon">
+                        <h3>Module 4: Cloud Integration</h3>
+                        <div class="session-duration">12 hours</div>
+                        <p>Connect IoT devices to cloud platforms and services</p>
+                        <ul>
+                            <li>MQTT and message brokers</li>
+                            <li>AWS IoT Core integration</li>
+                            <li>Azure IoT Hub connectivity</li>
+                            <li>Google Cloud IoT platform</li>
+                            <li>Edge computing strategies</li>
+                        </ul>
+                        <a href="#" class="session-link">Coming Soon</a>
+                    </div>
+                    
+                    <div class="session-card coming-soon">
+                        <h3>Module 5: Network Management</h3>
+                        <div class="session-duration">6 hours</div>
+                        <p>Monitor, manage, and troubleshoot IoT networks at scale</p>
+                        <ul>
+                            <li>SNMP for IoT monitoring</li>
+                            <li>Network performance analysis</li>
+                            <li>Automated device provisioning</li>
+                            <li>Fault detection and recovery</li>
+                            <li>Scalability planning</li>
+                        </ul>
+                        <a href="#" class="session-link">Coming Soon</a>
+                    </div>
+                    
+                    <div class="session-card coming-soon">
+                        <h3>Module 6: Advanced Protocols</h3>
+                        <div class="session-duration">8 hours</div>
+                        <p>Explore specialized protocols for industrial and enterprise IoT</p>
+                        <ul>
+                            <li>CoAP (Constrained Application Protocol)</li>
+                            <li>OPC-UA for industrial IoT</li>
+                            <li>Modbus TCP/IP integration</li>
+                            <li>Time-sensitive networking (TSN)</li>
+                            <li>IPv6 for IoT scalability</li>
+                        </ul>
+                        <a href="#" class="session-link">Coming Soon</a>
                     </div>
                 </div>
             </div>
