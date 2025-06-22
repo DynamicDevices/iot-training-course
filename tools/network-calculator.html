@@ -8,125 +8,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        .calculator-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: var(--space-2xl);
-        }
-        
-        .calculator-section {
-            background: white;
-            border-radius: var(--radius-lg);
-            padding: var(--space-2xl);
-            margin-bottom: var(--space-xl);
-            box-shadow: var(--shadow-md);
-            border: 1px solid var(--gray-200);
-        }
-        
-        .input-group {
-            margin-bottom: var(--space-lg);
-        }
-        
-        .input-group label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: var(--space-sm);
-            color: var(--gray-700);
-        }
-        
-        .input-group input {
-            width: 100%;
-            padding: var(--space-md);
-            border: 2px solid var(--gray-300);
-            border-radius: var(--radius-md);
-            font-size: 1rem;
-            transition: border-color var(--transition-fast);
-        }
-        
-        .input-group input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-        
-        .calculate-btn {
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-            color: white;
-            padding: var(--space-md) var(--space-xl);
-            border: none;
-            border-radius: var(--radius-md);
-            font-weight: 600;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-            font-size: 1rem;
-        }
-        
-        .calculate-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-        
-        .results-panel {
-            background: var(--gray-50);
-            border-radius: var(--radius-md);
-            padding: var(--space-xl);
-            margin-top: var(--space-lg);
-            display: none;
-        }
-        
-        .results-panel.show {
-            display: block;
-            animation: fadeInUp 0.3s ease-out;
-        }
-        
-        .result-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: var(--space-lg);
-        }
-        
-        .result-item {
-            background: white;
-            padding: var(--space-md);
-            border-radius: var(--radius-sm);
-            border-left: 4px solid var(--primary-color);
-        }
-        
-        .result-item label {
-            font-weight: 600;
-            color: var(--gray-600);
-            font-size: 0.875rem;
-            display: block;
-            margin-bottom: var(--space-xs);
-        }
-        
-        .result-item .value {
-            font-family: var(--font-mono);
-            font-size: 1.125rem;
-            color: var(--gray-900);
-            font-weight: 500;
-        }
-        
-        .subnet-table {
-            margin-top: var(--space-xl);
-            overflow-x: auto;
-        }
-        
-        .subnet-table table {
-            width: 100%;
-            font-size: 0.875rem;
-        }
-        
-        .error-message {
-            background: #fef2f2;
-            color: #dc2626;
-            padding: var(--space-md);
-            border-radius: var(--radius-md);
-            border: 1px solid #fecaca;
-            margin-top: var(--space-md);
-        }
-    </style>
 </head>
 <body>
     <header class="header">
@@ -140,6 +21,7 @@
                     <a href="../index.html">Home</a>
                     <a href="../modules/module1.html">Modules</a>
                     <a href="../labs/lab1.html">Labs</a>
+                    <a href="ip-class-calculator.html">IP Class Calculator</a>
                 </nav>
             </div>
         </div>
@@ -280,6 +162,7 @@
     </footer>
 
     <script>
+        // ... existing JavaScript remains the same ...
         function analyzeIP() {
             const ip = document.getElementById('ip-input').value.trim();
             const octets = ip.split('.').map(Number);
