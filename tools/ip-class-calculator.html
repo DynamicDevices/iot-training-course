@@ -1,92 +1,510 @@
-<!-- Add to tools/ip-class-calculator.html -->
-<div class="ip-analyzer-tool">
-    <h2>IP Address Class Analyzer</h2>
-    <div class="calculator-input">
-        <label>Enter IP Address:</label>
-        <input type="text" id="ip-input" placeholder="e.g., 10.0.34.120" />
-        <button onclick="analyzeIP()">Analyze</button>
-    </div>
-    
-    <div id="analysis-results" class="results-panel">
-        <div class="result-item">
-            <label>IP Address:</label>
-            <span id="ip-display"></span>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP Class Calculator - Dynamic Devices IoT Training</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        .calculator-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: var(--space-2xl);
+        }
+        
+        .ip-analyzer-tool {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: var(--space-2xl);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-200);
+            margin-bottom: var(--space-xl);
+        }
+        
+        .calculator-input {
+            display: flex;
+            gap: var(--space-md);
+            margin-bottom: var(--space-xl);
+            flex-wrap: wrap;
+            align-items: end;
+        }
+        
+        .calculator-input label {
+            font-weight: 600;
+            color: var(--gray-700);
+            margin-bottom: var(--space-sm);
+            display: block;
+        }
+        
+        .calculator-input input {
+            flex: 1;
+            min-width: 200px;
+            padding: var(--space-md);
+            border: 2px solid var(--gray-300);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-family: var(--font-mono);
+            transition: border-color var(--transition-fast);
+        }
+        
+        .calculator-input input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        .calculator-input button {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: var(--space-md) var(--space-xl);
+            border: none;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-size: 1rem;
+            white-space: nowrap;
+        }
+        
+        .calculator-input button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .results-panel {
+            background: var(--gray-50);
+            border-radius: var(--radius-md);
+            padding: var(--space-xl);
+            display: none;
+        }
+        
+        .results-panel.show {
+            display: block;
+            animation: fadeInUp 0.3s ease-out;
+        }
+        
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-md);
+            margin-bottom: var(--space-sm);
+            background: white;
+            border-radius: var(--radius-sm);
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .result-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .result-item label {
+            font-weight: 600;
+            color: var(--gray-600);
+            margin: 0;
+        }
+        
+        .result-item span {
+            font-family: var(--font-mono);
+            font-size: 1.125rem;
+            color: var(--gray-900);
+            font-weight: 500;
+        }
+        
+        .class-reference {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: var(--space-2xl);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-200);
+            margin-bottom: var(--space-xl);
+        }
+        
+        .class-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-lg);
+            margin-top: var(--space-lg);
+        }
+        
+        .class-card {
+            background: var(--gray-50);
+            padding: var(--space-lg);
+            border-radius: var(--radius-md);
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .class-card.class-a {
+            border-left-color: #3b82f6;
+        }
+        
+        .class-card.class-b {
+            border-left-color: #10b981;
+        }
+        
+        .class-card.class-c {
+            border-left-color: #f59e0b;
+        }
+        
+        .class-card h4 {
+            margin-bottom: var(--space-md);
+            font-size: 1.25rem;
+        }
+        
+        .class-card .range {
+            font-family: var(--font-mono);
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .class-card .details {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            line-height: 1.5;
+        }
+        
+        .examples-section {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: var(--space-2xl);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-200);
+        }
+        
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-lg);
+            margin-top: var(--space-lg);
+        }
+        
+        .example-item {
+            background: var(--gray-50);
+            padding: var(--space-lg);
+            border-radius: var(--radius-md);
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            border: 2px solid transparent;
+        }
+        
+        .example-item:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+        
+        .example-item .ip {
+            font-family: var(--font-mono);
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .example-item .description {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+        }
+        
+        .error-message {
+            background: #fef2f2;
+            color: #dc2626;
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+            border: 1px solid #fecaca;
+            margin-top: var(--space-md);
+        }
+        
+        @media (max-width: 768px) {
+            .calculator-input {
+                flex-direction: column;
+            }
+            
+            .calculator-input input {
+                min-width: auto;
+            }
+            
+            .result-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-sm);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1><a href="../index.html">Dynamic Devices</a></h1>
+                    <span>IP Class Calculator Tool</span>
+                </div>
+                <nav class="nav">
+                    <a href="../index.html">Home</a>
+                    <a href="../modules/module1.html">Modules</a>
+                    <a href="../labs/lab1.html">Labs</a>
+                    <a href="network-calculator.html">Network Calculator</a>
+                </nav>
+            </div>
         </div>
-        <div class="result-item">
-            <label>Class:</label>
-            <span id="ip-class"></span>
-        </div>
-        <div class="result-item">
-            <label>Default Netmask:</label>
-            <span id="netmask"></span>
-        </div>
-        <div class="result-item">
-            <label>Network Portion:</label>
-            <span id="network-portion"></span>
-        </div>
-        <div class="result-item">
-            <label>Host Portion:</label>
-            <span id="host-portion"></span>
-        </div>
-        <div class="result-item">
-            <label>Max Hosts:</label>
-            <span id="max-hosts"></span>
-        </div>
-        <div class="result-item">
-            <label>Can Communicate With:</label>
-            <span id="communication-range"></span>
-        </div>
-    </div>
-</div>
+    </header>
 
-<script>
-function analyzeIP() {
-    const ip = document.getElementById('ip-input').value;
-    const octets = ip.split('.').map(Number);
-    
-    if (octets.length !== 4 || octets.some(octet => octet < 0 || octet > 255)) {
-        alert('Please enter a valid IP address');
-        return;
-    }
-    
-    const firstOctet = octets[0];
-    let ipClass, netmask, networkPortion, hostPortion, maxHosts;
-    
-    if (firstOctet >= 1 && firstOctet <= 126) {
-        ipClass = 'A';
-        netmask = '255.0.0.0 (/8)';
-        networkPortion = `${octets[0]}.0.0.0`;
-        hostPortion = `0.${octets[1]}.${octets[2]}.${octets[3]}`;
-        maxHosts = '16,777,214';
-    } else if (firstOctet >= 128 && firstOctet <= 191) {
-        ipClass = 'B';
-        netmask = '255.255.0.0 (/16)';
-        networkPortion = `${octets[0]}.${octets[1]}.0.0`;
-        hostPortion = `0.0.${octets[2]}.${octets[3]}`;
-        maxHosts = '65,534';
-    } else if (firstOctet >= 192 && firstOctet <= 223) {
-        ipClass = 'C';
-        netmask = '255.255.255.0 (/24)';
-        networkPortion = `${octets[0]}.${octets[1]}.${octets[2]}.0`;
-        hostPortion = `0.0.0.${octets[3]}`;
-        maxHosts = '254';
-    } else {
-        ipClass = 'Special/Reserved';
-        netmask = 'N/A';
-        networkPortion = 'N/A';
-        hostPortion = 'N/A';
-        maxHosts = 'N/A';
-    }
-    
-    document.getElementById('ip-display').textContent = ip;
-    document.getElementById('ip-class').textContent = ipClass;
-    document.getElementById('netmask').textContent = netmask;
-    document.getElementById('network-portion').textContent = networkPortion;
-    document.getElementById('host-portion').textContent = hostPortion;
-    document.getElementById('max-hosts').textContent = maxHosts;
-    document.getElementById('communication-range').textContent = 
-        `Any device on network ${networkPortion.replace('.0', '.x')}`;
-    
-    document.getElementById('analysis-results').style.display = 'block';
-}
-</script>
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>IP Address Class Calculator</h1>
+                <p class="hero-subtitle">Analyze IP addresses and understand network classes for IoT deployments</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="calculator-container">
+                <!-- IP Class Analyzer Tool -->
+                <div class="ip-analyzer-tool">
+                    <h2>IP Address Class Analyzer</h2>
+                    <div class="calculator-input">
+                        <div style="flex: 1;">
+                            <label for="ip-input">Enter IP Address:</label>
+                            <input type="text" id="ip-input" placeholder="e.g., 10.0.34.120" />
+                        </div>
+                        <button onclick="analyzeIP()">Analyze</button>
+                    </div>
+                    
+                    <div id="analysis-results" class="results-panel">
+                        <div class="result-item">
+                            <label>IP Address:</label>
+                            <span id="ip-display"></span>
+                        </div>
+                        <div class="result-item">
+                            <label>Class:</label>
+                            <span id="ip-class"></span>
+                        </div>
+                        <div class="result-item">
+                            <label>Default Netmask:</label>
+                            <span id="netmask"></span>
+                        </div>
+                        <div class="result-item">
+                            <label>Network Portion:</label>
+                            <span id="network-portion"></span>
+                        </div>
+                        <div class="result-item">
+                            <label>Host Portion:</label>
+                            <span id="host-portion"></span>
+                        </div>
+                        <div class="result-item">
+                            <label>Max Hosts:</label>
+                            <span id="max-hosts"></span>
+                        </div>
+                        <div class="result-item">
+                            <label>Can Communicate With:</label>
+                            <span id="communication-range"></span>
+                        </div>
+                        <div class="result-item">
+                            <label>Private/Public:</label>
+                            <span id="ip-type"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Class Reference -->
+                <div class="class-reference">
+                    <h2>IP Address Class Reference</h2>
+                    <p>Understanding the different classes of IP addresses and their characteristics:</p>
+                    
+                    <div class="class-grid">
+                        <div class="class-card class-a">
+                            <h4>Class A</h4>
+                            <div class="range">1.0.0.0 - 126.255.255.255</div>
+                            <div class="details">
+                                <strong>Default Mask:</strong> 255.0.0.0 (/8)<br>
+                                <strong>Networks:</strong> 126<br>
+                                <strong>Hosts per Network:</strong> 16,777,214<br>
+                                <strong>Use:</strong> Large organizations, ISPs
+                            </div>
+                        </div>
+                        
+                        <div class="class-card class-b">
+                            <h4>Class B</h4>
+                            <div class="range">128.0.0.0 - 191.255.255.255</div>
+                            <div class="details">
+                                <strong>Default Mask:</strong> 255.255.0.0 (/16)<br>
+                                <strong>Networks:</strong> 16,384<br>
+                                <strong>Hosts per Network:</strong> 65,534<br>
+                                <strong>Use:</strong> Medium-sized organizations
+                            </div>
+                        </div>
+                        
+                        <div class="class-card class-c">
+                            <h4>Class C</h4>
+                            <div class="range">192.0.0.0 - 223.255.255.255</div>
+                            <div class="details">
+                                <strong>Default Mask:</strong> 255.255.255.0 (/24)<br>
+                                <strong>Networks:</strong> 2,097,152<br>
+                                <strong>Hosts per Network:</strong> 254<br>
+                                <strong>Use:</strong> Small networks, home/office
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Example IPs -->
+                <div class="examples-section">
+                    <h2>Try These Examples</h2>
+                    <p>Click on any example below to analyze it:</p>
+                    
+                    <div class="example-grid">
+                        <div class="example-item" onclick="analyzeExample('10.0.1.100')">
+                            <div class="ip">10.0.1.100</div>
+                            <div class="description">Private Class A</div>
+                        </div>
+                        <div class="example-item" onclick="analyzeExample('172.16.50.1')">
+                            <div class="ip">172.16.50.1</div>
+                            <div class="description">Private Class B</div>
+                        </div>
+                        <div class="example-item" onclick="analyzeExample('192.168.1.1')">
+                            <div class="ip">192.168.1.1</div>
+                            <div class="description">Private Class C</div>
+                        </div>
+                        <div class="example-item" onclick="analyzeExample('8.8.8.8')">
+                            <div class="ip">8.8.8.8</div>
+                            <div class="description">Public Class A (Google DNS)</div>
+                        </div>
+                        <div class="example-item" onclick="analyzeExample('157.240.1.1')">
+                            <div class="ip">157.240.1.1</div>
+                            <div class="description">Public Class B</div>
+                        </div>
+                        <div class="example-item" onclick="analyzeExample('208.67.222.222')">
+                            <div class="ip">208.67.222.222</div>
+                            <div class="description">Public Class C (OpenDNS)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Dynamic Devices. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function analyzeIP() {
+            const ip = document.getElementById('ip-input').value.trim();
+            performAnalysis(ip);
+        }
+
+        function analyzeExample(ip) {
+            document.getElementById('ip-input').value = ip;
+            performAnalysis(ip);
+        }
+
+        function performAnalysis(ip) {
+            const octets = ip.split('.').map(Number);
+            
+            if (octets.length !== 4 || octets.some(octet => isNaN(octet) || octet < 0 || octet > 255)) {
+                showError('Please enter a valid IP address (e.g., 192.168.1.100)');
+                return;
+            }
+            
+            const firstOctet = octets[0];
+            let ipClass, netmask, networkPortion, hostPortion, maxHosts, commRange, ipType;
+            
+            // Determine IP type (private/public)
+            if ((firstOctet === 10) ||
+                (firstOctet === 172 && octets[1] >= 16 && octets[1] <= 31) ||
+                (firstOctet === 192 && octets[1] === 168)) {
+                ipType = 'Private (RFC 1918)';
+            } else if (firstOctet === 127) {
+                ipType = 'Loopback';
+            } else if (firstOctet >= 224 && firstOctet <= 239) {
+                ipType = 'Multicast';
+            } else if (firstOctet >= 240) {
+                ipType = 'Reserved';
+            } else {
+                ipType = 'Public';
+            }
+            
+            if (firstOctet >= 1 && firstOctet <= 126) {
+                ipClass = 'A (Large Networks)';
+                netmask = '255.0.0.0 (/8)';
+                networkPortion = `${octets[0]}.0.0.0`;
+                hostPortion = `0.${octets[1]}.${octets[2]}.${octets[3]}`;
+                maxHosts = '16,777,214';
+                commRange = `${octets[0]}.0.0.1 to ${octets[0]}.255.255.254`;
+            } else if (firstOctet >= 128 && firstOctet <= 191) {
+                ipClass = 'B (Medium Networks)';
+                netmask = '255.255.0.0 (/16)';
+                networkPortion = `${octets[0]}.${octets[1]}.0.0`;
+                hostPortion = `0.0.${octets[2]}.${octets[3]}`;
+                maxHosts = '65,534';
+                commRange = `${octets[0]}.${octets[1]}.0.1 to ${octets[0]}.${octets[1]}.255.254`;
+            } else if (firstOctet >= 192 && firstOctet <= 223) {
+                ipClass = 'C (Small Networks)';
+                netmask = '255.255.255.0 (/24)';
+                networkPortion = `${octets[0]}.${octets[1]}.${octets[2]}.0`;
+                hostPortion = `0.0.0.${octets[3]}`;
+                maxHosts = '254';
+                commRange = `${octets[0]}.${octets[1]}.${octets[2]}.1 to ${octets[0]}.${octets[1]}.${octets[2]}.254`;
+            } else if (firstOctet >= 224 && firstOctet <= 239) {
+                ipClass = 'D (Multicast)';
+                netmask = 'N/A';
+                networkPortion = 'N/A';
+                hostPortion = 'N/A';
+                maxHosts = 'N/A';
+                commRange = 'Multicast group members';
+            } else if (firstOctet >= 240) {
+                ipClass = 'E (Reserved)';
+                netmask = 'N/A';
+                networkPortion = 'N/A';
+                hostPortion = 'N/A';
+                maxHosts = 'N/A';
+                commRange = 'Reserved for future use';
+            } else {
+                ipClass = 'Invalid/Reserved';
+                netmask = 'N/A';
+                networkPortion = 'N/A';
+                hostPortion = 'N/A';
+                maxHosts = 'N/A';
+                commRange = 'N/A';
+            }
+            
+            document.getElementById('ip-display').textContent = ip;
+            document.getElementById('ip-class').textContent = ipClass;
+            document.getElementById('netmask').textContent = netmask;
+            document.getElementById('network-portion').textContent = networkPortion;
+            document.getElementById('host-portion').textContent = hostPortion;
+            document.getElementById('max-hosts').textContent = maxHosts;
+            document.getElementById('communication-range').textContent = commRange;
+            document.getElementById('ip-type').textContent = ipType;
+            
+            document.getElementById('analysis-results').classList.add('show');
+            
+            // Scroll to results
+            document.getElementById('analysis-results').scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'nearest' 
+            });
+        }
+
+        function showError(message) {
+            const resultsPanel = document.getElementById('analysis-results');
+            resultsPanel.innerHTML = `<div class="error-message">${message}</div>`;
+            resultsPanel.classList.add('show');
+        }
+
+        // Allow Enter key to trigger analysis
+        document.getElementById('ip-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                analyzeIP();
+            }
+        });
+    </script>
+</body>
+</html>
