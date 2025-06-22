@@ -1220,3 +1220,25 @@ pre code {
         opacity: 1;
     }
 }
+
+/* Session Page Styles */
+.code-block {
+    background: var(--gray-900);
+    color: var(--gray-100);
+    padding: var(--space-lg);
+    border-radius: var(--radius-md);
+    overflow-x: auto;
+    margin: var(--space-lg) 0;
+}
+
+.code-block pre {
+    margin: 0;
+    background: none;
+    padding: 0;
+}
+
+.code-block code {
+    background: none;
+    color: inherit;
+    padding: 0;
+}
