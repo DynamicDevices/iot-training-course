@@ -605,7 +605,7 @@ echo 'Challenge Complete! You have mastered Linux navigation basics.'</code></pr
             </main>
         </div>
 
-        <!-- Persistent Terminal Pane with Correct Alpine Linux VM -->
+        <!-- Persistent Terminal Pane with Dynamic Sizing -->
         <div class="terminal-pane">
             <div class="terminal-header">
                 <span>🐧</span>
@@ -616,34 +616,77 @@ echo 'Challenge Complete! You have mastered Linux navigation basics.'</code></pr
                     <div class="loading-spinner"></div>
                     <div>
                         <div>🚀 Loading Alpine Linux Environment...</div>
-                        <div style="font-size: 0.875rem; opacity: 0.7; margin-top: 0.5rem;">Starting Alpine Linux terminal for hands-on practice</div>
+                        <div style="font-size: 0.875rem; opacity: 0.7; margin-top: 0.5rem;">Calculating optimal terminal size...</div>
                     </div>
                 </div>
                 <iframe 
                     id="alpine-terminal"
-                    src="https://bellard.org/jslinux/vm.html?url=alpine-x86.cfg&mem=192" 
-                    style="width: 100%; max-width: 100%"
                     title="Alpine Linux Terminal">
                 </iframe>
-                <div class="terminal-status" id="terminal-status">Alpine Linux Ready</div>
+                <div class="terminal-status" id="terminal-status">Calculating Size...</div>
             </div>
         </div>
     </div>
 
     <script>
-        // Initialize Alpine Linux terminal on page load
+        // Function to calculate optimal terminal dimensions
+        function calculateTerminalSize() {
+            const terminalContent = document.querySelector('.terminal-content');
+            const terminalHeader = document.querySelector('.terminal-header');
+            
+            // Get actual dimensions
+            const contentRect = terminalContent.getBoundingClientRect();
+            const headerRect = terminalHeader.getBoundingClientRect();
+            
+            // Calculate available space for terminal
+            const availableWidth = contentRect.width;
+            const availableHeight = contentRect.height;
+            
+            // Terminal character dimensions (typical monospace font metrics)
+            // These are approximate values for JSLinux terminal
+            const charWidth = 7.2;  // pixels per character (including spacing)
+            const lineHeight = 16;  // pixels per line (including line spacing)
+            
+            // Calculate cols and rows with some padding
+            const cols = Math.floor((availableWidth - 20) / charWidth); // 20px padding
+            const rows = Math.floor((availableHeight - 20) / lineHeight); // 20px padding
+            
+            // Ensure minimum and maximum values
+            const finalCols = Math.max(40, Math.min(200, cols));
+            const finalRows = Math.max(10, Math.min(50, rows));
+            
+            console.log(`Terminal size calculated: ${finalCols}x${finalRows} (${availableWidth}x${availableHeight}px available)`);
+            
+            return { cols: finalCols, rows: finalRows };
+        }
+
+        // Initialize Alpine Linux terminal with dynamic sizing
         document.addEventListener('DOMContentLoaded', function() {
             const iframe = document.getElementById('alpine-terminal');
             const loading = document.getElementById('terminal-loading');
             const status = document.getElementById('terminal-status');
             
-            // Show terminal after loading period
+            // Wait for layout to be ready, then calculate size
             setTimeout(() => {
-                loading.style.display = 'none';
-                iframe.style.display = 'block';
-                status.textContent = 'Alpine Linux Active';
-                status.style.background = 'rgba(5, 150, 105, 0.8)';
-            }, 3000);
+                var { cols, rows } = calculateTerminalSize();
+                
+                cols=96
+                rows=25
+
+                // Update status
+                status.textContent = `Terminal: ${cols}x${rows}`;
+                
+                // Set iframe source with calculated dimensions
+                iframe.src = `https://bellard.org/jslinux/vm.html?url=alpine-x86.cfg&mem=192&cols=${cols}&rows=${rows}`;
+                
+                // Show terminal after loading period
+                setTimeout(() => {
+                    loading.style.display = 'none';
+                    iframe.style.display = 'block';
+                    status.textContent = `Alpine Linux Active (${cols}x${rows})`;
+                    status.style.background = 'rgba(5, 150, 105, 0.8)';
+                }, 3000);
+            }, 100); // Small delay to ensure layout is ready
 
             // Handle iframe load errors
             iframe.onerror = function() {
@@ -663,6 +706,28 @@ echo 'Challenge Complete! You have mastered Linux navigation basics.'</code></pr
                 status.textContent = 'Terminal Error';
                 status.style.background = 'rgba(220, 38, 38, 0.8)';
             };
+        });
+
+        // Recalculate terminal size on window resize
+        window.addEventListener('resize', function() {
+            const iframe = document.getElementById('alpine-terminal');
+            const status = document.getElementById('terminal-status');
+            
+            // Debounce resize events
+            clearTimeout(window.resizeTimeout);
+            window.resizeTimeout = setTimeout(() => {
+                if (iframe.src) {
+                    const { cols, rows } = calculateTerminalSize();
+                    
+                    // Update iframe source with new dimensions
+                    const currentSrc = iframe.src;
+                    const baseUrl = currentSrc.split('&cols=')[0];
+                    iframe.src = `${baseUrl}&cols=${cols}&rows=${rows}`;
+                    
+                    status.textContent = `Alpine Linux Active (${cols}x${rows})`;
+                    console.log(`Terminal resized to: ${cols}x${rows}`);
+                }
+            }, 500);
         });
 
         // Copy to clipboard functionality
