@@ -36,7 +36,7 @@
                 <div class="module-meta">
                     <div class="meta-item">
                         <strong>Duration</strong>
-                        10 hours
+                        12 hours
                     </div>
                     <div class="meta-item">
                         <strong>Sessions</strong>
@@ -44,12 +44,22 @@
                     </div>
                     <div class="meta-item">
                         <strong>Difficulty</strong>
-                        Beginner to Intermediate
+                        Beginner to Advanced
                     </div>
                     <div class="meta-item">
                         <strong>Prerequisites</strong>
                         Basic computer literacy
                     </div>
+                </div>
+
+                <div class="module-progress">
+                    <h2 style="color: var(--white); margin-bottom: 1rem;">Your Progress</h2>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="module-progress-fill" style="width: 0%"></div>
+                    </div>
+                    <p class="progress-text" style="color: rgba(255, 255, 255, 0.9);">
+                        <span id="completed-sessions">0</span> of 5 sessions completed
+                    </p>
                 </div>
             </div>
         </section>
@@ -152,7 +162,7 @@
                     <div class="session-card">
                         <div class="session-header">
                             <h3>Session 4: Process Management & System Monitoring</h3>
-                            <span class="session-duration">2 hours</span>
+                            <span class="session-duration">2.5 hours</span>
                         </div>
                         <div class="session-content">
                             <p>Master process control, system monitoring, and resource management essential for maintaining robust IoT systems in production environments.</p>
@@ -171,16 +181,16 @@
 
                     <div class="session-card">
                         <div class="session-header">
-                            <h3>Session 5: Package Management & Shell Scripting</h3>
-                            <span class="session-duration">2 hours</span>
+                            <h3>Session 5: Package Management & Automation</h3>
+                            <span class="session-duration">3.5 hours</span>
                         </div>
                         <div class="session-content">
                             <p>Learn package management and shell scripting automation for efficient IoT system deployment, maintenance, and administration.</p>
                             <ul>
-                                <li>Package management with apt/yum for IoT software</li>
-                                <li>Shell scripting fundamentals and automation</li>
-                                <li>System administration scripts for IoT deployments</li>
-                                <li>Deployment automation and maintenance workflows</li>
+                                <li>IoT software ecosystem and dependency management</li>
+                                <li>Advanced shell scripting for IoT automation</li>
+                                <li>Interactive learning with JupyterLab integration</li>
+                                <li>Professional deployment pipelines and best practices</li>
                             </ul>
                             <div class="session-actions">
                                 <a href="sessions/module1-session5.html" class="session-link">Start Session</a>
@@ -194,29 +204,57 @@
 
         <section class="section">
             <div class="container">
-                <div class="module-progress">
-                    <h2>Your Progress</h2>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
-                    </div>
-                    <p class="progress-text">
-                        <span id="completed-sessions">0</span> of 5 sessions completed
-                    </p>
-                </div>
-
                 <div class="next-steps">
                     <h2>Getting Started</h2>
                     <p>This module provides the Linux foundation essential for IoT development. Start with Session 1 and progress through each session in order, as concepts build upon each other.</p>
                     
                     <div class="tips">
-                        <h3>Success Tips</h3>
+                        <h3>Success Tips for Graduate Students & Junior Engineers</h3>
                         <ul>
                             <li><strong>Practice Regularly:</strong> Use the commands in real scenarios to build muscle memory</li>
                             <li><strong>Set Up a Lab Environment:</strong> Practice on a Linux system or virtual machine</li>
-                            <li><strong>Take Notes:</strong> Document commands and concepts that are new to you</li>
+                            <li><strong>Take Detailed Notes:</strong> Document commands and concepts that are new to you</li>
                             <li><strong>Apply to IoT Projects:</strong> Try using these skills in actual IoT development work</li>
+                            <li><strong>Use Interactive Features:</strong> Take advantage of quizzes, challenges, and JupyterLab integration</li>
                             <li><strong>Join Communities:</strong> Participate in Linux and IoT forums for additional learning</li>
+                            <li><strong>Build a Portfolio:</strong> Document your learning journey and create sample projects</li>
+                            <li><strong>Prepare for Interviews:</strong> Use the interview questions to test your knowledge</li>
                         </ul>
+                    </div>
+
+                    <div class="industry-insight">
+                        <h3>🏭 Industry Insight: Why Linux Skills Matter for IoT Engineers</h3>
+                        <p><strong>Professional Reality:</strong> Over 80% of IoT devices run Linux-based operating systems. Whether you're working with Raspberry Pi, industrial gateways, or edge computing devices, Linux proficiency is essential.</p>
+                        <p><strong>Career Impact:</strong> IoT engineers with strong Linux skills command higher salaries and have access to more advanced roles in system architecture, DevOps, and platform engineering.</p>
+                        <p><strong>Industry Applications:</strong> From automotive systems to smart cities, industrial automation to healthcare devices - Linux powers the IoT infrastructure that's transforming every industry.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section bg-light">
+            <div class="container">
+                <h2>Module Completion Rewards</h2>
+                <div class="completion-grid">
+                    <div class="completion-item">
+                        <h4>✅ Digital Certificate</h4>
+                        <p>Receive a completion certificate for your professional portfolio</p>
+                    </div>
+                    <div class="completion-item">
+                        <h4>✅ Skill Assessment</h4>
+                        <p>Comprehensive evaluation of your Linux proficiency level</p>
+                    </div>
+                    <div class="completion-item">
+                        <h4>✅ Project Templates</h4>
+                        <p>Access to professional IoT project templates and scripts</p>
+                    </div>
+                    <div class="completion-item">
+                        <h4>✅ Advanced Resources</h4>
+                        <p>Curated list of advanced learning materials and tools</p>
+                    </div>
+                    <div class="completion-item">
+                        <h4>✅ Community Access</h4>
+                        <p>Join our exclusive community of IoT professionals</p>
                     </div>
                 </div>
             </div>
@@ -230,6 +268,7 @@
                 <div style="display: flex; gap: 2rem;">
                     <a href="../docs/setup.html" style="color: var(--gray-400);">Setup Guide</a>
                     <a href="../resources/troubleshooting.html" style="color: var(--gray-400);">Support</a>
+                    <a href="../resources/jupyter-setup.html" style="color: var(--gray-400);">JupyterLab Setup</a>
                 </div>
             </div>
         </div>
@@ -257,8 +296,29 @@
             
             // Update progress bar
             const progressPercentage = (completedCount / sessions.length) * 100;
-            document.getElementById('progress-fill').style.width = progressPercentage + '%';
+            document.getElementById('module-progress-fill').style.width = progressPercentage + '%';
             document.getElementById('completed-sessions').textContent = completedCount;
+            
+            // Check if module is complete
+            if (completedCount === sessions.length) {
+                localStorage.setItem('module1_completed', 'true');
+                showModuleCompletionCelebration();
+            }
+        }
+
+        function showModuleCompletionCelebration() {
+            // Create celebration modal or notification
+            const celebration = document.createElement('div');
+            celebration.innerHTML = `
+                <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; display: flex; align-items: center; justify-content: center;">
+                    <div style="background: white; padding: 3rem; border-radius: 12px; text-align: center; max-width: 500px;">
+                        <h2 style="color: var(--success-color); margin-bottom: 1rem;">🎉 Module 1 Complete!</h2>
+                        <p style="margin-bottom: 2rem;">Congratulations! You've mastered Linux basics for IoT development.</p>
+                        <button onclick="this.parentElement.parentElement.remove()" style="background: var(--primary-color); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 6px; cursor: pointer;">Continue Learning</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(celebration);
         }
 
         // Update progress on page load
@@ -266,6 +326,9 @@
         
         // Update progress when returning from sessions
         window.addEventListener('focus', updateProgress);
+        
+        // Listen for storage changes (when sessions are completed)
+        window.addEventListener('storage', updateProgress);
     </script>
 </body>
 </html>
