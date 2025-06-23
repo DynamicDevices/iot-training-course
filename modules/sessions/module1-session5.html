@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Session 4: Package Management & Shell Scripting - Module 1</title>
+    <title>Session 5: Package Management & Automation - Module 1</title>
     <link rel="stylesheet" href="../../assets/css/main.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,984 +11,1178 @@
 </head>
 <body>
     <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <h1><a href="../../index.html">Dynamic Devices</a></h1>
-                    <span>Module 1 - Session 4: Package Management & Shell Scripting</span>
-                </div>
-                <nav class="nav">
-                    <a href="../../index.html">Home</a>
-                    <a href="../module1.html">Module 1</a>
-                    <a href="../../index.html#labs">Labs</a>
-                    <a href="../../tools/network-calculator.html">Tools</a>
-                </nav>
-            </div>
-        </div>
+    <div class="container">
+    <div class="header-content">
+    <div class="logo">
+    <h1><a href="../../index.html">Dynamic Devices</a></h1>
+    <span>Module 1 - Session 5: Package Management & Automation</span>
+    </div>
+    <nav class="nav">
+    <a href="../../index.html">Home</a>
+    <a href="../module1.html">Module 1</a>
+    <a href="../../index.html#labs">Labs</a>
+    <a href="../../tools/network-calculator.html">Tools</a>
+    </nav>
+    </div>
+    </div>
     </header>
 
     <main>
-        <section class="module-overview">
-            <div class="container">
-                <h1>Session 4: Package Management & Shell Scripting</h1>
-                <p>Learn software installation, package management, and basic shell scripting for IoT automation tasks and system administration.</p>
-                
-                <div class="module-meta">
-                    <div class="meta-item">
-                        <strong>Duration</strong>
-                        2 hours
-                    </div>
-                    <div class="meta-item">
-                        <strong>Module</strong>
-                        Linux Basics
-                    </div>
-                    <div class="meta-item">
-                        <strong>Session</strong>
-                        4 of 4
-                    </div>
-                    <div class="meta-item">
-                        <strong>Difficulty</strong>
-                        Beginner to Intermediate
-                    </div>
-                </div>
-            </div>
-        </section>
+    <section class="module-overview">
+    <div class="container">
+    <h1>Session 5: Package Management & Automation</h1>
+    <p>Master Linux package management and shell scripting automation essential for scalable IoT deployments. Learn to manage software dependencies, automate system administration, and create robust deployment pipelines for professional IoT environments.</p>
+    
+    <div class="module-meta">
+    <div class="meta-item">
+    <strong>Duration</strong>
+    2.5 hours
+    </div>
+    <div class="meta-item">
+    <strong>Module</strong>
+    Linux Basics
+    </div>
+    <div class="meta-item">
+    <strong>Session</strong>
+    5 of 5
+    </div>
+    <div class="meta-item">
+    <strong>Difficulty</strong>
+    Intermediate to Advanced
+    </div>
+    </div>
 
-        <section class="section">
-            <div class="container">
-                <div class="learning-objectives">
-                    <h2>Session Learning Objectives</h2>
-                    <p>By the end of this session, you will be able to:</p>
-                    <div class="objectives-grid">
-                        <div class="objective-item">
-                            <h4>Master Package Management</h4>
-                            <p>Use package managers like apt, yum, and dnf to install, update, and remove software packages effectively.</p>
-                        </div>
-                        <div class="objective-item">
-                            <h4>Maintain System Security</h4>
-                            <p>Apply security updates, manage repositories, and understand package dependencies for IoT systems.</p>
-                        </div>
-                        <div class="objective-item">
-                            <h4>Write Shell Scripts</h4>
-                            <p>Create basic shell scripts with variables, loops, and conditional statements for automation tasks.</p>
-                        </div>
-                        <div class="objective-item">
-                            <h4>Automate IoT Tasks</h4>
-                            <p>Develop scripts for common IoT administration tasks like monitoring, backups, and system maintenance.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <div class="prerequisites-check">
+    <h3>Prerequisites Check</h3>
+    <p>Before starting this session, ensure you're comfortable with:</p>
+    <ul>
+    <li>File permissions and ownership (Session 3)</li>
+    <li>Process management and systemd services (Session 4)</li>
+    <li>Command-line navigation and file operations (Sessions 1-2)</li>
+    </ul>
+    </div>
+    </div>
+    </section>
 
-        <section class="section bg-light">
-            <div class="container">
-                <h2>1. Package Management Systems</h2>
-                
-                <div class="calculator-section">
-                    <h3>Understanding Package Managers</h3>
-                    <p>Package managers automate the installation, updating, and removal of software packages. They handle dependencies, security updates, and system integrity for IoT devices.</p>
-                    
-                    <div class="class-grid">
-                        <div class="class-card class-a">
-                            <h4>APT (Debian/Ubuntu)</h4>
-                            <div class="range">Advanced Package Tool</div>
-                            <div class="details">
-                                <strong>Distributions:</strong> Debian, Ubuntu, Raspberry Pi OS<br>
-                                <strong>Commands:</strong> apt, apt-get, apt-cache<br>
-                                <strong>IoT Usage:</strong> Most common for IoT development
-                            </div>
-                        </div>
-                        
-                        <div class="class-card class-b">
-                            <h4>YUM/DNF (Red Hat/Fedora)</h4>
-                            <div class="range">Yellowdog Updater Modified / Dandified YUM</div>
-                            <div class="details">
-                                <strong>Distributions:</strong> RHEL, CentOS, Fedora<br>
-                                <strong>Commands:</strong> yum, dnf<br>
-                                <strong>IoT Usage:</strong> Enterprise IoT deployments
-                            </div>
-                        </div>
-                        
-                        <div class="class-card class-c">
-                            <h4>Pacman (Arch Linux)</h4>
-                            <div class="range">Package Manager</div>
-                            <div class="details">
-                                <strong>Distributions:</strong> Arch Linux, Manjaro<br>
-                                <strong>Commands:</strong> pacman<br>
-                                <strong>IoT Usage:</strong> Lightweight IoT systems
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <section class="section">
+    <div class="container">
+    <div class="learning-objectives">
+    <h2>Session Learning Objectives</h2>
+    <p>By the end of this session, you will be able to:</p>
+    <div class="objectives-grid">
+    <div class="objective-item">
+    <h4>Master Package Management Systems</h4>
+    <p>Use apt, yum, and snap to install, update, and manage software packages for IoT applications and dependencies.</p>
+    </div>
+    <div class="objective-item">
+    <h4>Automate System Administration</h4>
+    <p>Create robust shell scripts for IoT deployment automation, system monitoring, and maintenance workflows.</p>
+    </div>
+    <div class="objective-item">
+    <h4>Manage IoT Software Ecosystems</h4>
+    <p>Handle complex dependency chains, custom repositories, and containerized applications for IoT environments.</p>
+    </div>
+    <div class="objective-item">
+    <h4>Implement Deployment Pipelines</h4>
+    <p>Design and implement automated deployment and update systems for production IoT infrastructure.</p>
+    </div>
+    </div>
+    </div>
+    </div>
+    </section>
 
-                <div class="calculator-section">
-                    <h3>APT Package Management (Debian/Ubuntu)</h3>
-                    <p>Most commonly used in IoT development environments and Raspberry Pi systems.</p>
-                    
-                    <div class="code-block">
-                        <pre><code># Update package database
-sudo apt update                    # Refresh package list
-sudo apt upgrade                   # Upgrade installed packages
-sudo apt full-upgrade             # Upgrade with dependency resolution
+    <!-- Interactive Jupyter Integration Section -->
+    <section class="section bg-light">
+    <div class="container">
+    <h2>🚀 Interactive Learning Environment</h2>
+    <div class="interactive-options">
+    <div class="option-card">
+    <h4>JupyterLab Integration</h4>
+    <p>Practice commands in a live Linux environment with our integrated JupyterLab terminal.</p>
+    <button onclick="launchJupyter()" class="session-link">Launch Interactive Terminal</button>
+    </div>
+    <div class="option-card">
+    <h4>Code Playground</h4>
+    <p>Test shell scripts and commands in a safe, sandboxed environment.</p>
+    <button onclick="openCodePlayground()" class="session-link">Open Code Playground</button>
+    </div>
+    <div class="option-card">
+    <h4>Virtual Lab Environment</h4>
+    <p>Access a full Linux VM with pre-installed IoT tools and sample projects.</p>
+    <button onclick="accessVirtualLab()" class="session-link">Access Virtual Lab</button>
+    </div>
+    </div>
+    </div>
+    </section>
 
-# Install packages
-sudo apt install package_name     # Install single package
-sudo apt install pkg1 pkg2 pkg3   # Install multiple packages
-sudo apt install -y package_name  # Install without confirmation
-sudo apt install --no-install-recommends package_name  # Minimal install
+    <section class="section">
+    <div class="container">
+    <h2>1. IoT Software Ecosystem Overview - Understanding the Landscape</h2>
+    
+    <div class="industry-insight">
+    <h3>🏭 Industry Insight: IoT Software Complexity</h3>
+    <p><strong>Real-World Challenge:</strong> A typical IoT gateway might require 50+ software packages including MQTT brokers, database engines, web servers, sensor drivers, and custom applications. Managing these dependencies manually is error-prone and doesn't scale.</p>
+    <p><strong>Professional Solution:</strong> Modern IoT deployments use package managers, containerization, and automation to ensure consistent, reproducible installations across thousands of devices.</p>
+    </div>
 
-# Search and information
-apt search keyword                 # Search for packages
-apt show package_name             # Show package information
-apt list --installed             # List installed packages
-apt list --upgradable            # List upgradable packages
+    <div class="calculator-section">
+    <h3>Package Management Fundamentals for IoT</h3>
+    <p>Package managers are essential tools for IoT development because they handle complex dependency relationships, security updates, and version compatibility automatically. Understanding package management is crucial for maintaining secure, up-to-date IoT systems at scale.</p>
+    
+    <div class="code-block">
+    <pre><code># Understanding package management systems by distribution
+# Debian/Ubuntu (most common for IoT)
+apt list --installed | grep -E "(python|node|mqtt|docker)"  # List IoT-related packages
+apt search mqtt                        # Find MQTT-related packages
+apt show mosquitto                     # Detailed package information
+apt depends mosquitto                  # Show package dependencies
+apt rdepends mosquitto                 # Show reverse dependencies
 
-# Remove packages
-sudo apt remove package_name      # Remove package (keep config)
-sudo apt purge package_name       # Remove package and config
-sudo apt autoremove              # Remove unused dependencies
+# Red Hat/CentOS/Fedora
+yum list installed | grep -E "(python|node|mqtt|docker)"
+dnf search mqtt                       # Fedora's newer package manager
+yum info mosquitto                     # Package details
+yum deplist mosquitto                  # Dependency list
 
-# IoT development packages
-sudo apt install python3-pip git curl wget
-sudo apt install build-essential cmake
-sudo apt install mosquitto mosquitto-clients  # MQTT broker
-sudo apt install wireshark-qt                 # Network analysis</code></pre>
-                    </div>
-                </div>
-            </div>
-        </section>
+# Universal packages (work across distributions)
+snap list                              # List installed snap packages
+snap find iot                         # Search for IoT applications
+snap info node                        # Node.js snap package info
 
-        <section class="section">
-            <div class="container">
-                <h2>2. Advanced Package Management</h2>
-                
-                <div class="calculator-section">
-                    <h3>Repository Management</h3>
-                    <p>Managing software repositories for additional packages and IoT-specific tools.</p>
-                    
-                    <div class="code-block">
-                        <pre><code># Repository management
-sudo apt-add-repository ppa:user/repository  # Add PPA repository
-sudo apt-add-repository "deb http://example.com/repo stable main"
+# Flatpak (another universal package system)
+flatpak list                           # List installed flatpak applications
+flatpak search development             # Search development tools
 
-# Repository files
-ls /etc/apt/sources.list.d/       # List repository files
-cat /etc/apt/sources.list         # Main repository configuration
+# Package repository management
+cat /etc/apt/sources.list              # View APT repositories
+ls /etc/apt/sources.list.d/            # Additional repository files
+apt-key list                           # List repository keys
+add-apt-repository ppa:example/repo    # Add Personal Package Archive
 
-# GPG keys for repositories
-wget -qO - https://example.com/key.gpg | sudo apt-key add -
-curl -fsSL https://example.com/key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/example.gpg
-
-# IoT specific repositories
-# Add Node.js repository
-curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
-sudo apt install nodejs
-
-# Add Docker repository
+# IoT-specific repositories
+# Node.js official repository
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+# Docker official repository  
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null</code></pre>
-                    </div>
-                </div>
+# Mosquitto MQTT broker repository
+sudo apt-add-repository ppa:mosquitto-dev/mosquitto-ppa</code></pre>
+    </div>
 
-                <div class="calculator-section">
-                    <h3>Package Dependencies and Troubleshooting</h3>
-                    <p>Understanding and resolving package dependency issues common in IoT environments.</p>
-                    
-                    <div class="code-block">
-                        <pre><code># Dependency management
-apt depends package_name          # Show package dependencies
-apt rdepends package_name         # Show reverse dependencies
-sudo apt install -f              # Fix broken dependencies
-sudo apt --fix-missing install   # Install with missing packages
+    <h4>IoT Package Categories and Their Purposes</h4>
+    <div class="result-grid">
+    <div class="result-item">
+    <label>Communication Protocols</label>
+    <div class="value">MQTT brokers (mosquitto), HTTP servers (nginx, apache2), WebSocket libraries</div>
+    </div>
+    <div class="result-item">
+    <label>Development Runtimes</label>
+    <div class="value">Python (python3), Node.js (nodejs, npm), Java (openjdk), Go (golang)</div>
+    </div>
+    <div class="result-item">
+    <label>Database Systems</label>
+    <div class="value">Time-series (influxdb), Document (mongodb), Relational (postgresql, sqlite3)</div>
+    </div>
+    <div class="result-item">
+    <label>System Services</label>
+    <div class="value">Container runtime (docker), Process manager (supervisor), Network tools (openssh-server)</div>
+    </div>
+    <div class="result-item">
+    <label>Hardware Interfaces</label>
+    <div class="value">GPIO libraries (wiringpi), Serial communication (minicom), USB tools (usbutils)</div>
+    </div>
+    <div class="result-item">
+    <label>Security Tools</label>
+    <div class="value">SSL/TLS (openssl), VPN (openvpn), Firewall (ufw), Certificate management (certbot)</div>
+    </div>
+    </div>
+    </div>
 
-# Package information and troubleshooting
-dpkg -l                          # List all installed packages
-dpkg -l | grep package_name      # Check if package is installed
-dpkg -L package_name             # List files installed by package
-dpkg -S /path/to/file           # Find which package owns a file
+    <div class="calculator-section">
+    <h3>Professional Package Management Workflows</h3>
+    <p>In professional IoT environments, package management follows strict procedures to ensure security, reliability, and reproducibility across deployments.</p>
+    
+    <div class="code-block">
+    <pre><code># Professional IoT package installation workflow
+# Step 1: System preparation and security
+sudo apt update                        # Update package lists
+sudo apt upgrade                       # Upgrade existing packages
+sudo apt autoremove                    # Remove unnecessary packages
+sudo apt autoclean                     # Clean package cache
 
-# Clean up package cache
-sudo apt clean                  # Remove downloaded package files
-sudo apt autoclean             # Remove old package files
-sudo apt autoremove            # Remove unused packages
+# Step 2: Install essential IoT development tools
+sudo apt install -y \
+    curl wget git vim \                # Basic tools
+    python3 python3-pip python3-venv \ # Python development
+    nodejs npm \                       # Node.js development  
+    build-essential \                  # Compilation tools
+    openssh-server \                   # Remote access
+    ufw \                             # Firewall
+    htop tree \                       # System monitoring
+    mosquitto mosquitto-clients        # MQTT broker and tools
 
-# Hold packages (prevent updates)
-sudo apt-mark hold package_name    # Prevent package updates
-sudo apt-mark unhold package_name  # Allow package updates
-apt-mark showhold                   # Show held packages
+# Step 3: Install IoT-specific packages
+sudo apt install -y \
+    influxdb \                        # Time-series database
+    grafana \                         # Visualization
+    docker.io docker-compose \        # Containerization
+    nginx \                           # Web server
+    sqlite3 \                         # Lightweight database
+    minicom \                         # Serial communication
+    i2c-tools \                       # I2C interface tools
+    wiringpi                          # GPIO control (Raspberry Pi)
 
-# IoT system maintenance
-sudo apt update && sudo apt upgrade -y  # Update system
-sudo apt autoremove && sudo apt autoclean  # Clean up</code></pre>
-                    </div>
-                </div>
+# Step 4: Python IoT libraries via pip
+python3 -m pip install --user \
+    paho-mqtt \                       # MQTT client library
+    influxdb-client \                 # InfluxDB client
+    flask \                           # Web framework
+    requests \                        # HTTP client
+    pyserial \                        # Serial communication
+    RPi.GPIO \                        # Raspberry Pi GPIO (if applicable)
+    adafruit-circuitpython-* \        # Adafruit sensor libraries
+    pysqlite3                         # SQLite interface
 
-                <div class="calculator-section">
-                    <h3>Alternative Package Managers</h3>
-                    <p>Additional package managers useful for IoT development and specialized tools.</p>
-                    
-                    <div class="code-block">
-                        <pre><code># Snap packages (universal packages)
-sudo apt install snapd           # Install snap daemon
-snap find package_name          # Search snap packages
-sudo snap install package_name  # Install snap package
-snap list                       # List installed snaps
-sudo snap remove package_name   # Remove snap package
+# Step 5: Node.js IoT packages via npm
+sudo npm install -g \
+    node-red \                        # Visual IoT programming
+    pm2 \                            # Process manager
+    mqtt \                           # MQTT client
+    express \                        # Web framework
+    socket.io \                      # Real-time communication
+    serialport                       # Serial communication
 
-# Flatpak (another universal package format)
-sudo apt install flatpak
-flatpak search package_name
-flatpak install package_name
+# Step 6: Verification and testing
+systemctl status mosquitto           # Verify MQTT broker
+python3 -c "import paho.mqtt.client" # Test Python MQTT
+node -e "console.log(require('mqtt'))" # Test Node.js MQTT
+docker --version                     # Verify Docker installation
+influx --version                     # Verify InfluxDB client
 
-# Python packages with pip
-pip3 install package_name       # Install Python package
-pip3 install --user package_name # Install for current user only
-pip3 list                       # List installed packages
-pip3 uninstall package_name     # Remove Python package
+# Step 7: Security hardening
+sudo ufw enable                      # Enable firewall
+sudo ufw allow ssh                   # Allow SSH access
+sudo ufw allow 1883                  # Allow MQTT
+sudo systemctl enable ssh            # Enable SSH service
+sudo systemctl start mosquitto       # Start MQTT broker</code></pre>
+    </div>
+    </div>
 
-# Node.js packages with npm
-npm install -g package_name     # Install globally
-npm install package_name        # Install locally
-npm list -g                     # List global packages
-npm uninstall package_name      # Remove package
+    <div class="common-mistakes">
+    <h3>⚠️ Common Mistakes in IoT Package Management</h3>
+    <div class="mistake-item">
+    <h4>Installing packages as root unnecessarily</h4>
+    <p><strong>Problem:</strong> Using sudo for user-space packages creates permission issues</p>
+    <p><strong>Solution:</strong> Use --user flag for pip, avoid sudo for npm global installs when possible</p>
+    </div>
+    <div class="mistake-item">
+    <h4>Not managing Python virtual environments</h4>
+    <p><strong>Problem:</strong> Package conflicts between different IoT projects</p>
+    <p><strong>Solution:</strong> Always use virtual environments for Python IoT projects</p>
+    </div>
+    <div class="mistake-item">
+    <h4>Ignoring package security updates</h4>
+    <p><strong>Problem:</strong> IoT devices become vulnerable to known exploits</p>
+    <p><strong>Solution:</strong> Implement automated security update procedures</p>
+    </div>
+    </div>
+    </div>
+    </section>
 
-# IoT development tools
-pip3 install esptool platformio  # ESP32/Arduino tools
-npm install -g @angular/cli      # Web dashboard tools
-sudo snap install code --classic # VS Code editor</code></pre>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="section bg-light">
-            <div class="container">
-                <h2>3. Shell Scripting Fundamentals</h2>
-                
-                <div class="calculator-section">
-                    <h3>Creating Your First Shell Script</h3>
-                    <p>Shell scripts automate repetitive tasks and system administration for IoT devices.</p>
-                    
-                    <div class="code-block">
-                        <pre><code># Create a basic shell script
+    <section class="section bg-light">
+    <div class="container">
+    <h2>2. Shell Scripting for IoT Automation - Professional Automation</h2>
+    
+    <div class="calculator-section">
+    <h3>Shell Scripting Fundamentals for IoT Systems</h3>
+    <p>Shell scripting is essential for IoT automation because it allows you to combine multiple commands, handle errors gracefully, and create repeatable processes. Professional IoT deployments rely heavily on shell scripts for installation, configuration, monitoring, and maintenance.</p>
+    
+    <div class="code-block">
+    <pre><code># Professional IoT deployment script template
 #!/bin/bash
-# This is a comment - IoT System Monitor Script
+# IoT System Deployment Script
+# Purpose: Automated setup of IoT gateway with all required services
+# Author: IoT Engineering Team
+# Version: 2.1.0
 
-echo "IoT System Monitor"
-echo "=================="
-echo "Current date: $(date)"
-echo "System uptime: $(uptime -p)"
-echo "Disk usage:"
-df -h /
-echo "Memory usage:"
-free -h
-echo "Network interfaces:"
-ip addr show | grep -E "^[0-9]+:" | cut -d: -f2
+set -euo pipefail  # Exit on error, undefined variables, pipe failures
 
-# Save as iot_monitor.sh
-# Make executable: chmod +x iot_monitor.sh
-# Run: ./iot_monitor.sh</code></pre>
-                    </div>
+# Configuration variables
+readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+readonly LOG_FILE="/var/log/iot-deployment.log"
+readonly CONFIG_FILE="${SCRIPT_DIR}/iot-config.conf"
+readonly BACKUP_DIR="/opt/iot/backups/$(date +%Y%m%d_%H%M%S)"
 
-                    <h4>Script Structure and Best Practices</h4>
-                    <div class="result-grid">
-                        <div class="result-item">
-                            <label>Shebang Line</label>
-                            <div class="value">#!/bin/bash - Specifies interpreter</div>
-                        </div>
-                        <div class="result-item">
-                            <label>Comments</label>
-                            <div class="value"># Comment text - Document your code</div>
-                        </div>
-                        <div class="result-item">
-                            <label>Executable Permission</label>
-                            <div class="value">chmod +x script.sh - Make script runnable</div>
-                        </div>
-                        <div class="result-item">
-                            <label>Error Handling</label>
-                            <div class="value">set -e - Exit on any error</div>
-                        </div>
-                    </div>
-                </div>
+# Logging functions
+log_info() {
+    echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] $*" | tee -a "$LOG_FILE"
+}
 
-                <div class="calculator-section">
-                    <h3>Variables and User Input</h3>
-                    <p>Using variables to store data and make scripts interactive.</p>
-                    
-                    <div class="code-block">
-                        <pre><code>#!/bin/bash
-# IoT Device Configuration Script
+log_error() {
+    echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] $*" | tee -a "$LOG_FILE" >&2
+}
 
-# Variables
-DEVICE_NAME="IoT_Sensor_01"
-CONFIG_DIR="/etc/iot"
-LOG_FILE="/var/log/iot/setup.log"
-TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S")
+log_warning() {
+    echo "$(date '+%Y-%m-%d %H:%M:%S') [WARN] $*" | tee -a "$LOG_FILE"
+}
 
-# Environment variables
-export IOT_HOME="/opt/iot"
-export PATH="$PATH:$IOT_HOME/bin"
+# Error handling
+cleanup() {
+    local exit_code=$?
+    if [ $exit_code -ne 0 ]; then
+        log_error "Script failed with exit code $exit_code"
+        log_info "Check log file: $LOG_FILE"
+    fi
+    exit $exit_code
+}
 
-# User input
-echo "IoT Device Setup"
-read -p "Enter device ID: " DEVICE_ID
-read -p "Enter network SSID: " WIFI_SSID
-read -s -p "Enter WiFi password: " WIFI_PASSWORD
-echo
+trap cleanup EXIT
 
-# Using variables
-echo "[$TIMESTAMP] Setting up device: $DEVICE_NAME" | tee -a "$LOG_FILE"
-echo "Device ID: $DEVICE_ID"
-echo "WiFi SSID: $WIFI_SSID"
+# System requirements check
+check_system_requirements() {
+    log_info "Checking system requirements..."
+    
+    # Check if running as root
+    if [[ $EUID -eq 0 ]]; then
+        log_error "This script should not be run as root"
+        exit 1
+    fi
+    
+    # Check Ubuntu/Debian
+    if ! command -v apt &> /dev/null; then
+        log_error "This script requires a Debian/Ubuntu system"
+        exit 1
+    fi
+    
+    # Check available disk space (minimum 2GB)
+    local available_space=$(df / | awk 'NR==2 {print $4}')
+    if [ "$available_space" -lt 2097152 ]; then  # 2GB in KB
+        log_error "Insufficient disk space. Need at least 2GB free"
+        exit 1
+    fi
+    
+    # Check internet connectivity
+    if ! ping -c 1 google.com &> /dev/null; then
+        log_error "No internet connectivity detected"
+        exit 1
+    fi
+    
+    log_info "System requirements check passed"
+}
 
-# Command substitution
-CURRENT_USER=$(whoami)
-SYSTEM_INFO=$(uname -a)
-IP_ADDRESS=$(hostname -I | awk '{print $1}')
-
-echo "Script running as: $CURRENT_USER"
-echo "System: $SYSTEM_INFO"
-echo "IP Address: $IP_ADDRESS"</code></pre>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="section">
-            <div class="container">
-                <h2>4. Control Structures and Logic</h2>
-                
-                <div class="calculator-section">
-                    <h3>Conditional Statements</h3>
-                    <p>Making decisions in scripts based on conditions and system states.</p>
-                    
-                    <div class="code-block">
-                        <pre><code>#!/bin/bash
-# IoT Service Health Check Script
-
-SERVICE_NAME="mosquitto"
-LOG_DIR="/var/log/iot"
-
-# Check if service is running
-if systemctl is-active --quiet "$SERVICE_NAME"; then
-    echo "✓ $SERVICE_NAME is running"
-    STATUS="RUNNING"
-else
-    echo "✗ $SERVICE_NAME is not running"
-    STATUS="STOPPED"
-fi
-
-# Check disk space
-DISK_USAGE=$(df / | awk 'NR==2 {print $5}' | sed 's/%//')
-if [ "$DISK_USAGE" -gt 80 ]; then
-    echo "⚠ Warning: Disk usage is ${DISK_USAGE}%"
-    # Clean up old logs
-    find "$LOG_DIR" -name "*.log" -mtime +7 -delete
-elif [ "$DISK_USAGE" -gt 90 ]; then
-    echo "🚨 Critical: Disk usage is ${DISK_USAGE}%"
-    # Emergency cleanup
-    find "$LOG_DIR" -name "*.log" -mtime +1 -delete
-else
-    echo "✓ Disk usage is acceptable: ${DISK_USAGE}%"
-fi
-
-# Check network connectivity
-if ping -c 1 8.8.8.8 &> /dev/null; then
-    echo "✓ Internet connectivity OK"
-else
-    echo "✗ No internet connectivity"
-    # Restart network service
-    sudo systemctl restart networking
-fi
-
-# Multiple conditions
-if [ "$STATUS" = "RUNNING" ] && [ "$DISK_USAGE" -lt 80 ]; then
-    echo "✓ System is healthy"
-    exit 0
-else
-    echo "⚠ System needs attention"
-    exit 1
-fi</code></pre>
-                    </div>
-                </div>
-
-                <div class="calculator-section">
-                    <h3>Loops and Iteration</h3>
-                    <p>Automating repetitive tasks with loops for IoT device management.</p>
-                    
-                    <div class="code-block">
-                        <pre><code>#!/bin/bash
-# IoT Device Discovery and Monitoring Script
-
-# For loop - Check multiple services
-IOT_SERVICES=("mosquitto" "node-red" "influxdb" "grafana")
-
-echo "Checking IoT services..."
-for service in "${IOT_SERVICES[@]}"; do
-    if systemctl is-active --quiet "$service"; then
-        echo "✓ $service: Running"
-    else
-        echo "✗ $service: Stopped"
-        # Attempt to start the service
-        echo "  Attempting to start $service..."
-        sudo systemctl start "$service"
-        sleep 2
-        if systemctl is-active --quiet "$service"; then
-            echo "  ✓ $service started successfully"
+# Package installation with error handling
+install_packages() {
+    log_info "Installing IoT packages..."
+    
+    local packages=(
+        "python3" "python3-pip" "python3-venv"
+        "nodejs" "npm"
+        "mosquitto" "mosquitto-clients"
+        "influxdb" "influxdb-client"
+        "docker.io" "docker-compose"
+        "nginx"
+        "git" "curl" "wget"
+        "htop" "tree" "jq"
+    )
+    
+    # Update package lists
+    sudo apt update || {
+        log_error "Failed to update package lists"
+        exit 1
+    }
+    
+    # Install packages one by one with error checking
+    for package in "${packages[@]}"; do
+        log_info "Installing $package..."
+        if sudo apt install -y "$package"; then
+            log_info "Successfully installed $package"
         else
-            echo "  ✗ Failed to start $service"
+            log_error "Failed to install $package"
+            exit 1
         fi
-    fi
-done
-
-# While loop - Monitor sensor data
-echo "Monitoring sensor data (Ctrl+C to stop)..."
-COUNTER=0
-while [ $COUNTER -lt 10 ]; do
-    TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S")
-    TEMP=$(sensors | grep "Core 0" | awk '{print $3}' | sed 's/+//;s/°C//')
-    LOAD=$(uptime | awk -F'load average:' '{print $2}' | awk '{print $1}' | sed 's/,//')
+    done
     
-    echo "[$TIMESTAMP] Temperature: ${TEMP}°C, Load: $LOAD"
+    log_info "All packages installed successfully"
+}
+
+# IoT service configuration
+configure_iot_services() {
+    log_info "Configuring IoT services..."
     
-    # Log to file
-    echo "$TIMESTAMP,$TEMP,$LOAD" >> /var/log/iot/sensor_data.csv
+    # Create IoT user and directories
+    sudo useradd -r -s /bin/false iot 2>/dev/null || log_warning "IoT user already exists"
+    sudo mkdir -p /opt/iot/{bin,config,data,logs}
+    sudo mkdir -p /var/lib/iot
+    sudo mkdir -p /var/log/iot
+    sudo chown -R iot:iot /opt/iot /var/lib/iot /var/log/iot
     
-    COUNTER=$((COUNTER + 1))
-    sleep 5
-done
-
-# Until loop - Wait for network
-echo "Waiting for network connectivity..."
-until ping -c 1 google.com &> /dev/null; do
-    echo "Network not ready, waiting..."
-    sleep 5
-done
-echo "✓ Network is ready"</code></pre>
-                    </div>
-                </div>
-
-                <div class="calculator-section">
-                    <h3>Functions and Code Organization</h3>
-                    <p>Creating reusable functions for better script organization and maintenance.</p>
-                    
-                    <div class="code-block">
-                        <pre><code>#!/bin/bash
-# IoT System Administration Functions
-
-# Function definitions
-log_message() {
-    local level="$1"
-    local message="$2"
-    local timestamp=$(date +"%Y-%m-%d %H:%M:%S")
-    echo "[$timestamp] [$level] $message" | tee -a /var/log/iot/admin.log
-}
-
-check_service() {
-    local service_name="$1"
-    if systemctl is-active --quiet "$service_name"; then
-        log_message "INFO" "$service_name is running"
-        return 0
-    else
-        log_message "ERROR" "$service_name is not running"
-        return 1
-    fi
-}
-
-restart_service() {
-    local service_name="$1"
-    log_message "INFO" "Restarting $service_name"
-    sudo systemctl restart "$service_name"
-    sleep 3
-    if check_service "$service_name"; then
-        log_message "INFO" "$service_name restarted successfully"
-        return 0
-    else
-        log_message "ERROR" "Failed to restart $service_name"
-        return 1
-    fi
-}
-
-backup_config() {
-    local config_dir="$1"
-    local backup_dir="/backup/iot/$(date +%Y%m%d)"
+    # Configure MQTT broker
+    sudo tee /etc/mosquitto/conf.d/iot.conf > /dev/null << 'EOF'
+# IoT MQTT Configuration
+listener 1883
+allow_anonymous false
+password_file /etc/mosquitto/passwd
+log_dest file /var/log/mosquitto/mosquitto.log
+log_type all
+connection_messages true
+log_timestamp true
+EOF
     
-    log_message "INFO" "Creating backup of $config_dir"
-    mkdir -p "$backup_dir"
+    # Create MQTT user
+    sudo mosquitto_passwd -c -b /etc/mosquitto/passwd iot_device "$(openssl rand -base64 32)"
     
-    if cp -r "$config_dir" "$backup_dir/"; then
-        log_message "INFO" "Backup completed: $backup_dir"
-        return 0
-    else
-        log_message "ERROR" "Backup failed"
-        return 1
-    fi
+    # Start and enable services
+    sudo systemctl enable mosquitto
+    sudo systemctl start mosquitto
+    sudo systemctl enable influxdb
+    sudo systemctl start influxdb
+    
+    log_info "IoT services configured successfully"
 }
 
-# Main script execution
-log_message "INFO" "Starting IoT system maintenance"
-
-# Check critical services
-SERVICES=("mosquitto" "node-red" "nginx")
-for service in "${SERVICES[@]}"; do
-    if ! check_service "$service"; then
-        restart_service "$service"
-    fi
-done
-
-# Backup configurations
-backup_config "/etc/iot"
-backup_config "/etc/mosquitto"
-
-log_message "INFO" "IoT system maintenance completed"</code></pre>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="section bg-light">
-            <div class="container">
-                <h2>5. Practical IoT Automation Scripts</h2>
-                
-                <div class="calculator-section">
-                    <h3>System Monitoring Script</h3>
-                    <p>Complete script for monitoring IoT system health and performance.</p>
-                    
-                    <div class="code-block">
-                        <pre><code>#!/bin/bash
-# iot_monitor.sh - Comprehensive IoT System Monitor
-
-set -e  # Exit on any error
-
-# Configuration
-CONFIG_FILE="/etc/iot/monitor.conf"
-LOG_FILE="/var/log/iot/monitor.log"
-ALERT_EMAIL="admin@iot-company.com"
-TEMP_THRESHOLD=70
-DISK_THRESHOLD=85
-MEMORY_THRESHOLD=90
-
-# Load configuration if exists
-if [ -f "$CONFIG_FILE" ]; then
-    source "$CONFIG_FILE"
-fi
-
-# Logging function
-log() {
-    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOG_FILE"
+# Python virtual environment setup
+setup_python_environment() {
+    log_info "Setting up Python IoT environment..."
+    
+    local venv_dir="/opt/iot/python-env"
+    sudo -u iot python3 -m venv "$venv_dir"
+    
+    # Install IoT Python packages
+    sudo -u iot "$venv_dir/bin/pip" install --upgrade pip
+    sudo -u iot "$venv_dir/bin/pip" install \
+        paho-mqtt \
+        influxdb-client \
+        flask \
+        requests \
+        pyserial \
+        schedule \
+        psutil
+    
+    # Create activation script
+    sudo tee /opt/iot/bin/activate-python > /dev/null << EOF
+#!/bin/bash
+source /opt/iot/python-env/bin/activate
+export PYTHONPATH="/opt/iot/lib:\$PYTHONPATH"
+EOF
+    sudo chmod +x /opt/iot/bin/activate-python
+    
+    log_info "Python environment setup complete"
 }
 
-# Check system temperature
-check_temperature() {
-    if command -v sensors &> /dev/null; then
-        TEMP=$(sensors | grep "Core 0" | awk '{print $3}' | sed 's/+//;s/°C//' | cut -d. -f1)
-        if [ "$TEMP" -gt "$TEMP_THRESHOLD" ]; then
-            log "WARNING: High temperature detected: ${TEMP}°C"
-            return 1
-        else
-            log "INFO: Temperature normal: ${TEMP}°C"
-            return 0
-        fi
-    else
-        log "WARNING: Temperature sensors not available"
-        return 0
-    fi
-}
+# System monitoring setup
+setup_monitoring() {
+    log_info "Setting up system monitoring..."
+    
+    # Create monitoring script
+    sudo tee /opt/iot/bin/system-monitor.sh > /dev/null << 'EOF'
+#!/bin/bash
+# IoT System Monitor
 
-# Check disk usage
-check_disk() {
-    DISK_USAGE=$(df / | awk 'NR==2 {print $5}' | sed 's/%//')
-    if [ "$DISK_USAGE" -gt "$DISK_THRESHOLD" ]; then
-        log "WARNING: High disk usage: ${DISK_USAGE}%"
-        # Cleanup old logs
-        find /var/log/iot -name "*.log" -mtime +7 -delete
-        return 1
-    else
-        log "INFO: Disk usage normal: ${DISK_USAGE}%"
-        return 0
-    fi
-}
+LOGFILE="/var/log/iot/system-monitor.log"
+ALERT_EMAIL="admin@example.com"
 
-# Check memory usage
-check_memory() {
-    MEMORY_USAGE=$(free | awk 'NR==2{printf "%.0f", $3*100/$2}')
-    if [ "$MEMORY_USAGE" -gt "$MEMORY_THRESHOLD" ]; then
-        log "WARNING: High memory usage: ${MEMORY_USAGE}%"
-        return 1
-    else
-        log "INFO: Memory usage normal: ${MEMORY_USAGE}%"
-        return 0
-    fi
-}
-
-# Check IoT services
 check_services() {
-    local services=("mosquitto" "node-red" "nginx")
-    local failed_services=()
-    
+    local services=("mosquitto" "influxdb" "nginx")
     for service in "${services[@]}"; do
         if ! systemctl is-active --quiet "$service"; then
-            log "ERROR: Service $service is not running"
-            failed_services+=("$service")
-        else
-            log "INFO: Service $service is running"
+            echo "$(date): ALERT - $service is not running" >> "$LOGFILE"
+            systemctl restart "$service"
         fi
     done
-    
-    if [ ${#failed_services[@]} -gt 0 ]; then
-        log "WARNING: ${#failed_services[@]} services are down"
-        return 1
-    else
-        return 0
+}
+
+check_disk_space() {
+    local usage=$(df / | awk 'NR==2 {print $5}' | sed 's/%//')
+    if [ "$usage" -gt 85 ]; then
+        echo "$(date): ALERT - Disk usage is ${usage}%" >> "$LOGFILE"
     fi
 }
 
-# Main monitoring function
+check_memory() {
+    local mem_usage=$(free | grep Mem | awk '{printf "%.0f", $3/$2 * 100.0}')
+    if [ "$mem_usage" -gt 90 ]; then
+        echo "$(date): ALERT - Memory usage is ${mem_usage}%" >> "$LOGFILE"
+    fi
+}
+
+# Run checks
+check_services
+check_disk_space  
+check_memory
+
+echo "$(date): System check completed" >> "$LOGFILE"
+EOF
+
+    sudo chmod +x /opt/iot/bin/system-monitor.sh
+    
+    # Add to crontab for iot user
+    (sudo -u iot crontab -l 2>/dev/null; echo "*/5 * * * * /opt/iot/bin/system-monitor.sh") | sudo -u iot crontab -
+    
+    log_info "System monitoring setup complete"
+}
+
+# Main execution
 main() {
-    log "INFO: Starting IoT system monitoring"
+    log_info "Starting IoT system deployment..."
     
-    local issues=0
+    check_system_requirements
+    install_packages
+    configure_iot_services
+    setup_python_environment
+    setup_monitoring
     
-    check_temperature || ((issues++))
-    check_disk || ((issues++))
-    check_memory || ((issues++))
-    check_services || ((issues++))
+    log_info "IoT system deployment completed successfully!"
+    log_info "Services status:"
+    systemctl status mosquitto --no-pager -l
+    systemctl status influxdb --no-pager -l
     
-    if [ $issues -eq 0 ]; then
-        log "INFO: All systems normal"
-        exit 0
-    else
-        log "WARNING: $issues issues detected"
-        exit 1
-    fi
+    log_info "Next steps:"
+    log_info "1. Configure your IoT applications in /opt/iot/"
+    log_info "2. Review logs in /var/log/iot/"
+    log_info "3. Monitor system with: sudo journalctl -f"
 }
 
-# Run main function
+# Execute main function
 main "$@"</code></pre>
-                    </div>
-                </div>
+    </div>
+    </div>
 
-                <div class="calculator-section">
-                    <h3>Automated Backup Script</h3>
-                    <p>Script for automated backup of IoT configurations and data.</p>
-                    
-                    <div class="code-block">
-                        <pre><code>#!/bin/bash
-# iot_backup.sh - IoT System Backup Script
+    <div class="calculator-section">
+    <h3>Advanced Shell Scripting Techniques for IoT</h3>
+    <div class="code-block">
+    <pre><code># IoT Device Management Script with Advanced Features
+#!/bin/bash
+# Advanced IoT Device Management System
 
-# Configuration
-BACKUP_BASE="/backup/iot"
-RETENTION_DAYS=30
-TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-BACKUP_DIR="$BACKUP_BASE/$TIMESTAMP"
-
-# Directories to backup
-BACKUP_SOURCES=(
-    "/etc/iot"
-    "/etc/mosquitto"
-    "/etc/nginx/sites-available"
-    "/var/lib/node-red"
-    "/home/iot/.ssh"
-)
-
-# Create backup directory
-mkdir -p "$BACKUP_DIR"
-
-log() {
-    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$BACKUP_DIR/backup.log"
-}
-
-# Backup function
-backup_directory() {
-    local source="$1"
-    local dest="$2"
+# Configuration management with validation
+load_config() {
+    local config_file="${1:-/etc/iot/device-config.conf}"
     
-    if [ -d "$source" ]; then
-        log "INFO: Backing up $source"
-        cp -r "$source" "$dest/"
-        if [ $? -eq 0 ]; then
-            log "INFO: Successfully backed up $source"
-        else
-            log "ERROR: Failed to backup $source"
+    if [[ ! -f "$config_file" ]]; then
+        log_error "Configuration file not found: $config_file"
+        return 1
+    fi
+    
+    # Source configuration with validation
+    source "$config_file"
+    
+    # Validate required variables
+    local required_vars=("DEVICE_ID" "MQTT_BROKER" "DATA_INTERVAL")
+    for var in "${required_vars[@]}"; do
+        if [[ -z "${!var}" ]]; then
+            log_error "Required configuration variable $var is not set"
             return 1
         fi
-    else
-        log "WARNING: Source directory $source does not exist"
-    fi
-}
-
-# System information
-log "INFO: Starting backup process"
-log "INFO: Backup directory: $BACKUP_DIR"
-uname -a > "$BACKUP_DIR/system_info.txt"
-dpkg -l > "$BACKUP_DIR/installed_packages.txt"
-
-# Backup each source
-for source in "${BACKUP_SOURCES[@]}"; do
-    backup_directory "$source" "$BACKUP_DIR"
-done
-
-# Create compressed archive
-log "INFO: Creating compressed archive"
-cd "$BACKUP_BASE"
-tar -czf "${TIMESTAMP}.tar.gz" "$TIMESTAMP"
-if [ $? -eq 0 ]; then
-    log "INFO: Compressed archive created: ${TIMESTAMP}.tar.gz"
-    rm -rf "$TIMESTAMP"
-else
-    log "ERROR: Failed to create compressed archive"
-fi
-
-# Cleanup old backups
-log "INFO: Cleaning up old backups (older than $RETENTION_DAYS days)"
-find "$BACKUP_BASE" -name "*.tar.gz" -mtime +$RETENTION_DAYS -delete
-
-log "INFO: Backup process completed"</code></pre>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="section">
-            <div class="container">
-                <h2>6. Hands-on Practice Exercises</h2>
-                
-                <div class="calculator-section">
-                    <h3>Package Management and Scripting Scenarios</h3>
-                    <p>Real-world exercises to practice package management and shell scripting for IoT systems.</p>
-                    
-                    <div class="example-grid">
-                        <div class="example-item">
-                            <div class="ip">Exercise 1</div>
-                            <div class="description">Install and configure a complete IoT development environment using package managers</div>
-                        </div>
-                        <div class="example-item">
-                            <div class="ip">Exercise 2</div>
-                            <div class="description">Create a system health monitoring script with alerts and logging</div>
-                        </div>
-                        <div class="example-item">
-                            <div class="ip">Exercise 3</div>
-                            <div class="description">Write an automated backup script for IoT configurations and data</div>
-                        </div>
-                        <div class="example-item">
-                            <div class="ip">Exercise 4</div>
-                            <div class="description">Develop a service management script for IoT applications</div>
-                        </div>
-                    </div>
-                    
-                    <div class="code-block">
-                        <pre><code># Exercise Solutions
-
-# Exercise 1: IoT Development Environment Setup
-#!/bin/bash
-# setup_iot_env.sh
-
-# Update system
-sudo apt update && sudo apt upgrade -y
-
-# Install development tools
-sudo apt install -y build-essential git curl wget vim
-
-# Install Python and tools
-sudo apt install -y python3 python3-pip python3-venv
-pip3 install --user platformio esptool
-
-# Install Node.js and npm
-curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
-sudo apt install -y nodejs
-
-# Install IoT services
-sudo apt install -y mosquitto mosquitto-clients
-sudo npm install -g node-red
-
-# Install monitoring tools
-sudo apt install -y htop iotop nethogs
-
-echo "IoT development environment setup complete!"
-
-# Exercise 2: System Health Monitor
-#!/bin/bash
-# health_monitor.sh
-
-check_system_health() {
-    local issues=0
-    
-    # Check services
-    for service in mosquitto node-red nginx; do
-        if ! systemctl is-active --quiet $service; then
-            echo "WARNING: $service is not running"
-            ((issues++))
-        fi
     done
     
-    # Check resources
-    disk_usage=$(df / | awk 'NR==2 {print $5}' | sed 's/%//')
-    if [ $disk_usage -gt 80 ]; then
-        echo "WARNING: Disk usage is ${disk_usage}%"
-        ((issues++))
-    fi
-    
-    return $issues
+    log_info "Configuration loaded successfully"
 }
 
-# Run check and send alert if needed
-if ! check_system_health; then
-    echo "System health issues detected" | mail -s "IoT System Alert" admin@company.com
-fi
+# Network connectivity check with retry logic
+check_connectivity() {
+    local host="${1:-8.8.8.8}"
+    local max_attempts=5
+    local attempt=1
+    
+    while [ $attempt -le $max_attempts ]; do
+        if ping -c 1 -W 2 "$host" &>/dev/null; then
+            log_info "Network connectivity confirmed"
+            return 0
+        fi
+        
+        log_warning "Network check attempt $attempt/$max_attempts failed"
+        sleep $((attempt * 2))  # Exponential backoff
+        ((attempt++))
+    done
+    
+    log_error "Network connectivity check failed after $max_attempts attempts"
+    return 1
+}
 
-# Exercise 3: Automated Backup
-#!/bin/bash
-# auto_backup.sh
+# MQTT message publishing with error handling
+publish_sensor_data() {
+    local topic="$1"
+    local payload="$2"
+    local qos="${3:-1}"
+    
+    # Validate inputs
+    if [[ -z "$topic" || -z "$payload" ]]; then
+        log_error "Topic and payload are required for MQTT publish"
+        return 1
+    fi
+    
+    # Publish with timeout and retry
+    local max_retries=3
+    local retry=0
+    
+    while [ $retry -lt $max_retries ]; do
+        if timeout 10 mosquitto_pub \
+            -h "$MQTT_BROKER" \
+            -p "${MQTT_PORT:-1883}" \
+            -u "$MQTT_USER" \
+            -P "$MQTT_PASS" \
+            -t "$topic" \
+            -m "$payload" \
+            -q "$qos"; then
+            log_info "Successfully published to topic: $topic"
+            return 0
+        fi
+        
+        ((retry++))
+        log_warning "MQTT publish attempt $retry/$max_retries failed"
+        sleep 2
+    done
+    
+    log_error "Failed to publish MQTT message after $max_retries attempts"
+    return 1
+}
 
-BACKUP_DIR="/backup/$(date +%Y%m%d)"
-mkdir -p $BACKUP_DIR
+# Sensor data collection with validation
+collect_sensor_data() {
+    local sensor_type="$1"
+    local data_file="/tmp/sensor_${sensor_type}_$(date +%s).json"
+    
+    case "$sensor_type" in
+        "temperature")
+            # Simulate temperature sensor reading
+            local temp=$(awk "BEGIN {printf \"%.2f\", 20 + rand() * 15}")
+            local humidity=$(awk "BEGIN {printf \"%.2f\", 40 + rand() * 20}")
+            
+            cat > "$data_file" << EOF
+{
+    "device_id": "$DEVICE_ID",
+    "sensor_type": "temperature_humidity",
+    "timestamp": "$(date -Iseconds)",
+    "data": {
+        "temperature": $temp,
+        "humidity": $humidity,
+        "unit_temp": "celsius",
+        "unit_humidity": "percent"
+    }
+}
+EOF
+            ;;
+        "motion")
+            # Simulate motion sensor
+            local motion=$((RANDOM % 2))
+            cat > "$data_file" << EOF
+{
+    "device_id": "$DEVICE_ID",
+    "sensor_type": "motion",
+    "timestamp": "$(date -Iseconds)",
+    "data": {
+        "motion_detected": $motion,
+        "confidence": 0.95
+    }
+}
+EOF
+            ;;
+        *)
+            log_error "Unknown sensor type: $sensor_type"
+            return 1
+            ;;
+    esac
+    
+    # Validate JSON
+    if ! jq empty "$data_file" 2>/dev/null; then
+        log_error "Invalid JSON generated for sensor data"
+        rm -f "$data_file"
+        return 1
+    fi
+    
+    echo "$data_file"
+}
 
-# Backup configurations
-tar -czf $BACKUP_DIR/iot_configs.tar.gz /etc/iot /etc/mosquitto
+# Data processing pipeline
+process_sensor_data() {
+    local data_file="$1"
+    
+    if [[ ! -f "$data_file" ]]; then
+        log_error "Data file not found: $data_file"
+        return 1
+    fi
+    
+    # Extract key information
+    local device_id=$(jq -r '.device_id' "$data_file")
+    local sensor_type=$(jq -r '.sensor_type' "$data_file")
+    local timestamp=$(jq -r '.timestamp' "$data_file")
+    
+    # Create MQTT topic
+    local topic="iot/devices/$device_id/sensors/$sensor_type"
+    
+    # Publish data
+    if publish_sensor_data "$topic" "$(cat "$data_file")"; then
+        # Archive successful data
+        local archive_dir="/var/lib/iot/data/$(date +%Y/%m/%d)"
+        sudo mkdir -p "$archive_dir"
+        sudo mv "$data_file" "$archive_dir/"
+        log_info "Data processed and archived successfully"
+    else
+        # Move failed data to error directory
+        local error_dir="/var/lib/iot/errors"
+        sudo mkdir -p "$error_dir"
+        sudo mv "$data_file" "$error_dir/"
+        log_error "Data processing failed, moved to error directory"
+        return 1
+    fi
+}
 
-# Backup data
-rsync -av /var/lib/iot/ $BACKUP_DIR/iot_data/
+# System health monitoring
+monitor_system_health() {
+    local health_data="/tmp/system_health_$(date +%s).json"
+    
+    # Collect system metrics
+    local cpu_usage=$(top -bn1 | grep "Cpu(s)" | awk '{print $2}' | cut -d'%' -f1)
+    local mem_usage=$(free | grep Mem | awk '{printf "%.1f", $3/$2 * 100.0}')
+    local disk_usage=$(df / | tail -1 | awk '{print $5}' | cut -d'%' -f1)
+    local load_avg=$(cat /proc/loadavg | cut -d' ' -f1)
+    local uptime_seconds=$(cat /proc/uptime | cut -d' ' -f1)
+    
+    # Get temperature if available
+    local temp="null"
+    if [[ -f /sys/class/thermal/thermal_zone0/temp ]]; then
+        temp=$(($(cat /sys/class/thermal/thermal_zone0/temp) / 1000))
+    fi
+    
+    # Create health report
+    cat > "$health_data" << EOF
+{
+    "device_id": "$DEVICE_ID",
+    "report_type": "system_health",
+    "timestamp": "$(date -Iseconds)",
+    "metrics": {
+        "cpu_usage_percent": $cpu_usage,
+        "memory_usage_percent": $mem_usage,
+        "disk_usage_percent": $disk_usage,
+        "load_average": $load_avg,
+        "uptime_seconds": $uptime_seconds,
+        "temperature_celsius": $temp
+    }
+}
+EOF
+    
+    # Publish health data
+    local topic="iot/devices/$DEVICE_ID/health"
+    publish_sensor_data "$topic" "$(cat "$health_data")"
+    
+    # Check for alerts
+    if (( $(echo "$cpu_usage > 80" | bc -l) )); then
+        log_warning "High CPU usage detected: ${cpu_usage}%"
+    fi
+    
+    if (( $(echo "$mem_usage > 85" | bc -l) )); then
+        log_warning "High memory usage detected: ${mem_usage}%"
+    fi
+    
+    if [ "$disk_usage" -gt 90 ]; then
+        log_warning "High disk usage detected: ${disk_usage}%"
+    fi
+    
+    rm -f "$health_data"
+}
 
-# Cleanup old backups
-find /backup -type d -mtime +7 -exec rm -rf {} +
-
-echo "Backup completed: $BACKUP_DIR"
-
-# Exercise 4: Service Management
-#!/bin/bash
-# manage_services.sh
-
-IOT_SERVICES=("mosquitto" "node-red" "nginx")
-
-case "$1" in
-    start)
-        for service in "${IOT_SERVICES[@]}"; do
-            sudo systemctl start $service
-            echo "Started $service"
-        done
-        ;;
-    stop)
-        for service in "${IOT_SERVICES[@]}"; do
-            sudo systemctl stop $service
-            echo "Stopped $service"
-        done
-        ;;
-    status)
-        for service in "${IOT_SERVICES[@]}"; do
-            systemctl is-active $service && echo "$service: Running" || echo "$service: Stopped"
-        done
-        ;;
-    *)
-        echo "Usage: $0 {start|stop|status}"
+# Main IoT device loop
+main_device_loop() {
+    log_info "Starting IoT device main loop..."
+    
+    # Load configuration
+    load_config || exit 1
+    
+    # Check initial connectivity
+    check_connectivity || {
+        log_error "Initial connectivity check failed"
         exit 1
-        ;;
-esac</code></pre>
-                    </div>
-                </div>
-            </div>
-        </section>
+    }
+    
+    local iteration=0
+    while true; do
+        ((iteration++))
+        log_info "Starting iteration $iteration"
+        
+        # Collect and process sensor data
+        for sensor in temperature motion; do
+            local data_file
+            if data_file=$(collect_sensor_data "$sensor"); then
+                process_sensor_data "$data_file"
+            fi
+        done
+        
+        # System health monitoring every 10 iterations
+        if (( iteration % 10 == 0 )); then
+            monitor_system_health
+        fi
+        
+        # Sleep for configured interval
+        sleep "$DATA_INTERVAL"
+    done
+}
 
-        <section class="section bg-light">
-            <div class="container">
-                <h2>Module 1 Summary & Next Steps</h2>
-                
-                <div class="calculator-section">
-                    <h3>What You've Learned in Module 1</h3>
-                    <ul>
-                        <li>Linux fundamentals and file system navigation</li>
-                        <li>Essential command-line tools for file and text processing</li>
-                        <li>File permissions and process management for security</li>
-                        <li>Package management for software installation and updates</li>
-                        <li>Shell scripting for automation and system administration</li>
-                        <li>IoT-specific applications of Linux skills</li>
-                    </ul>
-                </div>
+# Signal handling for graceful shutdown
+graceful_shutdown() {
+    log_info "Received shutdown signal, cleaning up..."
+    # Add cleanup code here
+    exit 0
+}
 
-                <div class="calculator-section">
-                    <h3>Key Commands Summary</h3>
-                    <div class="result-grid">
-                        <div class="result-item">
-                            <label>Package Management</label>
-                            <div class="value">apt, yum, dnf, snap, pip</div>
-                        </div>
-                        <div class="result-item">
-                            <label>Shell Scripting</label>
-                            <div class="value">#!/bin/bash, variables, if/then, loops</div>
-                        </div>
-                        <div class="result-item">
-                            <label>System Maintenance</label>
-                            <div class="value">update, upgrade, autoremove, clean</div>
-                        </div>
-                        <div class="result-item">
-                            <label>Automation</label>
-                            <div class="value">cron, systemd, functions, logging</div>
-                        </div>
-                        <div class="result-item">
-                            <label>File Operations</label>
-                            <div class="value">ls, cp, mv, rm, find, grep</div>
-                        </div>
-                        <div class="result-item">
-                            <label>Process Control</label>
-                            <div class="value">ps, top, kill, systemctl, jobs</div>
-                        </div>
-                    </div>
-                </div>
+trap graceful_shutdown SIGTERM SIGINT
 
-                <div class="calculator-section">
-                    <h3>Preparation for Module 2: Embedded Linux</h3>
-                    <p>You're now ready to advance to embedded Linux concepts. To prepare:</p>
-                    <ul>
-                        <li>Practice writing shell scripts for common IoT tasks</li>
-                        <li>Experiment with package management on different distributions</li>
-                        <li>Set up a development environment with the tools you've learned</li>
-                        <li>Try automating system administration tasks with scripts</li>
-                        <li>Explore systemd services and how they relate to IoT applications</li>
-                    </ul>
-                </div>
+# Execute main function if script is run directly
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    main_device_loop "$@"
+fi</code></pre>
+    </div>
+    </div>
+    </div>
+    </section>
 
-                <div style="display: flex; justify-content: space-between; margin-top: 2rem;">
-                    <a href="module1-session3.html" class="session-link" style="background: var(--gray-600);">← Session 3</a>
-                    <button onclick="markSessionComplete()" class="session-link">Complete Module 1</button>
-                    <a href="../module1.html" class="session-link" style="background: var(--success-color);">Back to Module</a>
-                </div>
-            </div>
-        </section>
+    <!-- Assessment Section -->
+    <section class="section">
+    <div class="container">
+    <h2>📋 Self-Assessment Quiz</h2>
+    <div class="quiz-container">
+    <div class="quiz-question">
+    <h4>Question 1: Package Management</h4>
+    <p>Which command would you use to install Python IoT libraries in a virtual environment?</p>
+    <div class="quiz-options">
+    <label><input type="radio" name="q1" value="a"> sudo apt install python3-paho-mqtt</label>
+    <label><input type="radio" name="q1" value="b"> pip install paho-mqtt</label>
+    <label><input type="radio" name="q1" value="c"> source venv/bin/activate && pip install paho-mqtt</label>
+    <label><input type="radio" name="q1" value="d"> npm install paho-mqtt</label>
+    </div>
+    </div>
+    
+    <div class="quiz-question">
+    <h4>Question 2: Shell Scripting</h4>
+    <p>What does 'set -euo pipefail' do in a bash script?</p>
+    <div class="quiz-options">
+    <label><input type="radio" name="q2" value="a"> Sets environment variables</label>
+    <label><input type="radio" name="q2" value="b"> Enables error handling and strict mode</label>
+    <label><input type="radio" name="q2" value="c"> Creates a pipeline for data processing</label>
+    <label><input type="radio" name="q2" value="d"> Sets up logging configuration</label>
+    </div>
+    </div>
+    
+    <div class="quiz-question">
+    <h4>Question 3: IoT Automation</h4>
+    <p>Which approach is best for managing IoT service dependencies?</p>
+    <div class="quiz-options">
+    <label><input type="radio" name="q3" value="a"> Manual installation and configuration</label>
+    <label><input type="radio" name="q3" value="b"> Using package managers with dependency resolution</label>
+    <label><input type="radio" name="q3" value="c"> Compiling everything from source</label>
+    <label><input type="radio" name="q3" value="d"> Using only system packages</label>
+    </div>
+    </div>
+    
+    <button onclick="checkQuizAnswers()" class="session-link">Check Answers</button>
+    <div id="quiz-results" style="display: none; margin-top: 1rem;"></div>
+    </div>
+    </div>
+    </section>
+
+    <!-- Challenge Exercises -->
+    <section class="section bg-light">
+    <div class="container">
+    <h2>🎯 Challenge Exercises</h2>
+    
+    <div class="challenge-grid">
+    <div class="challenge-card">
+    <h4>Challenge 1: IoT Package Audit</h4>
+    <p><strong>Difficulty:</strong> Intermediate</p>
+    <p>Create a script that audits all installed packages on an IoT system, identifies security vulnerabilities, and generates a report with recommended updates.</p>
+    <div class="challenge-requirements">
+    <h5>Requirements:</h5>
+    <ul>
+    <li>Check for outdated packages</li>
+    <li>Identify packages with known vulnerabilities</li>
+    <li>Generate HTML report with findings</li>
+    <li>Suggest update commands</li>
+    </ul>
+    </div>
+    </div>
+    
+    <div class="challenge-card">
+    <h4>Challenge 2: Automated IoT Deployment</h4>
+    <p><strong>Difficulty:</strong> Advanced</p>
+    <p>Design a complete deployment automation system that can configure multiple IoT devices with different roles (gateway, sensor node, edge processor).</p>
+    <div class="challenge-requirements">
+    <h5>Requirements:</h5>
+    <ul>
+    <li>Support multiple device types</li>
+    <li>Handle configuration templating</li>
+    <li>Implement rollback capability</li>
+    <li>Include health monitoring</li>
+    </ul>
+    </div>
+    </div>
+    
+    <div class="challenge-card">
+    <h4>Challenge 3: Container-based IoT Stack</h4>
+    <p><strong>Difficulty:</strong> Advanced</p>
+    <p>Create a Docker Compose setup for a complete IoT stack including MQTT broker, time-series database, and visualization dashboard.</p>
+    <div class="challenge-requirements">
+    <h5>Requirements:</h5>
+    <ul>
+    <li>Multi-container architecture</li>
+    <li>Persistent data storage</li>
+    <li>Service discovery and networking</li>
+    <li>Automated backup system</li>
+    </ul>
+    </div>
+    </div>
+    </div>
+    </div>
+    </section>
+
+    <!-- Interview Questions -->
+    <section class="section">
+    <div class="container">
+    <h2>💼 Interview Preparation</h2>
+    
+    <div class="interview-section">
+    <h3>Common IoT Engineering Interview Questions</h3>
+    
+    <div class="interview-question">
+    <h4>Q: How would you handle package dependencies in a large-scale IoT deployment?</h4>
+    <div class="interview-answer">
+    <p><strong>Key Points to Cover:</strong></p>
+    <ul>
+    <li>Use of package managers and dependency resolution</li>
+    <li>Virtual environments for Python projects</li>
+    <li>Containerization for complex applications</li>
+    <li>Version pinning and reproducible builds</li>
+    <li>Security considerations and update strategies</li>
+    </ul>
+    </div>
+    </div>
+    
+    <div class="interview-question">
+    <h4>Q: Describe your approach to automating IoT system maintenance.</h4>
+    <div class="interview-answer">
+    <p><strong>Key Points to Cover:</strong></p>
+    <ul>
+    <li>Automated monitoring and alerting systems</li>
+    <li>Self-healing capabilities and service recovery</li>
+    <li>Scheduled maintenance and update procedures</li>
+    <li>Log management and analysis</li>
+    <li>Remote management capabilities</li>
+    </ul>
+    </div>
+    </div>
+    
+    <div class="interview-question">
+    <h4>Q: How do you ensure security in IoT package management?</h4>
+    <div class="interview-answer">
+    <p><strong>Key Points to Cover:</strong></p>
+    <ul>
+    <li>Package signature verification</li>
+    <li>Use of trusted repositories only</li>
+    <li>Regular security updates and patching</li>
+    <li>Vulnerability scanning and assessment</li>
+    <li>Principle of least privilege for installations</li>
+    </ul>
+    </div>
+    </div>
+    </div>
+    </div>
+    </section>
+
+    <!-- Further Reading -->
+    <section class="section bg-light">
+    <div class="container">
+    <h2>📚 Further Reading & Resources</h2>
+    
+    <div class="resources-grid">
+    <div class="resource-category">
+    <h4>Package Management</h4>
+    <ul>
+    <li><a href="https://debian-handbook.info/browse/stable/sect.apt-get.html" target="_blank">Debian Package Management Guide</a></li>
+    <li><a href="https://docs.python.org/3/tutorial/venv.html" target="_blank">Python Virtual Environments</a></li>
+    <li><a href="https://docs.npmjs.com/about-npm" target="_blank">NPM Documentation</a></li>
+    <li><a href="https://snapcraft.io/docs" target="_blank">Snap Package Documentation</a></li>
+    </ul>
+    </div>
+    
+    <div class="resource-category">
+    <h4>Shell Scripting</h4>
+    <ul>
+    <li><a href="https://www.gnu.org/software/bash/manual/" target="_blank">Bash Reference Manual</a></li>
+    <li><a href="https://google.github.io/styleguide/shellguide.html" target="_blank">Google Shell Style Guide</a></li>
+    <li><a href="https://www.shellcheck.net/" target="_blank">ShellCheck - Script Analysis Tool</a></li>
+    <li><a href="https://explainshell.com/" target="_blank">ExplainShell - Command Explanation</a></li>
+    </ul>
+    </div>
+    
+    <div class="resource-category">
+    <h4>IoT Automation</h4>
+    <ul>
+    <li><a href="https://docs.docker.com/get-started/" target="_blank">Docker Getting Started</a></li>
+    <li><a href="https://docs.ansible.com/ansible/latest/user_guide/intro_getting_started.html" target="_blank">Ansible for Automation</a></li>
+    <li><a href="https://kubernetes.io/docs/concepts/overview/what-is-kubernetes/" target="_blank">Kubernetes for Container Orchestration</a></li>
+    <li><a href="https://www.terraform.io/intro/index.html" target="_blank">Terraform for Infrastructure as Code</a></li>
+    </ul>
+    </div>
+    
+    <div class="resource-category">
+    <h4>IoT Platforms & Tools</h4>
+    <ul>
+    <li><a href="https://nodered.org/docs/" target="_blank">Node-RED Documentation</a></li>
+    <li><a href="https://mosquitto.org/documentation/" target="_blank">Mosquitto MQTT Broker</a></li>
+    <li><a href="https://docs.influxdata.com/influxdb/" target="_blank">InfluxDB Time Series Database</a></li>
+    <li><a href="https://grafana.com/docs/" target="_blank">Grafana Visualization</a></li>
+    </ul>
+    </div>
+    </div>
+    </div>
+    </section>
+
+    <section class="section">
+    <div class="container">
+    <h2>Session Summary & Module Completion</h2>
+    
+    <div class="calculator-section">
+    <h3>What You've Accomplished</h3>
+    <p>Congratulations! You've completed the final session of Module 1 and now have comprehensive Linux skills for IoT development:</p>
+    <ul>
+    <li><strong>Package Management Mastery:</strong> You can manage complex software dependencies and maintain secure, up-to-date IoT systems</li>
+    <li><strong>Automation Expertise:</strong> You can create robust shell scripts for deployment, monitoring, and maintenance automation</li>
+    <li><strong>Professional Workflows:</strong> You understand industry best practices for IoT system administration and deployment</li>
+    <li><strong>Security Awareness:</strong> You can implement secure package management and system administration practices</li>
+    <li><strong>Troubleshooting Skills:</strong> You can diagnose and resolve complex system issues in IoT environments</li>
+    </ul>
+    </div>
+
+    <div class="calculator-section">
+    <h3>Module 1 Complete - Your Linux Foundation</h3>
+    <p>You've now mastered all five essential areas of Linux for IoT development:</p>
+    <div class="completion-grid">
+    <div class="completion-item">
+    <h4>✅ Session 1: Navigation & Fundamentals</h4>
+    <p>File system mastery and command-line efficiency</p>
+    </div>
+    <div class="completion-item">
+    <h4>✅ Session 2: Command Line Tools</h4>
+    <p>Text processing and file manipulation expertise</p>
+    </div>
+    <div class="completion-item">
+    <h4>✅ Session 3: Permissions & Security</h4>
+    <p>Security model understanding and access control</p>
+    </div>
+    <div class="completion-item">
+    <h4>✅ Session 4: Process Management</h4>
+    <p>System monitoring and service management skills</p>
+    </div>
+    <div class="completion-item">
+    <h4>✅ Session 5: Package Management & Automation</h4>
+    <p>Deployment automation and system administration</p>
+    </div>
+    </div>
+    </div>
+
+    <div class="calculator-section">
+    <h3>What's Next: Advanced IoT Development</h3>
+    <p>With your solid Linux foundation, you're ready for advanced IoT topics:</p>
+    <ul>
+    <li><strong>Module 2: Networking & Protocols:</strong> TCP/IP, MQTT, HTTP, and IoT communication protocols</li>
+    <li><strong>Module 3: Hardware Interfaces:</strong> GPIO, I2C, SPI, and sensor integration</li>
+    <li><strong>Module 4: Data Management:</strong> Databases, time-series data, and analytics</li>
+    <li><strong>Module 5: Cloud Integration:</strong> AWS IoT, Azure IoT, and cloud platforms</li>
+    <li><strong>Module 6: Security & Deployment:</strong> IoT security, containerization, and production deployment</li>
+    </ul>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; margin-top: 2rem;">
+    <a href="module1-session4.html" class="session-link" style="background: var(--gray-600);">← Session 4</a>
+    <button onclick="markSessionComplete()" class="session-link">Complete Module 1</button>
+    <a href="../../index.html#modules" class="session-link">Continue to Module 2 →</a>
+    </div>
+    </div>
+    </section>
     </main>
 
     <footer class="footer">
-        <div class="container">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
-                <p>&copy; 2024 Dynamic Devices. All rights reserved.</p>
-                <div style="display: flex; gap: 2rem;">
-                    <a href="../../docs/setup.html" style="color: var(--gray-400);">Setup Guide</a>
-                    <a href="../../resources/troubleshooting.html" style="color: var(--gray-400);">Support</a>
-                </div>
-            </div>
-        </div>
+    <div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+    <p>&copy; 2024 Dynamic Devices. All rights reserved.</p>
+    <div style="display: flex; gap: 2rem;">
+    <a href="../../docs/setup.html" style="color: var(--gray-400);">Setup Guide</a>
+    <a href="../../resources/troubleshooting.html" style="color: var(--gray-400);">Support</a>
+    </div>
+    </div>
+    </div>
     </footer>
 
     <script>
-        function markSessionComplete() {
-            localStorage.setItem('module1_session4_completed', 'true');
-            alert('Congratulations! You have completed Module 1: Linux Basics. You now have the foundational Linux skills needed for IoT development.');
-            
-            // Update progress in parent module if we're in an iframe or opened from module page
-            if (window.parent && window.parent.updateProgress) {
-                window.parent.updateProgress();
+    // Interactive features
+    function launchJupyter() {
+        // This would integrate with JupyterHub or similar service
+        window.open('/jupyter/lab', '_blank');
+    }
+
+    function openCodePlayground() {
+        // This would open an embedded code editor
+        window.open('/playground/shell', '_blank');
+    }
+
+    function accessVirtualLab() {
+        // This would connect to a virtual lab environment
+        window.open('/lab/linux-vm', '_blank');
+    }
+
+    // Quiz functionality
+    function checkQuizAnswers() {
+        const answers = {
+            q1: 'c', // Virtual environment with pip
+            q2: 'b', // Error handling and strict mode
+            q3: 'b'  // Package managers with dependency resolution
+        };
+        
+        let score = 0;
+        let results = '<h4>Quiz Results:</h4>';
+        
+        for (const [question, correctAnswer] of Object.entries(answers)) {
+            const selectedAnswer = document.querySelector(`input[name="${question}"]:checked`);
+            if (selectedAnswer && selectedAnswer.value === correctAnswer) {
+                score++;
+                results += `<p>✅ Question ${question.slice(1)}: Correct</p>`;
+            } else {
+                results += `<p>❌ Question ${question.slice(1)}: Incorrect</p>`;
             }
         }
+        
+        results += `<p><strong>Score: ${score}/3 (${Math.round(score/3*100)}%)</strong></p>`;
+        
+        if (score === 3) {
+            results += '<p>🎉 Excellent! You have mastered the concepts.</p>';
+        } else if (score >= 2) {
+            results += '<p>👍 Good job! Review the areas you missed.</p>';
+        } else {
+            results += '<p>📚 Please review the session content and try again.</p>';
+        }
+        
+        document.getElementById('quiz-results').innerHTML = results;
+        document.getElementById('quiz-results').style.display = 'block';
+    }
 
-        // Check if session is already completed
-        document.addEventListener('DOMContentLoaded', function() {
-            if (localStorage.getItem('module1_session4_completed')) {
-                const completeBtn = document.querySelector('button[onclick="markSessionComplete()"]');
-                if (completeBtn) {
-                    completeBtn.textContent = '✓ Module Completed';
-                    completeBtn.style.background = 'var(--success-color)';
-                }
+    function markSessionComplete() {
+        localStorage.setItem('module1_session5_completed', 'true');
+        localStorage.setItem('module1_completed', 'true');
+        alert('🎉 Congratulations! You have completed Module 1: Linux Basics for IoT. You now have a solid foundation for IoT development!');
+        
+        // Update progress in parent module if we're in an iframe or opened from module page
+        if (window.parent && window.parent.updateProgress) {
+            window.parent.updateProgress();
+        }
+    }
+
+    // Check if session is already completed
+    document.addEventListener('DOMContentLoaded', function() {
+        if (localStorage.getItem('module1_session5_completed')) {
+            const completeBtn = document.querySelector('button[onclick="markSessionComplete()"]');
+            if (completeBtn) {
+                completeBtn.textContent = '✓ Module 1 Completed';
+                completeBtn.style.background = 'var(--success-color)';
             }
-        });
+        }
+    });
     </script>
 </body>
 </html>
