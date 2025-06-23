@@ -5,152 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Session 1: Linux Fundamentals & Navigation - Module 1</title>
     <link rel="stylesheet" href="../../assets/css/main.css">
+    <link rel="stylesheet" href="../../assets/css/module.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        /* Split-pane layout styles */
-        body {
-            height: 100vh;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .header {
-            flex-shrink: 0;
-            position: relative;
-        }
-        
-        .main-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-        
-        .content-pane {
-            flex: 1;
-            overflow-y: auto;
-            padding-bottom: 2rem;
-        }
-        
-        .terminal-pane {
-            height: 400px;
-            flex-shrink: 0;
-            border-top: 2px solid var(--gray-200);
-            background: var(--gray-900);
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .terminal-header {
-            background: var(--primary-color);
-            color: white;
-            padding: 0.5rem 1rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.875rem;
-            flex-shrink: 0;
-        }
-        
-        .terminal-content {
-            flex: 1;
-            position: relative;
-            background: var(--gray-900);
-        }
-        
-        .terminal-content iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            background: var(--gray-900);
-        }
-        
-        .terminal-loading {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--gray-900);
-            color: var(--gray-100);
-            font-family: 'JetBrains Mono', monospace;
-            flex-direction: column;
-            gap: 1rem;
-            z-index: 10;
-        }
-        
-        .loading-spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid var(--gray-600);
-            border-top: 4px solid var(--primary-color);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .example-command {
-            background: var(--gray-100);
-            border: 1px solid var(--gray-300);
-            border-radius: 4px;
-            padding: 0.5rem;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.875rem;
-            margin: 0.5rem 0;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        
-        .example-command:hover {
-            background: var(--gray-200);
-            border-color: var(--primary-color);
-        }
-        
-        .example-command::before {
-            content: "$ ";
-            color: var(--primary-color);
-            font-weight: bold;
-        }
-        
-        .try-it-note {
-            background: linear-gradient(135deg, #e0f2fe, #f0f9ff);
-            border: 1px solid var(--primary-color);
-            border-radius: 6px;
-            padding: 1rem;
-            margin: 1rem 0;
-            font-size: 0.875rem;
-        }
-        
-        .try-it-note strong {
-            color: var(--primary-color);
-        }
-
-        .terminal-status {
-            position: absolute;
-            bottom: 5px;
-            right: 10px;
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-family: 'JetBrains Mono', monospace;
-            z-index: 5;
-        }
-    </style>
 </head>
-<body>
+<body class="session-layout">
     <header class="header">
         <div class="container">
             <div class="header-content">
@@ -163,6 +23,10 @@
                     <a href="../module1.html">Module 1</a>
                     <a href="../../index.html#labs">Labs</a>
                     <a href="../../tools/network-calculator.html">Tools</a>
+                    <button class="terminal-toggle" onclick="toggleTerminal()">
+                        <span>🖥️</span>
+                        <span id="terminal-toggle-text">Hide Terminal</span>
+                    </button>
                 </nav>
             </div>
         </div>
@@ -605,11 +469,15 @@ echo 'Challenge Complete! You have mastered Linux navigation basics.'</code></pr
             </main>
         </div>
 
-        <!-- Persistent Terminal Pane with Dynamic Sizing -->
-        <div class="terminal-pane">
-            <div class="terminal-header">
+        <!-- Persistent Terminal Pane with Toggle and Resize -->
+        <div class="terminal-pane" id="terminal-pane">
+            <div class="resize-handle" id="resize-handle"></div>
+            <div class="terminal-header" onclick="toggleTerminal()">
                 <span>🐧</span>
                 <span>Alpine Linux Terminal - Interactive Practice Environment</span>
+                <div style="margin-left: auto; display: flex; align-items: center;">
+                    <span class="terminal-chevron">▼</span>
+                </div>
             </div>
             <div class="terminal-content">
                 <div class="terminal-loading" id="terminal-loading">
@@ -629,27 +497,91 @@ echo 'Challenge Complete! You have mastered Linux navigation basics.'</code></pr
     </div>
 
     <script>
+        let isTerminalCollapsed = false;
+        let isResizing = false;
+        let terminalHeight = 400;
+
+        // Terminal toggle functionality
+        function toggleTerminal() {
+            const terminalPane = document.getElementById('terminal-pane');
+            const toggleText = document.getElementById('terminal-toggle-text');
+            
+            isTerminalCollapsed = !isTerminalCollapsed;
+            
+            if (isTerminalCollapsed) {
+                terminalPane.classList.add('collapsed');
+                toggleText.textContent = 'Show Terminal';
+            } else {
+                terminalPane.classList.remove('collapsed');
+                toggleText.textContent = 'Hide Terminal';
+                // Recalculate terminal size when showing
+                setTimeout(recalculateTerminalSize, 300);
+            }
+        }
+
+        // Resize functionality
+        function initializeResize() {
+            const resizeHandle = document.getElementById('resize-handle');
+            const terminalPane = document.getElementById('terminal-pane');
+            
+            resizeHandle.addEventListener('mousedown', (e) => {
+                isResizing = true;
+                document.body.style.cursor = 'ns-resize';
+                document.body.style.userSelect = 'none';
+                
+                const startY = e.clientY;
+                const startHeight = terminalPane.offsetHeight;
+                
+                function handleMouseMove(e) {
+                    if (!isResizing) return;
+                    
+                    const deltaY = startY - e.clientY;
+                    const newHeight = Math.max(40, Math.min(window.innerHeight * 0.8, startHeight + deltaY));
+                    
+                    terminalPane.style.height = newHeight + 'px';
+                    terminalHeight = newHeight;
+                    
+                    // Recalculate terminal size if not collapsed
+                    if (!isTerminalCollapsed) {
+                        recalculateTerminalSize();
+                    }
+                }
+                
+                function handleMouseUp() {
+                    isResizing = false;
+                    document.body.style.cursor = '';
+                    document.body.style.userSelect = '';
+                    document.removeEventListener('mousemove', handleMouseMove);
+                    document.removeEventListener('mouseup', handleMouseUp);
+                }
+                
+                document.addEventListener('mousemove', handleMouseMove);
+                document.addEventListener('mouseup', handleMouseUp);
+            });
+        }
+
         // Function to calculate optimal terminal dimensions
         function calculateTerminalSize() {
             const terminalContent = document.querySelector('.terminal-content');
-            const terminalHeader = document.querySelector('.terminal-header');
+            
+            if (!terminalContent || isTerminalCollapsed) {
+                return { cols: 80, rows: 24 };
+            }
             
             // Get actual dimensions
             const contentRect = terminalContent.getBoundingClientRect();
-            const headerRect = terminalHeader.getBoundingClientRect();
             
             // Calculate available space for terminal
             const availableWidth = contentRect.width;
             const availableHeight = contentRect.height;
             
             // Terminal character dimensions (typical monospace font metrics)
-            // These are approximate values for JSLinux terminal
             const charWidth = 7.2;  // pixels per character (including spacing)
             const lineHeight = 16;  // pixels per line (including line spacing)
             
             // Calculate cols and rows with some padding
-            const cols = Math.floor((availableWidth - 20) / charWidth); // 20px padding
-            const rows = Math.floor((availableHeight - 20) / lineHeight); // 20px padding
+            const cols = Math.floor((availableWidth - 20) / charWidth);
+            const rows = Math.floor((availableHeight - 20) / lineHeight);
             
             // Ensure minimum and maximum values
             const finalCols = Math.max(40, Math.min(200, cols));
@@ -660,19 +592,39 @@ echo 'Challenge Complete! You have mastered Linux navigation basics.'</code></pr
             return { cols: finalCols, rows: finalRows };
         }
 
+        // Recalculate and update terminal size
+        function recalculateTerminalSize() {
+            if (isTerminalCollapsed) return;
+            
+            const iframe = document.getElementById('alpine-terminal');
+            const status = document.getElementById('terminal-status');
+            
+            if (iframe.src) {
+                const { cols, rows } = calculateTerminalSize();
+                
+                // Update iframe source with new dimensions
+                const currentSrc = iframe.src;
+                const baseUrl = currentSrc.split('&cols=')[0];
+                iframe.src = `${baseUrl}&cols=${cols}&rows=${rows}`;
+                
+                status.textContent = `Alpine Linux Active (${cols}x${rows})`;
+                console.log(`Terminal resized to: ${cols}x${rows}`);
+            }
+        }
+
         // Initialize Alpine Linux terminal with dynamic sizing
         document.addEventListener('DOMContentLoaded', function() {
             const iframe = document.getElementById('alpine-terminal');
             const loading = document.getElementById('terminal-loading');
             const status = document.getElementById('terminal-status');
             
+            // Initialize resize functionality
+            initializeResize();
+            
             // Wait for layout to be ready, then calculate size
             setTimeout(() => {
-                var { cols, rows } = calculateTerminalSize();
+                const { cols, rows } = calculateTerminalSize();
                 
-                cols=96
-                rows=25
-
                 // Update status
                 status.textContent = `Terminal: ${cols}x${rows}`;
                 
@@ -686,7 +638,7 @@ echo 'Challenge Complete! You have mastered Linux navigation basics.'</code></pr
                     status.textContent = `Alpine Linux Active (${cols}x${rows})`;
                     status.style.background = 'rgba(5, 150, 105, 0.8)';
                 }, 3000);
-            }, 100); // Small delay to ensure layout is ready
+            }, 100);
 
             // Handle iframe load errors
             iframe.onerror = function() {
@@ -710,22 +662,11 @@ echo 'Challenge Complete! You have mastered Linux navigation basics.'</code></pr
 
         // Recalculate terminal size on window resize
         window.addEventListener('resize', function() {
-            const iframe = document.getElementById('alpine-terminal');
-            const status = document.getElementById('terminal-status');
-            
             // Debounce resize events
             clearTimeout(window.resizeTimeout);
             window.resizeTimeout = setTimeout(() => {
-                if (iframe.src) {
-                    const { cols, rows } = calculateTerminalSize();
-                    
-                    // Update iframe source with new dimensions
-                    const currentSrc = iframe.src;
-                    const baseUrl = currentSrc.split('&cols=')[0];
-                    iframe.src = `${baseUrl}&cols=${cols}&rows=${rows}`;
-                    
-                    status.textContent = `Alpine Linux Active (${cols}x${rows})`;
-                    console.log(`Terminal resized to: ${cols}x${rows}`);
+                if (!isResizing) {
+                    recalculateTerminalSize();
                 }
             }, 500);
         });
