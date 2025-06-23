@@ -8,6 +8,113 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Split-pane layout styles */
+        body {
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            flex-shrink: 0;
+            position: relative;
+        }
+        
+        .main-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .content-pane {
+            flex: 1;
+            overflow-y: auto;
+            padding-bottom: 2rem;
+        }
+        
+        .terminal-pane {
+            height: 400px;
+            flex-shrink: 0;
+            border-top: 2px solid var(--gray-200);
+            background: var(--gray-50);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .terminal-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.75rem 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .terminal-content {
+            flex: 1;
+            position: relative;
+        }
+        
+        .terminal-content iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .terminal-loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gray-900);
+            color: var(--gray-100);
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .example-command {
+            background: var(--gray-100);
+            border: 1px solid var(--gray-300);
+            border-radius: 4px;
+            padding: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            margin: 0.5rem 0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .example-command:hover {
+            background: var(--gray-200);
+            border-color: var(--primary-color);
+        }
+        
+        .example-command::before {
+            content: "$ ";
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        
+        .try-it-note {
+            background: linear-gradient(135deg, #e0f2fe, #f0f9ff);
+            border: 1px solid var(--primary-color);
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-size: 0.875rem;
+        }
+        
+        .try-it-note strong {
+            color: var(--primary-color);
+        }
+    </style>
 </head>
 <body>
     <header class="header">
@@ -27,205 +134,162 @@
         </div>
     </header>
 
-    <main>
-        <section class="module-overview">
-            <div class="container">
-                <h1>Session 1: Linux Fundamentals & Navigation</h1>
-                <p>Master the essential Linux navigation skills that form the foundation of all IoT development work. Learn to navigate file systems, understand directory structures, and use fundamental commands with confidence in professional IoT environments.</p>
-                
-                <div class="module-meta">
-                    <div class="meta-item">
-                        <strong>Duration</strong>
-                        2 hours
-                    </div>
-                    <div class="meta-item">
-                        <strong>Module</strong>
-                        Linux Basics
-                    </div>
-                    <div class="meta-item">
-                        <strong>Session</strong>
-                        1 of 5
-                    </div>
-                    <div class="meta-item">
-                        <strong>Difficulty</strong>
-                        Beginner
-                    </div>
-                </div>
+    <div class="main-container">
+        <div class="content-pane">
+            <main>
+                <section class="module-overview">
+                    <div class="container">
+                        <h1>Session 1: Linux Fundamentals & Navigation</h1>
+                        <p>Master the essential Linux navigation skills that form the foundation of all IoT development work. Learn to navigate file systems, understand directory structures, and use fundamental commands with confidence in professional IoT environments.</p>
+                        
+                        <div class="module-meta">
+                            <div class="meta-item">
+                                <strong>Duration</strong>
+                                2 hours
+                            </div>
+                            <div class="meta-item">
+                                <strong>Module</strong>
+                                Linux Basics
+                            </div>
+                            <div class="meta-item">
+                                <strong>Session</strong>
+                                1 of 5
+                            </div>
+                            <div class="meta-item">
+                                <strong>Difficulty</strong>
+                                Beginner
+                            </div>
+                        </div>
 
-                <div class="prerequisites-check">
-                    <h3>Prerequisites Check</h3>
-                    <p>This is the foundation session - no prior Linux experience required!</p>
-                    <ul>
-                        <li>Basic computer literacy</li>
-                        <li>Familiarity with file and folder concepts</li>
-                        <li>Understanding of what IoT (Internet of Things) means</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <section class="section">
-            <div class="container">
-                <div class="learning-objectives">
-                    <h2>Session Learning Objectives</h2>
-                    <p>By the end of this session, you will be able to:</p>
-                    <div class="objectives-grid">
-                        <div class="objective-item">
-                            <h4>Navigate Linux File Systems</h4>
-                            <p>Use cd, pwd, and ls commands to move through directories and understand your location in the file system.</p>
-                        </div>
-                        <div class="objective-item">
-                            <h4>Understand IoT Directory Structures</h4>
-                            <p>Recognize common directory layouts in IoT systems and know where to find configuration files, logs, and applications.</p>
-                        </div>
-                        <div class="objective-item">
-                            <h4>Use Path Concepts Effectively</h4>
-                            <p>Distinguish between absolute and relative paths, and use them efficiently in IoT development workflows.</p>
-                        </div>
-                        <div class="objective-item">
-                            <h4>Apply Professional Command-Line Practices</h4>
-                            <p>Use command history, tab completion, and other efficiency techniques used in professional IoT environments.</p>
+                        <div class="prerequisites-check">
+                            <h3>Prerequisites Check</h3>
+                            <p>This is the foundation session - no prior Linux experience required!</p>
+                            <ul>
+                                <li>Basic computer literacy</li>
+                                <li>Familiarity with file and folder concepts</li>
+                                <li>Understanding of what IoT (Internet of Things) means</li>
+                            </ul>
                         </div>
                     </div>
-                </div>
-            </div>
-        </section>
+                </section>
 
-        <!-- Interactive Learning Environment -->
-        <section class="section bg-light">
-            <div class="container">
-                <h2>☁️ Interactive Practice Environment</h2>
-                <p>Practice Linux navigation commands in a real cloud-based Linux environment - no setup required!</p>
-                
-                <!-- Auto-embed practice terminal -->
-                <div id="navigation-practice" data-cloud-embed="playground" data-language="bash" data-initial-code="# Practice Linux Navigation Commands
-# Try these commands one by one:
-
-pwd                    # Show current directory
-ls                     # List files and directories
-ls -l                  # List with detailed information
-ls -la                 # List all files including hidden ones
-cd /                   # Go to root directory
-pwd                    # Check where you are now
-ls                     # See what's in root
-cd /home               # Navigate to home directory
-cd ~                   # Go to your home directory (shortcut)
-pwd                    # Confirm your location"></div>
-            </div>
-        </section>
-
-        <section class="section">
-            <div class="container">
-                <h2>1. Understanding the Linux File System - The IoT Foundation</h2>
-                
-                <div class="industry-insight">
-                    <h3>Industry Insight: Why Linux File System Knowledge Matters for IoT</h3>
-                    <p><strong>Real-World Context:</strong> Every IoT device you'll work with - from Raspberry Pi sensors to industrial gateways - uses Linux file systems. Understanding how to navigate these systems is essential for configuring devices, troubleshooting issues, and deploying applications.</p>
-                    <p><strong>Professional Impact:</strong> IoT engineers spend significant time working with remote devices via SSH. Efficient navigation skills directly impact your productivity and ability to diagnose problems quickly in production environments.</p>
-                </div>
-
-                <div class="calculator-section">
-                    <h3>Linux File System Hierarchy - IoT Perspective</h3>
-                    <p>Linux organizes files in a hierarchical tree structure starting from the root directory (/). Understanding this structure is crucial for IoT development because different types of files are stored in specific locations.</p>
-                    
-                    <div class="result-grid">
-                        <div class="result-item">
-                            <label>/</label>
-                            <div class="value">Root directory - the top of the file system tree</div>
-                        </div>
-                        <div class="result-item">
-                            <label>/home</label>
-                            <div class="value">User home directories - where your personal files and IoT projects live</div>
-                        </div>
-                        <div class="result-item">
-                            <label>/etc</label>
-                            <div class="value">System configuration files - IoT service configs, network settings</div>
-                        </div>
-                        <div class="result-item">
-                            <label>/var</label>
-                            <div class="value">Variable data - logs, databases, IoT sensor data storage</div>
-                        </div>
-                        <div class="result-item">
-                            <label>/opt</label>
-                            <div class="value">Optional software - custom IoT applications and third-party tools</div>
-                        </div>
-                        <div class="result-item">
-                            <label>/usr</label>
-                            <div class="value">User programs and libraries - installed IoT development tools</div>
+                <section class="section">
+                    <div class="container">
+                        <div class="learning-objectives">
+                            <h2>Session Learning Objectives</h2>
+                            <p>By the end of this session, you will be able to:</p>
+                            <div class="objectives-grid">
+                                <div class="objective-item">
+                                    <h4>Navigate Linux File Systems</h4>
+                                    <p>Use cd, pwd, and ls commands to move through directories and understand your location in the file system.</p>
+                                </div>
+                                <div class="objective-item">
+                                    <h4>Understand IoT Directory Structures</h4>
+                                    <p>Recognize common directory layouts in IoT systems and know where to find configuration files, logs, and applications.</p>
+                                </div>
+                                <div class="objective-item">
+                                    <h4>Use Path Concepts Effectively</h4>
+                                    <p>Distinguish between absolute and relative paths, and use them efficiently in IoT development workflows.</p>
+                                </div>
+                                <div class="objective-item">
+                                    <h4>Apply Professional Command-Line Practices</h4>
+                                    <p>Use command history, tab completion, and other efficiency techniques used in professional IoT environments.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </section>
 
-                <!-- Interactive File System Explorer -->
-                <div class="calculator-section">
-                    <h3>🔍 Interactive File System Explorer</h3>
-                    <p>Practice exploring the Linux file system structure:</p>
-                    
-                    <div id="filesystem-explorer" data-cloud-embed="playground" data-language="bash" data-initial-code="# Explore the Linux File System Structure
-# Start from root and explore key directories
+                <section class="section bg-light">
+                    <div class="container">
+                        <h2>1. Understanding the Linux File System - The IoT Foundation</h2>
+                        
+                        <div class="industry-insight">
+                            <h3>Industry Insight: Why Linux File System Knowledge Matters for IoT</h3>
+                            <p><strong>Real-World Context:</strong> Every IoT device you'll work with - from Raspberry Pi sensors to industrial gateways - uses Linux file systems. Understanding how to navigate these systems is essential for configuring devices, troubleshooting issues, and deploying applications.</p>
+                            <p><strong>Professional Impact:</strong> IoT engineers spend significant time working with remote devices via SSH. Efficient navigation skills directly impact your productivity and ability to diagnose problems quickly in production environments.</p>
+                        </div>
 
-cd /                   # Go to root directory
-ls -la                 # List all contents with details
-echo '--- Exploring /etc (configuration files) ---'
-cd /etc
-ls | head -10          # Show first 10 config directories
-echo '--- Exploring /var (variable data) ---'
-cd /var
-ls -la
-echo '--- Exploring /home (user directories) ---'
-cd /home
-ls -la
-echo '--- Back to your home directory ---'
-cd ~
-pwd                    # Show where you are"></div>
-                </div>
-            </div>
-        </section>
+                        <div class="calculator-section">
+                            <h3>Linux File System Hierarchy - IoT Perspective</h3>
+                            <p>Linux organizes files in a hierarchical tree structure starting from the root directory (/). Understanding this structure is crucial for IoT development because different types of files are stored in specific locations.</p>
+                            
+                            <div class="result-grid">
+                                <div class="result-item">
+                                    <label>/</label>
+                                    <div class="value">Root directory - the top of the file system tree</div>
+                                </div>
+                                <div class="result-item">
+                                    <label>/home</label>
+                                    <div class="value">User home directories - where your personal files and IoT projects live</div>
+                                </div>
+                                <div class="result-item">
+                                    <label>/etc</label>
+                                    <div class="value">System configuration files - IoT service configs, network settings</div>
+                                </div>
+                                <div class="result-item">
+                                    <label>/var</label>
+                                    <div class="value">Variable data - logs, databases, IoT sensor data storage</div>
+                                </div>
+                                <div class="result-item">
+                                    <label>/opt</label>
+                                    <div class="value">Optional software - custom IoT applications and third-party tools</div>
+                                </div>
+                                <div class="result-item">
+                                    <label>/usr</label>
+                                    <div class="value">User programs and libraries - installed IoT development tools</div>
+                                </div>
+                            </div>
 
-        <section class="section bg-light">
-            <div class="container">
-                <h2>2. Essential Navigation Commands - Your IoT Toolkit</h2>
-                
-                <div class="calculator-section">
-                    <h3>The pwd Command - "Print Working Directory"</h3>
-                    <p>The pwd command shows your current location in the file system. This is essential when working with IoT devices remotely, as you need to know exactly where you are before running commands or accessing files.</p>
-                    
-                    <div class="code-block">
-                        <pre><code># Basic pwd usage
+                            <div class="try-it-note">
+                                <strong>💡 Try it now:</strong> Use the terminal below to explore these directories. Start with these commands:
+                            </div>
+                            
+                            <div class="example-command" onclick="copyToClipboard('cd /')">cd /</div>
+                            <div class="example-command" onclick="copyToClipboard('ls -la')">ls -la</div>
+                            <div class="example-command" onclick="copyToClipboard('cd /etc')">cd /etc</div>
+                            <div class="example-command" onclick="copyToClipboard('ls | head -10')">ls | head -10</div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <div class="container">
+                        <h2>2. Essential Navigation Commands - Your IoT Toolkit</h2>
+                        
+                        <div class="calculator-section">
+                            <h3>The pwd Command - "Print Working Directory"</h3>
+                            <p>The pwd command shows your current location in the file system. This is essential when working with IoT devices remotely, as you need to know exactly where you are before running commands or accessing files.</p>
+                            
+                            <div class="code-block">
+                                <pre><code># Basic pwd usage
 pwd                           # Shows current directory path
-/home/pi                     # Example output on Raspberry Pi
+/home/runner                  # Example output in cloud environment
 
 # Professional IoT usage examples
 pwd > current_location.txt   # Save current path to file
 echo "Working in: $(pwd)"    # Include path in log messages
-ls "$(pwd)"                  # List contents of current directory explicitly
+ls "$(pwd)"                  # List contents of current directory explicitly</code></pre>
+                            </div>
 
-# Common IoT scenarios where pwd is crucial
-# 1. Before running installation scripts
-# 2. When troubleshooting file path issues
-# 3. In automated deployment scripts
-# 4. When documenting system configurations</code></pre>
-                    </div>
+                            <div class="try-it-note">
+                                <strong>💡 Try these pwd examples:</strong> Click to copy, then paste in the terminal below
+                            </div>
+                            
+                            <div class="example-command" onclick="copyToClipboard('pwd')">pwd</div>
+                            <div class="example-command" onclick="copyToClipboard('cd /')">cd /</div>
+                            <div class="example-command" onclick="copyToClipboard('pwd')">pwd</div>
+                            <div class="example-command" onclick="copyToClipboard('cd ~')">cd ~</div>
+                            <div class="example-command" onclick="copyToClipboard('pwd')">pwd</div>
+                            <div class="example-command" onclick="copyToClipboard('echo \"Working in: $(pwd)\"')">echo "Working in: $(pwd)"</div>
+                        </div>
 
-                    <!-- Interactive pwd practice -->
-                    <h4>🎯 Practice pwd Command</h4>
-                    <div id="pwd-practice" data-cloud-embed="playground" data-language="bash" data-initial-code="# Practice the pwd command
-pwd                    # See where you start
-cd /                   # Go to root
-pwd                    # Check location
-cd /tmp                # Go to temporary directory
-pwd                    # Confirm you're in /tmp
-cd ~                   # Return to home
-pwd                    # Back to home directory
-echo 'Current directory is:' $(pwd)  # Use pwd in echo command"></div>
-                </div>
-
-                <div class="calculator-section">
-                    <h3>The ls Command - "List Directory Contents"</h3>
-                    <p>The ls command is your primary tool for seeing what files and directories exist. In IoT environments, you'll use ls constantly to check for configuration files, log files, and installed applications.</p>
-                    
-                    <div class="code-block">
-                        <pre><code># Basic ls variations
+                        <div class="calculator-section">
+                            <h3>The ls Command - "List Directory Contents"</h3>
+                            <p>The ls command is your primary tool for seeing what files and directories exist. In IoT environments, you'll use ls constantly to check for configuration files, log files, and installed applications.</p>
+                            
+                            <div class="code-block">
+                                <pre><code># Basic ls variations
 ls                           # Simple list
 ls -l                        # Long format with details
 ls -la                       # Long format including hidden files
@@ -234,42 +298,30 @@ ls -lt                       # Sort by modification time
 ls -lS                       # Sort by file size
 
 # IoT-specific ls usage
-ls /etc/systemd/system/      # List IoT service files
+ls /etc/systemd/system/      # List IoT service files (if exists)
 ls -la /var/log/             # Check log files (including hidden)
-ls -lh /opt/iot/             # Check IoT application directory with sizes
-ls -lt /home/pi/projects/    # List projects by newest first
-ls *.py                      # List only Python files
-ls -la | grep mqtt          # Find MQTT-related files
+ls -lh /opt/                 # Check optional software directory
+ls -lt ~/                    # List home directory by newest first</code></pre>
+                            </div>
 
-# Professional tips
-ls -la --color=always        # Always use colors for better visibility
-ls -la | less               # Pipe long listings to less for paging
-ls -la > directory_listing.txt  # Save listing to file for documentation</code></pre>
-                    </div>
+                            <div class="try-it-note">
+                                <strong>💡 Try these ls variations:</strong> Practice different listing options
+                            </div>
+                            
+                            <div class="example-command" onclick="copyToClipboard('ls')">ls</div>
+                            <div class="example-command" onclick="copyToClipboard('ls -l')">ls -l</div>
+                            <div class="example-command" onclick="copyToClipboard('ls -la')">ls -la</div>
+                            <div class="example-command" onclick="copyToClipboard('ls -lh')">ls -lh</div>
+                            <div class="example-command" onclick="copyToClipboard('ls -lt')">ls -lt</div>
+                            <div class="example-command" onclick="copyToClipboard('ls /etc | head -5')">ls /etc | head -5</div>
+                        </div>
 
-                    <!-- Interactive ls practice -->
-                    <h4>🎯 Practice ls Command Variations</h4>
-                    <div id="ls-practice" data-cloud-embed="playground" data-language="bash" data-initial-code="# Practice different ls command options
-ls                     # Basic listing
-ls -l                  # Long format
-ls -la                 # Include hidden files (starting with .)
-ls -lh                 # Human readable sizes
-ls -lt                 # Sort by time (newest first)
-echo '--- Exploring different directories ---'
-ls /                   # List root directory
-ls /etc | head -5      # First 5 items in /etc
-ls /var/log | head -5  # First 5 log files
-echo '--- Creating and listing files ---'
-touch test1.txt test2.txt  # Create test files
-ls -la *.txt           # List only .txt files"></div>
-                </div>
-
-                <div class="calculator-section">
-                    <h3>The cd Command - "Change Directory"</h3>
-                    <p>The cd command moves you between directories. Mastering cd is essential for IoT work because you'll constantly navigate between configuration directories, project folders, and system locations.</p>
-                    
-                    <div class="code-block">
-                        <pre><code># Basic cd usage
+                        <div class="calculator-section">
+                            <h3>The cd Command - "Change Directory"</h3>
+                            <p>The cd command moves you between directories. Mastering cd is essential for IoT work because you'll constantly navigate between configuration directories, project folders, and system locations.</p>
+                            
+                            <div class="code-block">
+                                <pre><code># Basic cd usage
 cd /path/to/directory        # Go to specific directory
 cd ..                        # Go up one level (parent directory)
 cd ../..                     # Go up two levels
@@ -277,151 +329,114 @@ cd ~                         # Go to home directory
 cd -                         # Go back to previous directory
 cd                           # Go to home directory (same as cd ~)
 
-# IoT-specific navigation patterns
-cd /etc/systemd/system       # Navigate to service configurations
-cd /var/log                  # Check system and application logs
-cd /opt/iot                  # Access custom IoT applications
-cd ~/projects/sensor-data    # Navigate to project directory
-cd /dev                      # Check hardware device files
-cd /proc                     # Access system process information
-
 # Professional navigation techniques
 cd /etc && ls -la            # Change directory and list in one command
-cd ~/projects/$(date +%Y)    # Navigate to year-based project folder
-cd "$(dirname "$0")"         # Navigate to script's directory (in scripts)
+cd ~/$(date +%Y) 2>/dev/null || mkdir -p ~/$(date +%Y) && cd ~/$(date +%Y)  # Create and navigate to year folder</code></pre>
+                            </div>
 
-# Common IoT directory shortcuts
-alias iot='cd /opt/iot'      # Create shortcut to IoT directory
-alias logs='cd /var/log'     # Quick access to logs
-alias config='cd /etc'       # Quick access to configurations</code></pre>
-                    </div>
-
-                    <!-- Interactive cd practice -->
-                    <h4>🎯 Practice cd Command and Navigation</h4>
-                    <div id="cd-practice" data-cloud-embed="playground" data-language="bash" data-initial-code="# Practice directory navigation with cd
-pwd                    # See starting location
-cd /                   # Go to root directory
-pwd                    # Confirm location
-ls                     # See what's in root
-cd home                # Go to home directory
-pwd                    # Check location
-cd ..                  # Go back up one level
-pwd                    # Should be back in root
-cd ~                   # Go to your home directory
-pwd                    # Confirm you're home
-cd /tmp                # Go to temporary directory
-cd -                   # Go back to previous directory (home)
-pwd                    # Should be back home
-echo 'Navigation practice complete!'"></div>
-                </div>
-            </div>
-        </section>
-
-        <section class="section">
-            <div class="container">
-                <h2>3. Understanding Paths - Absolute vs Relative</h2>
-                
-                <div class="calculator-section">
-                    <h3>Path Concepts for IoT Development</h3>
-                    <p>Understanding paths is crucial for IoT development because you'll work with configuration files, scripts, and data files across different directories. Knowing when to use absolute vs relative paths can prevent many common errors.</p>
-                    
-                    <div class="result-grid">
-                        <div class="result-item">
-                            <label>Absolute Path</label>
-                            <div class="value">Starts with / - complete path from root directory (e.g., /home/pi/projects/sensor.py)</div>
-                        </div>
-                        <div class="result-item">
-                            <label>Relative Path</label>
-                            <div class="value">Relative to current directory - no leading / (e.g., projects/sensor.py or ../config/mqtt.conf)</div>
-                        </div>
-                        <div class="result-item">
-                            <label>Home Directory (~)</label>
-                            <div class="value">Shortcut to user's home directory (e.g., ~/projects expands to /home/pi/projects)</div>
-                        </div>
-                        <div class="result-item">
-                            <label>Current Directory (.)</label>
-                            <div class="value">Refers to current directory (e.g., ./script.sh runs script in current directory)</div>
-                        </div>
-                        <div class="result-item">
-                            <label>Parent Directory (..)</label>
-                            <div class="value">Refers to parent directory (e.g., ../config refers to config directory one level up)</div>
-                        </div>
-                        <div class="result-item">
-                            <label>Previous Directory (-)</label>
-                            <div class="value">Used with cd to return to previous directory (e.g., cd - goes back)</div>
+                            <div class="try-it-note">
+                                <strong>💡 Try these cd navigation examples:</strong> Practice moving between directories
+                            </div>
+                            
+                            <div class="example-command" onclick="copyToClipboard('cd /')">cd /</div>
+                            <div class="example-command" onclick="copyToClipboard('pwd')">pwd</div>
+                            <div class="example-command" onclick="copyToClipboard('cd home')">cd home</div>
+                            <div class="example-command" onclick="copyToClipboard('pwd')">pwd</div>
+                            <div class="example-command" onclick="copyToClipboard('cd ..')">cd ..</div>
+                            <div class="example-command" onclick="copyToClipboard('pwd')">pwd</div>
+                            <div class="example-command" onclick="copyToClipboard('cd ~')">cd ~</div>
+                            <div class="example-command" onclick="copyToClipboard('pwd')">pwd</div>
+                            <div class="example-command" onclick="copyToClipboard('cd /tmp')">cd /tmp</div>
+                            <div class="example-command" onclick="copyToClipboard('cd -')">cd -</div>
+                            <div class="example-command" onclick="copyToClipboard('pwd')">pwd</div>
                         </div>
                     </div>
-                </div>
+                </section>
 
-                <!-- Interactive path practice -->
-                <div class="calculator-section">
-                    <h3>🎯 Practice Path Navigation</h3>
-                    <div id="path-practice" data-cloud-embed="playground" data-language="bash" data-initial-code="# Practice absolute and relative paths
-pwd                           # See current location
-echo '--- Absolute Path Examples ---'
-cd /                         # Absolute path to root
-pwd
-cd /home                     # Absolute path to /home
-pwd
-echo '--- Relative Path Examples ---'
-cd ~                         # Go to home directory first
-mkdir -p projects/iot        # Create directory structure
-cd projects                  # Relative path (no leading /)
-pwd
-cd iot                       # Another relative path
-pwd
-cd ..                        # Relative path to parent
-pwd
-cd ../..                     # Relative path up two levels
-pwd
-echo '--- Path shortcuts ---'
-cd ~/projects/iot            # Absolute path using ~ shortcut
-pwd
-cd -                         # Go back to previous directory
-pwd"></div>
-                </div>
+                <section class="section bg-light">
+                    <div class="container">
+                        <h2>3. Understanding Paths - Absolute vs Relative</h2>
+                        
+                        <div class="calculator-section">
+                            <h3>Path Concepts for IoT Development</h3>
+                            <p>Understanding paths is crucial for IoT development because you'll work with configuration files, scripts, and data files across different directories. Knowing when to use absolute vs relative paths can prevent many common errors.</p>
+                            
+                            <div class="result-grid">
+                                <div class="result-item">
+                                    <label>Absolute Path</label>
+                                    <div class="value">Starts with / - complete path from root directory (e.g., /home/runner/projects/sensor.py)</div>
+                                </div>
+                                <div class="result-item">
+                                    <label>Relative Path</label>
+                                    <div class="value">Relative to current directory - no leading / (e.g., projects/sensor.py or ../config/mqtt.conf)</div>
+                                </div>
+                                <div class="result-item">
+                                    <label>Home Directory (~)</label>
+                                    <div class="value">Shortcut to user's home directory (e.g., ~/projects expands to /home/runner/projects)</div>
+                                </div>
+                                <div class="result-item">
+                                    <label>Current Directory (.)</label>
+                                    <div class="value">Refers to current directory (e.g., ./script.sh runs script in current directory)</div>
+                                </div>
+                                <div class="result-item">
+                                    <label>Parent Directory (..)</label>
+                                    <div class="value">Refers to parent directory (e.g., ../config refers to config directory one level up)</div>
+                                </div>
+                                <div class="result-item">
+                                    <label>Previous Directory (-)</label>
+                                    <div class="value">Used with cd to return to previous directory (e.g., cd - goes back)</div>
+                                </div>
+                            </div>
 
-                <div class="common-mistakes">
-                    <h3>⚠️ Common Path Mistakes in IoT Development</h3>
-                    <div class="mistake-item">
-                        <h4>Confusing absolute and relative paths in scripts</h4>
-                        <p><strong>Problem:</strong> Script works in development but fails in production due to different working directories</p>
-                        <p><strong>Solution:</strong> Use absolute paths for critical files or use $(dirname "$0") to make paths relative to script location</p>
-                    </div>
-                    <div class="mistake-item">
-                        <h4>Not understanding current working directory</h4>
-                        <p><strong>Problem:</strong> Commands fail because you're not in the expected directory</p>
-                        <p><strong>Solution:</strong> Always use pwd to check location before running important commands</p>
-                    </div>
-                    <div class="mistake-item">
-                        <h4>Hardcoding paths that don't exist on target IoT devices</h4>
-                        <p><strong>Problem:</strong> Development paths like /Users/john/project don't exist on Raspberry Pi</p>
-                        <p><strong>Solution:</strong> Use relative paths or environment variables for portable code</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+                            <div class="try-it-note">
+                                <strong>💡 Try these path examples:</strong> Practice absolute and relative paths
+                            </div>
+                            
+                            <div class="example-command" onclick="copyToClipboard('cd ~')">cd ~</div>
+                            <div class="example-command" onclick="copyToClipboard('mkdir -p projects/iot')">mkdir -p projects/iot</div>
+                            <div class="example-command" onclick="copyToClipboard('cd projects')">cd projects</div>
+                            <div class="example-command" onclick="copyToClipboard('pwd')">pwd</div>
+                            <div class="example-command" onclick="copyToClipboard('cd iot')">cd iot</div>
+                            <div class="example-command" onclick="copyToClipboard('pwd')">pwd</div>
+                            <div class="example-command" onclick="copyToClipboard('cd ..')">cd ..</div>
+                            <div class="example-command" onclick="copyToClipboard('cd ~/projects/iot')">cd ~/projects/iot</div>
+                            <div class="example-command" onclick="copyToClipboard('pwd')">pwd</div>
+                        </div>
 
-        <section class="section bg-light">
-            <div class="container">
-                <h2>4. Professional Command-Line Efficiency</h2>
-                
-                <div class="calculator-section">
-                    <h3>Command History and Shortcuts</h3>
-                    <p>Professional IoT developers use command-line efficiency techniques to work faster and avoid repetitive typing. These skills become essential when managing multiple IoT devices remotely.</p>
-                    
-                    <div class="code-block">
-                        <pre><code># Command history navigation
+                        <div class="common-mistakes">
+                            <h3>⚠️ Common Path Mistakes in IoT Development</h3>
+                            <div class="mistake-item">
+                                <h4>Confusing absolute and relative paths in scripts</h4>
+                                <p><strong>Problem:</strong> Script works in development but fails in production due to different working directories</p>
+                                <p><strong>Solution:</strong> Use absolute paths for critical files or use $(dirname "$0") to make paths relative to script location</p>
+                            </div>
+                            <div class="mistake-item">
+                                <h4>Not understanding current working directory</h4>
+                                <p><strong>Problem:</strong> Commands fail because you're not in the expected directory</p>
+                                <p><strong>Solution:</strong> Always use pwd to check location before running important commands</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <div class="container">
+                        <h2>4. Professional Command-Line Efficiency</h2>
+                        
+                        <div class="calculator-section">
+                            <h3>Command History and Shortcuts</h3>
+                            <p>Professional IoT developers use command-line efficiency techniques to work faster and avoid repetitive typing. These skills become essential when managing multiple IoT devices remotely.</p>
+                            
+                            <div class="code-block">
+                                <pre><code># Command history navigation
 history                      # Show command history
 !!                          # Repeat last command
 !n                          # Repeat command number n from history
 !string                     # Repeat last command starting with 'string'
-Ctrl+R                      # Search command history (interactive)
 
 # Tab completion (essential for efficiency)
 cd /et[TAB]                 # Completes to /etc/
 ls /var/lo[TAB]             # Completes to /var/log/
-systemctl status mosq[TAB]  # Completes to mosquitto
 
 # Command line editing shortcuts
 Ctrl+A                      # Move to beginning of line
@@ -429,251 +444,189 @@ Ctrl+E                      # Move to end of line
 Ctrl+U                      # Delete from cursor to beginning
 Ctrl+K                      # Delete from cursor to end
 Ctrl+W                      # Delete previous word
-Ctrl+L                      # Clear screen (same as 'clear')
+Ctrl+L                      # Clear screen (same as 'clear')</code></pre>
+                            </div>
 
-# Professional IoT workflow examples
-history | grep mqtt         # Find all MQTT-related commands
-!systemctl                  # Repeat last systemctl command
-cd /etc && ls -la | grep iot  # Chain commands efficiently</code></pre>
+                            <div class="try-it-note">
+                                <strong>💡 Try these efficiency techniques:</strong> Practice command history and shortcuts
+                            </div>
+                            
+                            <div class="example-command" onclick="copyToClipboard('history | tail -5')">history | tail -5</div>
+                            <div class="example-command" onclick="copyToClipboard('echo \"test command\"')">echo "test command"</div>
+                            <div class="example-command" onclick="copyToClipboard('!!')">!!</div>
+                            <div class="example-command" onclick="copyToClipboard('clear')">clear</div>
+                        </div>
                     </div>
+                </section>
 
-                    <!-- Interactive efficiency practice -->
-                    <h4>🎯 Practice Command-Line Efficiency</h4>
-                    <div id="efficiency-practice" data-cloud-embed="playground" data-language="bash" data-initial-code="# Practice command-line efficiency techniques
-echo 'Starting efficiency practice'
-pwd
-ls -la
-echo '--- Command history practice ---'
-history | tail -5           # Show last 5 commands
-echo 'Type some commands, then use history to see them'
-cd /tmp
-pwd
-ls
-cd ~
-echo '--- Try these efficiency tips ---'
-echo '1. Use TAB completion when typing paths'
-echo '2. Use !! to repeat last command'
-echo '3. Use history to find previous commands'
-echo '4. Use cd - to go back to previous directory'
-cd /tmp
-cd -                        # Should go back to home
-pwd"></div>
-                </div>
-
-                <div class="calculator-section">
-                    <h3>IoT-Specific Navigation Patterns</h3>
-                    <p>IoT professionals develop muscle memory for common navigation patterns. Here are the most frequently used directory navigation sequences in IoT development:</p>
-                    
-                    <div class="code-block">
-                        <pre><code># Common IoT navigation workflows
-
-# 1. System service management
-cd /etc/systemd/system       # Service configuration files
-ls -la *.service             # List all service files
-cd /var/log                  # Check service logs
-journalctl -u service-name   # View specific service logs
-
-# 2. IoT application deployment
-cd /opt/iot                  # Custom IoT applications
-ls -la                       # Check installed applications
-cd /opt/iot/config           # Application configurations
-cd /opt/iot/data             # Application data storage
-
-# 3. Development workflow
-cd ~/projects                # Personal development projects
-ls -la                       # List current projects
-cd project-name              # Enter specific project
-ls -la src/ config/ data/    # Check project structure
-
-# 4. System monitoring and troubleshooting
-cd /var/log                  # System logs
-tail -f syslog               # Monitor system log in real-time
-cd /proc                     # Process and system information
-cd /sys                      # Hardware and kernel information
-
-# 5. Network and connectivity
-cd /etc/network              # Network configuration (older systems)
-cd /etc/netplan              # Network configuration (newer Ubuntu)
-cd /etc/wpa_supplicant       # WiFi configuration</code></pre>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Comprehensive Practice Section -->
-        <section class="section">
-            <div class="container">
-                <h2>🎯 Comprehensive Navigation Challenge</h2>
-                <p>Put all your navigation skills together in this comprehensive challenge that simulates real IoT development tasks:</p>
-                
-                <div id="comprehensive-challenge" data-cloud-embed="playground" data-language="bash" data-initial-code="# IoT Navigation Challenge - Complete all tasks
+                <section class="section bg-light">
+                    <div class="container">
+                        <h2>🎯 Comprehensive Navigation Challenge</h2>
+                        <p>Put all your navigation skills together in this comprehensive challenge that simulates real IoT development tasks. Copy and paste this entire sequence into the terminal:</p>
+                        
+                        <div class="code-block">
+                            <pre><code># IoT Navigation Challenge - Complete all tasks
 echo '=== IoT Navigation Challenge ==='
-echo 'Complete these tasks to master Linux navigation:'
-echo ''
-
 echo 'Task 1: System Exploration'
-echo '1. Find your current location'
 pwd
-echo '2. Go to root directory and list contents'
 cd /
 ls
-echo '3. Explore the /etc directory (configuration files)'
 cd /etc
-ls | head -10
-echo ''
-
+ls | head -5
 echo 'Task 2: Create IoT Project Structure'
-echo '4. Go to your home directory'
 cd ~
-pwd
-echo '5. Create an IoT project directory structure'
-mkdir -p iot-projects/sensor-data/logs
-mkdir -p iot-projects/sensor-data/config
-mkdir -p iot-projects/sensor-data/scripts
-echo '6. Navigate to the project and verify structure'
+mkdir -p iot-projects/sensor-data/{logs,config,scripts}
 cd iot-projects/sensor-data
 ls -la
-echo ''
-
 echo 'Task 3: Practice Path Navigation'
-echo '7. Use relative paths to navigate'
 cd logs
 pwd
 cd ../config
 pwd
-cd ../../..
-pwd
-echo '8. Use absolute paths'
 cd ~/iot-projects/sensor-data/scripts
 pwd
-echo ''
-
-echo 'Task 4: Efficiency Practice'
-echo '9. Go back to previous directory'
 cd -
 pwd
-echo '10. Create some test files and practice ls variations'
+echo 'Task 4: Create test files'
 touch sensor1.log sensor2.log config.json
-ls
 ls -la
 ls -lt
-echo ''
-echo 'Challenge Complete! You have mastered Linux navigation basics.'"></div>
-            </div>
-        </section>
+echo 'Challenge Complete! You have mastered Linux navigation basics.'</code></pre>
+                        </div>
 
-        <!-- Assessment Quiz -->
-        <section class="section bg-light">
-            <div class="container">
-                <h2>📋 Knowledge Check</h2>
-                <div class="quiz-container">
-                    <div class="quiz-question">
-                        <h4>Question 1: Navigation Commands</h4>
-                        <p>Which command shows your current directory location?</p>
-                        <div class="quiz-options">
-                            <label><input type="radio" name="q1" value="a"> ls</label>
-                            <label><input type="radio" name="q1" value="b"> pwd</label>
-                            <label><input type="radio" name="q1" value="c"> cd</label>
-                            <label><input type="radio" name="q1" value="d"> dir</label>
+                        <div class="try-it-note">
+                            <strong>💡 Complete Challenge:</strong> Copy the entire challenge above and paste it into the terminal
+                        </div>
+                        
+                        <div class="example-command" onclick="copyToClipboard('echo \'=== IoT Navigation Challenge ===\'\necho \'Task 1: System Exploration\'\npwd\ncd /\nls\ncd /etc\nls | head -5\necho \'Task 2: Create IoT Project Structure\'\ncd ~\nmkdir -p iot-projects/sensor-data/{logs,config,scripts}\ncd iot-projects/sensor-data\nls -la\necho \'Task 3: Practice Path Navigation\'\ncd logs\npwd\ncd ../config\npwd\ncd ~/iot-projects/sensor-data/scripts\npwd\ncd -\npwd\necho \'Task 4: Create test files\'\ntouch sensor1.log sensor2.log config.json\nls -la\nls -lt\necho \'Challenge Complete! You have mastered Linux navigation basics.\'')">Copy Complete Challenge</div>
+                    </div>
+                </section>
+
+                <!-- Assessment Quiz -->
+                <section class="section">
+                    <div class="container">
+                        <h2>📋 Knowledge Check</h2>
+                        <div class="quiz-container">
+                            <div class="quiz-question">
+                                <h4>Question 1: Navigation Commands</h4>
+                                <p>Which command shows your current directory location?</p>
+                                <div class="quiz-options">
+                                    <label><input type="radio" name="q1" value="a"> ls</label>
+                                    <label><input type="radio" name="q1" value="b"> pwd</label>
+                                    <label><input type="radio" name="q1" value="c"> cd</label>
+                                    <label><input type="radio" name="q1" value="d"> dir</label>
+                                </div>
+                            </div>
+                            
+                            <div class="quiz-question">
+                                <h4>Question 2: Path Types</h4>
+                                <p>What type of path is "/home/runner/projects/sensor.py"?</p>
+                                <div class="quiz-options">
+                                    <label><input type="radio" name="q2" value="a"> Relative path</label>
+                                    <label><input type="radio" name="q2" value="b"> Absolute path</label>
+                                    <label><input type="radio" name="q2" value="c"> Home path</label>
+                                    <label><input type="radio" name="q2" value="d"> Current path</label>
+                                </div>
+                            </div>
+                            
+                            <div class="quiz-question">
+                                <h4>Question 3: IoT Directory Knowledge</h4>
+                                <p>Where would you typically find IoT service configuration files?</p>
+                                <div class="quiz-options">
+                                    <label><input type="radio" name="q3" value="a"> /home</label>
+                                    <label><input type="radio" name="q3" value="b"> /var/log</label>
+                                    <label><input type="radio" name="q3" value="c"> /etc</label>
+                                    <label><input type="radio" name="q3" value="d"> /tmp</label>
+                                </div>
+                            </div>
+                            
+                            <button onclick="checkQuizAnswers()" class="session-link">Check Answers</button>
+                            <div id="quiz-results" style="display: none; margin-top: 1rem;"></div>
                         </div>
                     </div>
-                    
-                    <div class="quiz-question">
-                        <h4>Question 2: Path Types</h4>
-                        <p>What type of path is "/home/pi/projects/sensor.py"?</p>
-                        <div class="quiz-options">
-                            <label><input type="radio" name="q2" value="a"> Relative path</label>
-                            <label><input type="radio" name="q2" value="b"> Absolute path</label>
-                            <label><input type="radio" name="q2" value="c"> Home path</label>
-                            <label><input type="radio" name="q2" value="d"> Current path</label>
+                </section>
+
+                <section class="section bg-light">
+                    <div class="container">
+                        <h2>Session Summary & Next Steps</h2>
+                        
+                        <div class="calculator-section">
+                            <h3>What You've Learned</h3>
+                            <p>Congratulations! You've mastered the fundamental Linux navigation skills essential for IoT development:</p>
+                            <ul>
+                                <li><strong>File System Understanding:</strong> You know the Linux directory hierarchy and where IoT-related files are typically stored</li>
+                                <li><strong>Navigation Commands:</strong> You can confidently use pwd, ls, and cd to move around Linux systems</li>
+                                <li><strong>Path Concepts:</strong> You understand the difference between absolute and relative paths and when to use each</li>
+                                <li><strong>Professional Efficiency:</strong> You know command-line shortcuts and techniques used by professional IoT developers</li>
+                            </ul>
+                        </div>
+
+                        <div style="display: flex; justify-content: space-between; margin-top: 2rem;">
+                            <a href="../module1.html" class="session-link" style="background: var(--gray-600);">← Back to Module</a>
+                            <button onclick="markSessionComplete()" class="session-link">Complete Session 1</button>
+                            <a href="module1-session2.html" class="session-link">Session 2: Command Tools →</a>
                         </div>
                     </div>
-                    
-                    <div class="quiz-question">
-                        <h4>Question 3: IoT Directory Knowledge</h4>
-                        <p>Where would you typically find IoT service configuration files?</p>
-                        <div class="quiz-options">
-                            <label><input type="radio" name="q3" value="a"> /home</label>
-                            <label><input type="radio" name="q3" value="b"> /var/log</label>
-                            <label><input type="radio" name="q3" value="c"> /etc</label>
-                            <label><input type="radio" name="q3" value="d"> /tmp</label>
-                        </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- Persistent Terminal Pane -->
+        <div class="terminal-pane">
+            <div class="terminal-header">
+                <span>🖥️</span>
+                <span>Interactive Linux Terminal - Ready for Practice</span>
+            </div>
+            <div class="terminal-content">
+                <div class="terminal-loading">
+                    <div>
+                        <div>☁️ Loading Interactive Linux Environment...</div>
+                        <div style="font-size: 0.875rem; opacity: 0.7; margin-top: 0.5rem;">Starting Ubuntu terminal for hands-on practice</div>
                     </div>
-                    
-                    <button onclick="checkQuizAnswers()" class="session-link">Check Answers</button>
-                    <div id="quiz-results" style="display: none; margin-top: 1rem;"></div>
                 </div>
-            </div>
-        </section>
-
-        <section class="section">
-            <div class="container">
-                <h2>Session Summary & Next Steps</h2>
-                
-                <div class="calculator-section">
-                    <h3>What You've Learned</h3>
-                    <p>Congratulations! You've mastered the fundamental Linux navigation skills essential for IoT development:</p>
-                    <ul>
-                        <li><strong>File System Understanding:</strong> You know the Linux directory hierarchy and where IoT-related files are typically stored</li>
-                        <li><strong>Navigation Commands:</strong> You can confidently use pwd, ls, and cd to move around Linux systems</li>
-                        <li><strong>Path Concepts:</strong> You understand the difference between absolute and relative paths and when to use each</li>
-                        <li><strong>Professional Efficiency:</strong> You know command-line shortcuts and techniques used by professional IoT developers</li>
-                    </ul>
-                </div>
-
-                <div class="calculator-section">
-                    <h3>Real-World Applications</h3>
-                    <p>These navigation skills will be essential when you:</p>
-                    <ul>
-                        <li>Connect to IoT devices via SSH for remote management</li>
-                        <li>Configure IoT services and applications</li>
-                        <li>Troubleshoot issues by examining log files</li>
-                        <li>Deploy and manage IoT applications in production</li>
-                        <li>Set up development environments for IoT projects</li>
-                    </ul>
-                </div>
-
-                <div class="calculator-section">
-                    <h3>What's Next: Session 2 Preview</h3>
-                    <p>In the next session, you'll learn essential command-line tools that build upon your navigation skills:</p>
-                    <ul>
-                        <li><strong>File Operations:</strong> Creating, copying, moving, and deleting files and directories</li>
-                        <li><strong>Text Processing:</strong> Viewing and manipulating text files containing IoT data and configurations</li>
-                        <li><strong>File Searching:</strong> Finding files and content across IoT systems efficiently</li>
-                        <li><strong>Archive Management:</strong> Working with compressed files for IoT deployments</li>
-                    </ul>
-                </div>
-
-                <div style="display: flex; justify-content: space-between; margin-top: 2rem;">
-                    <a href="../module1.html" class="session-link" style="background: var(--gray-600);">← Back to Module</a>
-                    <button onclick="markSessionComplete()" class="session-link">Complete Session 1</button>
-                    <a href="module1-session2.html" class="session-link">Session 2: Command Tools →</a>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="footer">
-        <div class="container">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
-                <p>&copy; 2024 Dynamic Devices. All rights reserved.</p>
-                <div style="display: flex; gap: 2rem;">
-                    <a href="../../docs/setup.html" style="color: var(--gray-400);">Setup Guide</a>
-                    <a href="../../resources/troubleshooting.html" style="color: var(--gray-400);">Support</a>
-                    <a href="../../resources/jupyter-setup.html" style="color: var(--gray-400);">Cloud Setup</a>
-                </div>
+                <iframe 
+                    id="terminal-iframe"
+                    src="https://replit.com/@dynamicdevices/IoT-Linux-Navigation-Practice?embed=true&output=true" 
+                    title="Interactive Linux Terminal">
+                </iframe>
             </div>
         </div>
-    </footer>
+    </div>
 
-    <!-- Include the cloud integration script -->
-    <script src="../../assets/js/jupyter-embed.js"></script>
     <script>
+        // Initialize terminal on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const iframe = document.getElementById('terminal-iframe');
+            const loading = document.querySelector('.terminal-loading');
+            
+            iframe.onload = function() {
+                setTimeout(() => {
+                    loading.style.display = 'none';
+                    iframe.style.display = 'block';
+                }, 2000);
+            };
+        });
+
+        // Copy to clipboard functionality
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                // Visual feedback
+                event.target.style.background = 'var(--success-color)';
+                event.target.style.color = 'white';
+                setTimeout(() => {
+                    event.target.style.background = '';
+                    event.target.style.color = '';
+                }, 500);
+            }).catch(function(err) {
+                console.error('Could not copy text: ', err);
+            });
+        }
+
         // Quiz functionality
         function checkQuizAnswers() {
             const answers = {
                 q1: 'b', // pwd shows current directory
-                q2: 'b', // /home/pi/projects/sensor.py is absolute path
+                q2: 'b', // /home/runner/projects/sensor.py is absolute path
                 q3: 'c'  // /etc contains configuration files
             };
             
