@@ -1,295 +1,265 @@
+/* Module Session Styles - Terminal and Interactive Elements */
 
-/* Module Overview Section */
-.module-overview {
-    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-    color: white;
-    padding: var(--space-3xl) 0;
-    margin-bottom: var(--space-2xl);
-}
-
-.module-meta {
-    display: flex;
-    gap: var(--space-xl);
-    margin-top: var(--space-lg);
-    flex-wrap: wrap;
-}
-
-.meta-item {
-    background: rgba(255, 255, 255, 0.1);
-    padding: var(--space-md) var(--space-lg);
-    border-radius: var(--radius-md);
-    backdrop-filter: blur(10px);
-}
-
-.meta-item strong {
-    display: block;
-    font-size: 0.875rem;
-    opacity: 0.8;
-    margin-bottom: var(--space-xs);
-}
-
-/* Session Overview Cards */
-.sessions-overview {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: var(--space-xl);
-    margin: var(--space-2xl) 0;
-}
-
-.session-overview-card {
-    background: white;
-    border-radius: var(--radius-lg);
-    padding: var(--space-xl);
-    box-shadow: var(--shadow-md);
-    border: 1px solid var(--gray-200);
-    transition: all var(--transition-fast);
-    position: relative;
-}
-
-.session-overview-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
-}
-
-.session-number {
-    position: absolute;
-    top: -15px;
-    left: var(--space-xl);
-    background: var(--primary-color);
-    color: white;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 0.875rem;
-}
-
-.session-overview-card h3 {
-    margin-top: var(--space-md);
-    margin-bottom: var(--space-md);
-    color: var(--gray-900);
-}
-
-.session-duration {
-    color: var(--primary-color);
-    font-weight: 600;
-    font-size: 0.875rem;
-    margin-bottom: var(--space-md);
-}
-
-.session-topics {
-    list-style: none;
-    padding: 0;
-    margin: var(--space-lg) 0;
-}
-
-.session-topics li {
-    padding: var(--space-sm) 0;
-    border-bottom: 1px solid var(--gray-100);
-    position: relative;
-    padding-left: var(--space-lg);
-}
-
-.session-topics li:before {
-    content: "✓";
-    position: absolute;
-    left: 0;
-    color: var(--success-color);
-    font-weight: 600;
-}
-
-.session-topics li:last-child {
-    border-bottom: none;
-}
-
-.session-link {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-sm);
-    background: var(--primary-color);
-    color: white;
-    padding: var(--space-md) var(--space-lg);
-    border-radius: var(--radius-md);
-    text-decoration: none;
-    font-weight: 600;
-    transition: all var(--transition-fast);
-    margin-top: var(--space-lg);
-}
-
-.session-link:hover {
-    background: var(--primary-dark);
-    transform: translateX(4px);
-}
-
-/* Learning Objectives */
-.learning-objectives {
-    background: var(--gray-50);
-    border-radius: var(--radius-lg);
-    padding: var(--space-2xl);
-    margin: var(--space-2xl) 0;
-}
-
-.objectives-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: var(--space-lg);
-    margin-top: var(--space-lg);
-}
-
-.objective-item {
-    background: white;
-    padding: var(--space-lg);
-    border-radius: var(--radius-md);
-    border-left: 4px solid var(--primary-color);
-}
-
-.objective-item h4 {
-    color: var(--primary-color);
-    margin-bottom: var(--space-md);
-}
-
-/* Prerequisites */
-.prerequisites {
-    background: white;
-    border-radius: var(--radius-lg);
-    padding: var(--space-2xl);
-    margin: var(--space-2xl) 0;
-    border: 1px solid var(--gray-200);
-}
-
-.prerequisites-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: var(--space-lg);
-    margin-top: var(--space-lg);
-}
-
-.prerequisite-item {
-    padding: var(--space-md);
-    border: 1px solid var(--gray-200);
-    border-radius: var(--radius-md);
-    text-align: center;
-}
-
-.prerequisite-item.required {
-    border-color: var(--error-color);
-    background: #fef2f2;
-}
-
-.prerequisite-item.recommended {
-    border-color: var(--warning-color);
-    background: #fffbeb;
-}
-
-.prerequisite-item.optional {
-    border-color: var(--success-color);
-    background: #f0fdf4;
-}
-
-/* Progress Tracker */
-.progress-tracker {
-    background: white;
-    border-radius: var(--radius-lg);
-    padding: var(--space-2xl);
-    margin: var(--space-2xl) 0;
-    border: 1px solid var(--gray-200);
-}
-
-.progress-bar {
-    background: var(--gray-200);
-    height: 8px;
-    border-radius: 4px;
+/* Split-pane layout styles */
+body.session-layout {
+    height: 100vh;
     overflow: hidden;
-    margin: var(--space-lg) 0;
+    display: flex;
+    flex-direction: column;
 }
 
-.progress-fill {
-    background: linear-gradient(90deg, var(--primary-color), var(--success-color));
-    height: 100%;
-    width: 0%;
-    transition: width 0.3s ease;
+.session-layout .header {
+    flex-shrink: 0;
+    position: relative;
 }
 
-/* Quick Access */
-.quick-access {
-    background: white;
-    border-radius: var(--radius-lg);
-    padding: var(--space-2xl);
-    margin: var(--space-2xl) 0;
-    border: 1px solid var(--gray-200);
+.session-layout .main-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
-.quick-access-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--space-md);
-    margin-top: var(--space-lg);
+.session-layout .content-pane {
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 2rem;
 }
 
-.quick-access-item {
+/* Terminal Pane Styles */
+.terminal-pane {
+    height: 400px;
+    flex-shrink: 0;
+    border-top: 2px solid var(--gray-200);
+    background: var(--gray-900);
+    display: flex;
+    flex-direction: column;
+    transition: height 0.3s ease;
+    position: relative;
+}
+
+.terminal-pane.collapsed {
+    height: 40px;
+}
+
+.terminal-header {
+    background: var(--primary-color);
+    color: white;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
     display: flex;
     align-items: center;
-    gap: var(--space-md);
-    padding: var(--space-md);
-    border: 1px solid var(--gray-200);
-    border-radius: var(--radius-md);
-    text-decoration: none;
-    color: var(--gray-700);
-    transition: all var(--transition-fast);
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    flex-shrink: 0;
+    cursor: pointer;
+    user-select: none;
 }
 
-.quick-access-item:hover {
-    border-color: var(--primary-color);
-    background: var(--gray-50);
+.terminal-header:hover {
+    background: var(--primary-hover);
 }
 
-.quick-access-icon {
-    width: 24px;
-    height: 24px;
-    background: var(--primary-color);
-    border-radius: 4px;
+.terminal-content {
+    flex: 1;
+    position: relative;
+    background: var(--gray-900);
+    overflow: hidden;
+}
+
+.terminal-pane.collapsed .terminal-content {
+    display: none;
+}
+
+.terminal-content iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: var(--gray-900);
+}
+
+.terminal-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     display: flex;
     align-items: center;
     justify-content: center;
+    background: var(--gray-900);
+    color: var(--gray-100);
+    font-family: 'JetBrains Mono', monospace;
+    flex-direction: column;
+    gap: 1rem;
+    z-index: 10;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--gray-600);
+    border-top: 4px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.terminal-status {
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.8);
     color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
     font-size: 0.75rem;
-    font-weight: 600;
+    font-family: 'JetBrains Mono', monospace;
+    z-index: 5;
 }
 
-/* Responsive Design */
+/* Terminal Toggle Button */
+.terminal-toggle {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.terminal-toggle:hover {
+    background: var(--primary-hover);
+}
+
+/* Resize Handle */
+.resize-handle {
+    position: absolute;
+    top: -3px;
+    left: 0;
+    right: 0;
+    height: 6px;
+    cursor: ns-resize;
+    background: transparent;
+    z-index: 20;
+}
+
+.resize-handle:hover {
+    background: var(--primary-color);
+}
+
+.resize-handle::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 2px;
+    background: var(--gray-400);
+    border-radius: 1px;
+}
+
+.resize-handle:hover::after {
+    background: white;
+}
+
+/* Terminal Chevron Icon */
+.terminal-chevron {
+    transition: transform 0.3s ease;
+}
+
+.terminal-pane.collapsed .terminal-chevron {
+    transform: rotate(180deg);
+}
+
+/* Interactive Command Examples */
+.example-command {
+    background: var(--gray-100);
+    border: 1px solid var(--gray-300);
+    border-radius: 4px;
+    padding: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.875rem;
+    margin: 0.5rem 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.example-command:hover {
+    background: var(--gray-200);
+    border-color: var(--primary-color);
+}
+
+.example-command::before {
+    content: "$ ";
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+/* Try It Notes */
+.try-it-note {
+    background: linear-gradient(135deg, #e0f2fe, #f0f9ff);
+    border: 1px solid var(--primary-color);
+    border-radius: 6px;
+    padding: 1rem;
+    margin: 1rem 0;
+    font-size: 0.875rem;
+}
+
+.try-it-note strong {
+    color: var(--primary-color);
+}
+
+/* Responsive Design for Sessions */
 @media (max-width: 768px) {
-    .module-meta {
+    .session-layout .header-content {
         flex-direction: column;
+        gap: 1rem;
+        text-align: center;
     }
     
-    .sessions-overview {
-        grid-template-columns: 1fr;
+    .session-layout .nav {
+        justify-content: center;
+        flex-wrap: wrap;
     }
     
-    .objectives-grid {
-        grid-template-columns: 1fr;
+    .terminal-pane {
+        height: 300px;
     }
     
-    .prerequisites-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .quick-access-grid {
-        grid-template-columns: 1fr;
+    .terminal-toggle {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.8rem;
     }
 }
 
-/* Animation for fade in */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
+@media (max-width: 480px) {
+    .terminal-pane {
+        height: 250px;
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    
+    .terminal-header {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+    }
+    
+    .example-command {
+        font-size: 0.8rem;
+        padding: 0.4rem;
+    }
+    
+    .try-it-note {
+        padding: 0.8rem;
+        font-size: 0.8rem;
     }
 }
