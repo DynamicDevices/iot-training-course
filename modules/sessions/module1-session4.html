@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Session 4: Package Management & Shell Scripting - Module 1</title>
+    <title>Session 4: Process Management & System Monitoring - Module 1</title>
     <link rel="stylesheet" href="../../assets/css/main.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,984 +11,1436 @@
 </head>
 <body>
     <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <h1><a href="../../index.html">Dynamic Devices</a></h1>
-                    <span>Module 1 - Session 4: Package Management & Shell Scripting</span>
-                </div>
-                <nav class="nav">
-                    <a href="../../index.html">Home</a>
-                    <a href="../module1.html">Module 1</a>
-                    <a href="../../index.html#labs">Labs</a>
-                    <a href="../../tools/network-calculator.html">Tools</a>
-                </nav>
-            </div>
-        </div>
+    <div class="container">
+    <div class="header-content">
+    <div class="logo">
+    <h1><a href="../../index.html">Dynamic Devices</a></h1>
+    <span>Module 1 - Session 4: Process Management & System Monitoring</span>
+    </div>
+    <nav class="nav">
+    <a href="../../index.html">Home</a>
+    <a href="../module1.html">Module 1</a>
+    <a href="../../index.html#labs">Labs</a>
+    <a href="../../tools/network-calculator.html">Tools</a>
+    </nav>
+    </div>
+    </div>
     </header>
 
     <main>
-        <section class="module-overview">
-            <div class="container">
-                <h1>Session 4: Package Management & Shell Scripting</h1>
-                <p>Learn software installation, package management, and basic shell scripting for IoT automation tasks and system administration.</p>
-                
-                <div class="module-meta">
-                    <div class="meta-item">
-                        <strong>Duration</strong>
-                        2 hours
-                    </div>
-                    <div class="meta-item">
-                        <strong>Module</strong>
-                        Linux Basics
-                    </div>
-                    <div class="meta-item">
-                        <strong>Session</strong>
-                        4 of 4
-                    </div>
-                    <div class="meta-item">
-                        <strong>Difficulty</strong>
-                        Beginner to Intermediate
-                    </div>
-                </div>
-            </div>
-        </section>
+    <section class="module-overview">
+    <div class="container">
+    <h1>Session 4: Process Management & System Monitoring</h1>
+    <p>Master process control, system monitoring, and resource management essential for maintaining robust IoT systems. Understanding process management is critical for optimizing performance, troubleshooting issues, and ensuring reliable operation of IoT applications in production environments.</p>
+    
+    <div class="module-meta">
+    <div class="meta-item">
+    <strong>Duration</strong>
+    2 hours
+    </div>
+    <div class="meta-item">
+    <strong>Module</strong>
+    Linux Basics
+    </div>
+    <div class="meta-item">
+    <strong>Session</strong>
+    4 of 5
+    </div>
+    <div class="meta-item">
+    <strong>Difficulty</strong>
+    Intermediate
+    </div>
+    </div>
+    </div>
+    </section>
 
-        <section class="section">
-            <div class="container">
-                <div class="learning-objectives">
-                    <h2>Session Learning Objectives</h2>
-                    <p>By the end of this session, you will be able to:</p>
-                    <div class="objectives-grid">
-                        <div class="objective-item">
-                            <h4>Master Package Management</h4>
-                            <p>Use package managers like apt, yum, and dnf to install, update, and remove software packages effectively.</p>
-                        </div>
-                        <div class="objective-item">
-                            <h4>Maintain System Security</h4>
-                            <p>Apply security updates, manage repositories, and understand package dependencies for IoT systems.</p>
-                        </div>
-                        <div class="objective-item">
-                            <h4>Write Shell Scripts</h4>
-                            <p>Create basic shell scripts with variables, loops, and conditional statements for automation tasks.</p>
-                        </div>
-                        <div class="objective-item">
-                            <h4>Automate IoT Tasks</h4>
-                            <p>Develop scripts for common IoT administration tasks like monitoring, backups, and system maintenance.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <section class="section">
+    <div class="container">
+    <div class="learning-objectives">
+    <h2>Session Learning Objectives</h2>
+    <p>By the end of this session, you will be able to:</p>
+    <div class="objectives-grid">
+    <div class="objective-item">
+    <h4>Monitor System Performance</h4>
+    <p>Use ps, top, htop, and system monitoring tools to analyze running processes and identify performance bottlenecks in IoT systems.</p>
+    </div>
+    <div class="objective-item">
+    <h4>Control Process Lifecycle</h4>
+    <p>Start, stop, suspend, and manage processes including background services, daemon management, and process prioritization.</p>
+    </div>
+    <div class="objective-item">
+    <h4>Optimize Resource Usage</h4>
+    <p>Understand CPU, memory, and I/O usage patterns to optimize IoT applications for resource-constrained environments.</p>
+    </div>
+    <div class="objective-item">
+    <h4>Implement Process Automation</h4>
+    <p>Create automated process management solutions for production IoT deployments including monitoring and recovery systems.</p>
+    </div>
+    </div>
+    </div>
+    </div>
+    </section>
 
-        <section class="section bg-light">
-            <div class="container">
-                <h2>1. Package Management Systems</h2>
-                
-                <div class="calculator-section">
-                    <h3>Understanding Package Managers</h3>
-                    <p>Package managers automate the installation, updating, and removal of software packages. They handle dependencies, security updates, and system integrity for IoT devices.</p>
-                    
-                    <div class="class-grid">
-                        <div class="class-card class-a">
-                            <h4>APT (Debian/Ubuntu)</h4>
-                            <div class="range">Advanced Package Tool</div>
-                            <div class="details">
-                                <strong>Distributions:</strong> Debian, Ubuntu, Raspberry Pi OS<br>
-                                <strong>Commands:</strong> apt, apt-get, apt-cache<br>
-                                <strong>IoT Usage:</strong> Most common for IoT development
-                            </div>
-                        </div>
-                        
-                        <div class="class-card class-b">
-                            <h4>YUM/DNF (Red Hat/Fedora)</h4>
-                            <div class="range">Yellowdog Updater Modified / Dandified YUM</div>
-                            <div class="details">
-                                <strong>Distributions:</strong> RHEL, CentOS, Fedora<br>
-                                <strong>Commands:</strong> yum, dnf<br>
-                                <strong>IoT Usage:</strong> Enterprise IoT deployments
-                            </div>
-                        </div>
-                        
-                        <div class="class-card class-c">
-                            <h4>Pacman (Arch Linux)</h4>
-                            <div class="range">Package Manager</div>
-                            <div class="details">
-                                <strong>Distributions:</strong> Arch Linux, Manjaro<br>
-                                <strong>Commands:</strong> pacman<br>
-                                <strong>IoT Usage:</strong> Lightweight IoT systems
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <section class="section bg-light">
+    <div class="container">
+    <h2>1. Process Monitoring - Your System Observatory</h2>
+    
+    <div class="calculator-section">
+    <h3>Understanding Processes in IoT Systems</h3>
+    <p>Processes are running programs that consume system resources. In IoT environments, efficient process monitoring is crucial because devices often have limited CPU, memory, and power. Understanding process behavior helps optimize performance and troubleshoot issues.</p>
+    
+    <p><strong>Why Process Monitoring Matters for IoT:</strong> IoT devices run continuously, often unattended. A runaway process can drain battery, cause system crashes, or degrade performance. Monitoring helps identify resource hogs, detect security issues, and ensure system stability.</p>
+    
+    <h4>Process States and Their Significance</h4>
+    <div class="result-grid">
+    <div class="result-item">
+    <label>Running (R)</label>
+    <div class="value">Process is actively using CPU. Monitor for processes consuming too much CPU time.</div>
+    </div>
+    <div class="result-item">
+    <label>Sleeping (S)</label>
+    <div class="value">Process waiting for resources or events. Normal state for most IoT services waiting for sensor data.</div>
+    </div>
+    <div class="result-item">
+    <label>Uninterruptible Sleep (D)</label>
+    <div class="value">Process waiting for I/O operations. High numbers indicate storage or network issues.</div>
+    </div>
+    <div class="result-item">
+    <label>Zombie (Z)</label>
+    <div class="value">Dead process waiting for parent cleanup. Indicates programming issues in IoT applications.</div>
+    </div>
+    <div class="result-item">
+    <label>Stopped (T)</label>
+    <div class="value">Process suspended by signal. Useful for debugging IoT applications.</div>
+    </div>
+    <div class="result-item">
+    <label>Idle (I)</label>
+    <div class="value">Kernel thread in idle state. Normal for system maintenance processes.</div>
+    </div>
+    </div>
+    </div>
 
-                <div class="calculator-section">
-                    <h3>APT Package Management (Debian/Ubuntu)</h3>
-                    <p>Most commonly used in IoT development environments and Raspberry Pi systems.</p>
-                    
-                    <div class="code-block">
-                        <pre><code># Update package database
-sudo apt update                    # Refresh package list
-sudo apt upgrade                   # Upgrade installed packages
-sudo apt full-upgrade             # Upgrade with dependency resolution
+    <div class="calculator-section">
+    <h3>Process Viewing with ps - Your Process Inspector</h3>
+    <p>The ps command provides detailed information about running processes. It's essential for troubleshooting, performance analysis, and security monitoring in IoT systems.</p>
+    
+    <div class="code-block">
+    <pre><code># Basic process listing commands
+ps                              # Show processes for current user and terminal
+ps -u iot                       # Show processes for specific user (iot)
+ps -e                           # Show all processes on the system
+ps -f                           # Full format listing with detailed information
+ps -ef                          # All processes with full format (most comprehensive)
 
-# Install packages
-sudo apt install package_name     # Install single package
-sudo apt install pkg1 pkg2 pkg3   # Install multiple packages
-sudo apt install -y package_name  # Install without confirmation
-sudo apt install --no-install-recommends package_name  # Minimal install
+# Advanced process information display
+ps aux                          # All processes with detailed resource usage
+ps aux | head -20               # First 20 processes (most resource-intensive usually at top)
+ps aux | grep python            # Find all Python processes
+ps aux | grep -E "(iot|sensor|mqtt)"  # Find IoT-related processes
 
-# Search and information
-apt search keyword                 # Search for packages
-apt show package_name             # Show package information
-apt list --installed             # List installed packages
-apt list --upgradable            # List upgradable packages
+# Custom column formatting for specific information
+ps -eo pid,ppid,cmd,%mem,%cpu   # Show PID, parent PID, command, memory %, CPU %
+ps -eo pid,user,cmd,start       # Show PID, user, command, and start time
+ps -eo pid,cmd,etime            # Show PID, command, and elapsed time
 
-# Remove packages
-sudo apt remove package_name      # Remove package (keep config)
-sudo apt purge package_name       # Remove package and config
-sudo apt autoremove              # Remove unused dependencies
+# Process hierarchy and relationships
+ps -ef --forest                # Show process tree (parent-child relationships)
+ps -ejH                         # Alternative tree view
+pstree                          # Visual process tree (if installed)
+pstree -p                       # Process tree with PIDs
+pstree iot                      # Process tree for specific user
 
-# IoT development packages
-sudo apt install python3-pip git curl wget
-sudo apt install build-essential cmake
-sudo apt install mosquitto mosquitto-clients  # MQTT broker
-sudo apt install wireshark-qt                 # Network analysis</code></pre>
-                    </div>
-                </div>
-            </div>
-        </section>
+# IoT-specific process monitoring examples
+ps aux | grep mosquitto         # Check MQTT broker status
+ps aux | grep node              # Find Node.js IoT applications
+ps aux | grep python | grep sensor  # Find Python sensor scripts
+ps -C systemd --no-headers | wc -l  # Count systemd processes
+ps -eo pid,cmd | grep -E "(sensor|iot|mqtt|gpio)"  # Find hardware-related processes
 
-        <section class="section">
-            <div class="container">
-                <h2>2. Advanced Package Management</h2>
-                
-                <div class="calculator-section">
-                    <h3>Repository Management</h3>
-                    <p>Managing software repositories for additional packages and IoT-specific tools.</p>
-                    
-                    <div class="code-block">
-                        <pre><code># Repository management
-sudo apt-add-repository ppa:user/repository  # Add PPA repository
-sudo apt-add-repository "deb http://example.com/repo stable main"
+# Process resource analysis for IoT optimization
+ps aux --sort=-%cpu | head -10  # Top 10 CPU-consuming processes
+ps aux --sort=-%mem | head -10  # Top 10 memory-consuming processes
+ps aux | awk '{sum+=$6} END {print "Total memory usage: " sum/1024 " MB"}'  # Total memory usage
 
-# Repository files
-ls /etc/apt/sources.list.d/       # List repository files
-cat /etc/apt/sources.list         # Main repository configuration
+# Monitoring specific IoT services
+ps -fp $(pgrep -d, mosquitto)   # Detailed info for MQTT broker
+ps -fp $(pgrep -d, -f "sensor") # Detailed info for sensor processes
+watch "ps aux | grep iot"       # Continuously monitor IoT processes</code></pre>
+    </div>
 
-# GPG keys for repositories
-wget -qO - https://example.com/key.gpg | sudo apt-key add -
-curl -fsSL https://example.com/key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/example.gpg
+    <h4>Understanding ps Output Columns</h4>
+    <div class="result-grid">
+    <div class="result-item">
+    <label>PID</label>
+    <div class="value">Process ID - unique identifier for each running process</div>
+    </div>
+    <div class="result-item">
+    <label>PPID</label>
+    <div class="value">Parent Process ID - the process that started this one</div>
+    </div>
+    <div class="result-item">
+    <label>%CPU</label>
+    <div class="value">CPU usage percentage - important for performance monitoring</div>
+    </div>
+    <div class="result-item">
+    <label>%MEM</label>
+    <div class="value">Memory usage percentage - critical for resource-constrained IoT devices</div>
+    </div>
+    <div class="result-item">
+    <label>VSZ</label>
+    <div class="value">Virtual memory size - total memory footprint</div>
+    </div>
+    <div class="result-item">
+    <label>RSS</label>
+    <div class="value">Resident Set Size - actual physical memory used</div>
+    </div>
+    <div class="result-item">
+    <label>TTY</label>
+    <div class="value">Terminal associated with process (? means no terminal)</div>
+    </div>
+    <div class="result-item">
+    <label>STAT</label>
+    <div class="value">Process state (R=running, S=sleeping, Z=zombie, D=uninterruptible)</div>
+    </div>
+    </div>
+    </div>
 
-# IoT specific repositories
-# Add Node.js repository
-curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
-sudo apt install nodejs
+    <div class="calculator-section">
+    <h3>Real-time Monitoring with top and htop - Your System Dashboard</h3>
+    <p>Real-time process monitoring is essential for IoT systems that need to maintain consistent performance. These tools help identify performance bottlenecks and resource issues as they occur.</p>
+    
+    <div class="code-block">
+    <pre><code># top command - built-in real-time process monitor
+top                             # Real-time process viewer (press 'q' to quit)
+top -u iot                      # Show processes for specific user only
+top -p 1234,5678               # Monitor specific PIDs
+top -d 5                        # Update every 5 seconds (default is 3)
+top -b -n 1                     # Batch mode, single snapshot (good for scripts)
 
-# Add Docker repository
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null</code></pre>
-                    </div>
-                </div>
+# Interactive top commands (while top is running):
+# q     - quit top
+# k     - kill process (enter PID when prompted)
+# r     - renice process (change priority)
+# M     - sort by memory usage (useful for IoT memory analysis)
+# P     - sort by CPU usage (default)
+# T     - sort by running time
+# u     - filter by username
+# 1     - show individual CPU cores (useful for multi-core IoT devices)
+# f     - add/remove display fields
+# W     - save current configuration
 
-                <div class="calculator-section">
-                    <h3>Package Dependencies and Troubleshooting</h3>
-                    <p>Understanding and resolving package dependency issues common in IoT environments.</p>
-                    
-                    <div class="code-block">
-                        <pre><code># Dependency management
-apt depends package_name          # Show package dependencies
-apt rdepends package_name         # Show reverse dependencies
-sudo apt install -f              # Fix broken dependencies
-sudo apt --fix-missing install   # Install with missing packages
+# htop command - enhanced process monitor (install with: sudo apt install htop)
+htop                            # Better interface than top
+htop -u iot                     # Show processes for IoT user
+htop -d 50                      # Update every 5 seconds (delay in tenths)
 
-# Package information and troubleshooting
-dpkg -l                          # List all installed packages
-dpkg -l | grep package_name      # Check if package is installed
-dpkg -L package_name             # List files installed by package
-dpkg -S /path/to/file           # Find which package owns a file
+# htop advantages for IoT monitoring:
+# - Color-coded display for easy reading
+# - Mouse support for interaction
+# - Easy process killing with F9
+# - Process tree view with F5
+# - Search functionality with F3
+# - Better memory and CPU visualization
+# - More intuitive interface for beginners
 
-# Clean up package cache
-sudo apt clean                  # Remove downloaded package files
-sudo apt autoclean             # Remove old package files
-sudo apt autoremove            # Remove unused packages
+# System resource monitoring for IoT devices
+top -b -n 1 | head -20          # System overview snapshot
+top -b -n 1 | grep "load average"  # System load information
+uptime                          # Quick system load and uptime
 
-# Hold packages (prevent updates)
-sudo apt-mark hold package_name    # Prevent package updates
-sudo apt-mark unhold package_name  # Allow package updates
-apt-mark showhold                   # Show held packages
+# Continuous monitoring for IoT troubleshooting
+watch "ps aux | grep -E '(iot|sensor|mqtt)' | head -10"  # Monitor IoT processes
+watch "free -h"                 # Monitor memory usage
+watch "df -h"                   # Monitor disk space
 
-# IoT system maintenance
-sudo apt update && sudo apt upgrade -y  # Update system
-sudo apt autoremove && sudo apt autoclean  # Clean up</code></pre>
-                    </div>
-                </div>
+# IoT-specific monitoring scenarios
+# Monitor MQTT broker performance
+top -p $(pgrep mosquitto)       # Monitor MQTT broker specifically
+# Monitor sensor data collection processes
+htop -F "sensor"                # Filter for sensor processes in htop
+# System health check for IoT gateway
+top -b -n 1 | awk '/load average/ {print "Load: " $10 $11 $12}'</code></pre>
+    </div>
+    </div>
 
-                <div class="calculator-section">
-                    <h3>Alternative Package Managers</h3>
-                    <p>Additional package managers useful for IoT development and specialized tools.</p>
-                    
-                    <div class="code-block">
-                        <pre><code># Snap packages (universal packages)
-sudo apt install snapd           # Install snap daemon
-snap find package_name          # Search snap packages
-sudo snap install package_name  # Install snap package
-snap list                       # List installed snaps
-sudo snap remove package_name   # Remove snap package
+    <div class="calculator-section">
+    <h3>System Resource Analysis - Understanding Your IoT Device Limits</h3>
+    <p>IoT devices often operate with limited resources. Understanding system resource usage helps optimize performance and prevent system failures.</p>
+    
+    <div class="code-block">
+    <pre><code># Memory analysis - critical for resource-constrained IoT devices
+free -h                         # Human-readable memory information
+free -m                         # Memory usage in megabytes
+cat /proc/meminfo               # Detailed memory statistics
+cat /proc/meminfo | grep -E "(MemTotal|MemFree|MemAvailable)"  # Key memory metrics
 
-# Flatpak (another universal package format)
-sudo apt install flatpak
-flatpak search package_name
-flatpak install package_name
+# CPU information and performance
+cat /proc/cpuinfo               # Detailed CPU information
+lscpu                           # CPU architecture summary
+nproc                           # Number of processing units
+cat /proc/loadavg               # Current system load
 
-# Python packages with pip
-pip3 install package_name       # Install Python package
-pip3 install --user package_name # Install for current user only
-pip3 list                       # List installed packages
-pip3 uninstall package_name     # Remove Python package
+# Disk usage monitoring
+df -h                           # Disk space usage (human-readable)
+df -i                           # Inode usage (file count limits)
+du -sh /var/log                 # Directory size (logs can grow large)
+du -h --max-depth=1 /home       # Subdirectory sizes in home
 
-# Node.js packages with npm
-npm install -g package_name     # Install globally
-npm install package_name        # Install locally
-npm list -g                     # List global packages
-npm uninstall package_name      # Remove package
+# System performance metrics
+uptime                          # System uptime and load averages
+w                               # Who is logged in and system load
+vmstat 1 5                      # Virtual memory statistics (1 sec intervals, 5 times)
+iostat 1 5                      # I/O statistics (if sysstat package installed)
 
-# IoT development tools
-pip3 install esptool platformio  # ESP32/Arduino tools
-npm install -g @angular/cli      # Web dashboard tools
-sudo snap install code --classic # VS Code editor</code></pre>
-                    </div>
-                </div>
-            </div>
-        </section>
+# IoT-specific resource monitoring
+cat /proc/version               # Kernel version information
+cat /proc/stat                  # System and CPU statistics
+ls /sys/class/thermal/          # Available temperature sensors
+cat /sys/class/thermal/thermal_zone0/temp  # CPU temperature (in millidegrees)
 
-        <section class="section bg-light">
-            <div class="container">
-                <h2>3. Shell Scripting Fundamentals</h2>
-                
-                <div class="calculator-section">
-                    <h3>Creating Your First Shell Script</h3>
-                    <p>Shell scripts automate repetitive tasks and system administration for IoT devices.</p>
-                    
-                    <div class="code-block">
-                        <pre><code># Create a basic shell script
+# Network resource monitoring for IoT devices
+netstat -tuln                   # Network connections and listening ports
+ss -tuln                        # Modern replacement for netstat
+cat /proc/net/dev               # Network interface statistics
+
+# Process resource consumption analysis
+ps aux --sort=-%cpu | head -10  # Top CPU consumers
+ps aux --sort=-%mem | head -10  # Top memory consumers
+ps aux | awk '{sum+=$6} END {print "Total RSS: " sum/1024 " MB"}'  # Total memory usage
+
+# IoT device health monitoring script example
 #!/bin/bash
-# This is a comment - IoT System Monitor Script
+echo "=== IoT Device Health Check ==="
+echo "Uptime: $(uptime)"
+echo "Memory: $(free -h | grep Mem)"
+echo "Disk: $(df -h / | tail -1)"
+echo "Load: $(cat /proc/loadavg)"
+echo "Temperature: $(($(cat /sys/class/thermal/thermal_zone0/temp 2>/dev/null || echo 0)/1000))°C"
+echo "IoT Processes: $(ps aux | grep -c -E '(iot|sensor|mqtt)')"</code></pre>
+    </div>
+    </div>
+    </div>
+    </section>
 
-echo "IoT System Monitor"
-echo "=================="
-echo "Current date: $(date)"
-echo "System uptime: $(uptime -p)"
-echo "Disk usage:"
-df -h /
-echo "Memory usage:"
-free -h
-echo "Network interfaces:"
-ip addr show | grep -E "^[0-9]+:" | cut -d: -f2
+    <section class="section">
+    <div class="container">
+    <h2>2. Process Control and Management - Your System Command Center</h2>
+    
+    <div class="calculator-section">
+    <h3>Process Termination - Controlled Shutdown Procedures</h3>
+    <p>Proper process termination is crucial in IoT systems to prevent data loss, ensure clean shutdowns, and maintain system stability. Understanding different termination methods helps you handle both routine operations and emergency situations.</p>
+    
+    <div class="code-block">
+    <pre><code># Basic process termination commands
+kill PID                        # Send TERM signal (graceful termination)
+kill -9 PID                     # Send KILL signal (force termination)
+kill -TERM PID                  # Explicit graceful termination
+kill -HUP PID                   # Hang up signal (often reloads configuration)
+kill -INT PID                   # Interrupt signal (equivalent to Ctrl+C)
 
-# Save as iot_monitor.sh
-# Make executable: chmod +x iot_monitor.sh
-# Run: ./iot_monitor.sh</code></pre>
-                    </div>
+# Killing processes by name or pattern
+killall process_name            # Kill all processes with specific name
+killall mosquitto               # Kill all MQTT broker processes
+pkill pattern                   # Kill processes matching pattern
+pkill -f "python.*sensor"      # Kill Python processes containing "sensor"
+pkill -u iot                    # Kill all processes owned by 'iot' user
 
-                    <h4>Script Structure and Best Practices</h4>
-                    <div class="result-grid">
-                        <div class="result-item">
-                            <label>Shebang Line</label>
-                            <div class="value">#!/bin/bash - Specifies interpreter</div>
-                        </div>
-                        <div class="result-item">
-                            <label>Comments</label>
-                            <div class="value"># Comment text - Document your code</div>
-                        </div>
-                        <div class="result-item">
-                            <label>Executable Permission</label>
-                            <div class="value">chmod +x script.sh - Make script runnable</div>
-                        </div>
-                        <div class="result-item">
-                            <label>Error Handling</label>
-                            <div class="value">set -e - Exit on any error</div>
-                        </div>
-                    </div>
-                </div>
+# Signal types and their purposes
+kill -l                         # List all available signals
+# Common signals for IoT process management:
+# TERM (15) - Graceful termination (default, allows cleanup)
+# KILL (9)  - Force kill (cannot be caught or ignored)
+# HUP (1)   - Hang up (often triggers config reload)
+# INT (2)   - Interrupt (Ctrl+C equivalent)
+# STOP (19) - Pause process (cannot be caught)
+# CONT (18) - Continue paused process
+# USR1 (10) - User-defined signal 1 (application-specific)
+# USR2 (12) - User-defined signal 2 (application-specific)
 
-                <div class="calculator-section">
-                    <h3>Variables and User Input</h3>
-                    <p>Using variables to store data and make scripts interactive.</p>
-                    
-                    <div class="code-block">
-                        <pre><code>#!/bin/bash
-# IoT Device Configuration Script
+# Professional IoT process management examples
+# Gracefully restart MQTT broker
+sudo kill -HUP $(pgrep mosquitto)              # Reload configuration
+sudo systemctl reload mosquitto                # Alternative using systemd
 
-# Variables
-DEVICE_NAME="IoT_Sensor_01"
-CONFIG_DIR="/etc/iot"
-LOG_FILE="/var/log/iot/setup.log"
-TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S")
+# Stop sensor data collection safely
+kill -TERM $(pgrep -f "sensor_collector")      # Allow data to be saved
+sleep 5                                         # Wait for graceful shutdown
+kill -9 $(pgrep -f "sensor_collector") 2>/dev/null  # Force kill if still running
 
-# Environment variables
-export IOT_HOME="/opt/iot"
-export PATH="$PATH:$IOT_HOME/bin"
+# Emergency process cleanup
+sudo pkill -9 -f "runaway_process"             # Force kill problematic process
+sudo pkill -TERM -u iot                        # Gracefully stop all IoT user processes
 
-# User input
-echo "IoT Device Setup"
-read -p "Enter device ID: " DEVICE_ID
-read -p "Enter network SSID: " WIFI_SSID
-read -s -p "Enter WiFi password: " WIFI_PASSWORD
-echo
+# Process management with PID files (common in IoT daemons)
+# Many IoT services store their PID in files for management
+kill -HUP $(cat /var/run/iot_daemon.pid)       # Reload daemon using PID file
+kill -TERM $(cat /run/sensor_service.pid)      # Stop service using PID file
 
-# Using variables
-echo "[$TIMESTAMP] Setting up device: $DEVICE_NAME" | tee -a "$LOG_FILE"
-echo "Device ID: $DEVICE_ID"
-echo "WiFi SSID: $WIFI_SSID"
+# Monitoring process termination
+kill -TERM $PID && echo "Termination signal sent"
+while kill -0 $PID 2>/dev/null; do             # Check if process still exists
+    echo "Waiting for process to terminate..."
+    sleep 1
+done
+echo "Process terminated successfully"</code></pre>
+    </div>
+    </div>
 
-# Command substitution
-CURRENT_USER=$(whoami)
-SYSTEM_INFO=$(uname -a)
-IP_ADDRESS=$(hostname -I | awk '{print $1}')
+    <div class="calculator-section">
+    <h3>Background and Foreground Process Management - Multitasking Mastery</h3>
+    <p>IoT systems often need to run multiple processes simultaneously - sensor monitoring, data processing, network communication, and user interfaces. Understanding process execution modes is essential for efficient system operation.</p>
+    
+    <div class="code-block">
+    <pre><code># Running processes in background
+command &                       # Start command in background
+python3 sensor_monitor.py &     # Run sensor monitoring in background
+nohup command &                 # Run command immune to hangups (terminal closure)
+nohup python3 data_logger.py > /dev/null 2>&1 &  # Silent background execution
 
-echo "Script running as: $CURRENT_USER"
-echo "System: $SYSTEM_INFO"
-echo "IP Address: $IP_ADDRESS"</code></pre>
-                    </div>
-                </div>
-            </div>
-        </section>
+# Professional background execution for IoT
+nohup python3 /opt/iot/sensor_reader.py > /var/log/iot/sensor.log 2>&1 &
+nohup mosquitto -c /etc/mosquitto/mosquitto.conf > /var/log/iot/mqtt.log 2>&1 &
+nohup node /opt/iot/dashboard/server.js > /var/log/iot/dashboard.log 2>&1 &
 
-        <section class="section">
-            <div class="container">
-                <h2>4. Control Structures and Logic</h2>
-                
-                <div class="calculator-section">
-                    <h3>Conditional Statements</h3>
-                    <p>Making decisions in scripts based on conditions and system states.</p>
-                    
-                    <div class="code-block">
-                        <pre><code>#!/bin/bash
-# IoT Service Health Check Script
+# Job control commands
+jobs                            # List active background jobs
+jobs -l                         # List jobs with process IDs
+fg                              # Bring last background job to foreground
+fg %1                           # Bring job number 1 to foreground
+bg                              # Send last suspended job to background
+bg %2                           # Send job number 2 to background
 
-SERVICE_NAME="mosquitto"
-LOG_DIR="/var/log/iot"
+# Process suspension and control
+Ctrl+Z                          # Suspend current foreground process
+Ctrl+C                          # Interrupt (terminate) current foreground process
+kill -STOP PID                  # Suspend process by PID
+kill -CONT PID                  # Resume suspended process by PID
 
-# Check if service is running
-if systemctl is-active --quiet "$SERVICE_NAME"; then
-    echo "✓ $SERVICE_NAME is running"
-    STATUS="RUNNING"
-else
-    echo "✗ $SERVICE_NAME is not running"
-    STATUS="STOPPED"
-fi
+# Advanced background process management
+disown %1                       # Remove job from shell's job table
+disown -a                       # Remove all jobs from job table
+disown -h %1                    # Mark job to not receive SIGHUP
 
-# Check disk space
-DISK_USAGE=$(df / | awk 'NR==2 {print $5}' | sed 's/%//')
-if [ "$DISK_USAGE" -gt 80 ]; then
-    echo "⚠ Warning: Disk usage is ${DISK_USAGE}%"
-    # Clean up old logs
-    find "$LOG_DIR" -name "*.log" -mtime +7 -delete
-elif [ "$DISK_USAGE" -gt 90 ]; then
-    echo "🚨 Critical: Disk usage is ${DISK_USAGE}%"
-    # Emergency cleanup
-    find "$LOG_DIR" -name "*.log" -mtime +1 -delete
-else
-    echo "✓ Disk usage is acceptable: ${DISK_USAGE}%"
-fi
+# Screen and tmux for persistent sessions (essential for IoT)
+screen -S iot_monitor python3 sensor_monitor.py    # Run in named screen session
+screen -ls                      # List screen sessions
+screen -r iot_monitor           # Reattach to screen session
 
-# Check network connectivity
-if ping -c 1 8.8.8.8 &> /dev/null; then
-    echo "✓ Internet connectivity OK"
-else
-    echo "✗ No internet connectivity"
-    # Restart network service
-    sudo systemctl restart networking
-fi
+tmux new-session -d -s iot_dashboard "python3 /opt/iot/dashboard.py"  # Tmux session
+tmux list-sessions              # List tmux sessions
+tmux attach-session -t iot_dashboard  # Attach to tmux session
 
-# Multiple conditions
-if [ "$STATUS" = "RUNNING" ] && [ "$DISK_USAGE" -lt 80 ]; then
-    echo "✓ System is healthy"
-    exit 0
-else
-    echo "⚠ System needs attention"
-    exit 1
-fi</code></pre>
-                    </div>
-                </div>
+# IoT daemon management examples
+# Start IoT services that survive terminal disconnection
+nohup /opt/iot/bin/temperature_service &
+echo $! > /var/run/temperature_service.pid  # Save PID for later management
 
-                <div class="calculator-section">
-                    <h3>Loops and Iteration</h3>
-                    <p>Automating repetitive tasks with loops for IoT device management.</p>
-                    
-                    <div class="code-block">
-                        <pre><code>#!/bin/bash
-# IoT Device Discovery and Monitoring Script
+# Monitor background IoT processes
+jobs -l | grep -E "(sensor|iot|mqtt)"      # List IoT-related background jobs
+ps aux | grep -E "(sensor|iot|mqtt)" | grep -v grep  # Check running IoT processes
 
-# For loop - Check multiple services
-IOT_SERVICES=("mosquitto" "node-red" "influxdb" "grafana")
+# Automated background process management
+#!/bin/bash
+# IoT service startup script
+start_iot_services() {
+    echo "Starting IoT services..."
+    nohup python3 /opt/iot/sensor_collector.py > /var/log/iot/collector.log 2>&1 &
+    echo $! > /var/run/iot_collector.pid
+    
+    nohup python3 /opt/iot/data_processor.py > /var/log/iot/processor.log 2>&1 &
+    echo $! > /var/run/iot_processor.pid
+    
+    echo "IoT services started successfully"
+}
 
-echo "Checking IoT services..."
-for service in "${IOT_SERVICES[@]}"; do
-    if systemctl is-active --quiet "$service"; then
-        echo "✓ $service: Running"
-    else
-        echo "✗ $service: Stopped"
-        # Attempt to start the service
-        echo "  Attempting to start $service..."
-        sudo systemctl start "$service"
-        sleep 2
-        if systemctl is-active --quiet "$service"; then
-            echo "  ✓ $service started successfully"
-        else
-            echo "  ✗ Failed to start $service"
+# Process monitoring and restart
+monitor_process() {
+    local pid_file=$1
+    local command=$2
+    
+    if [ -f "$pid_file" ]; then
+        local pid=$(cat "$pid_file")
+        if ! kill -0 "$pid" 2>/dev/null; then
+            echo "Process died, restarting..."
+            nohup $command > /var/log/iot/restart.log 2>&1 &
+            echo $! > "$pid_file"
         fi
     fi
-done
+}</code></pre>
+    </div>
+    </div>
 
-# While loop - Monitor sensor data
-echo "Monitoring sensor data (Ctrl+C to stop)..."
-COUNTER=0
-while [ $COUNTER -lt 10 ]; do
-    TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S")
-    TEMP=$(sensors | grep "Core 0" | awk '{print $3}' | sed 's/+//;s/°C//')
-    LOAD=$(uptime | awk -F'load average:' '{print $2}' | awk '{print $1}' | sed 's/,//')
+    <div class="calculator-section">
+    <h3>Process Priorities and Resource Management - Optimization for IoT</h3>
+    <p>IoT devices often have limited CPU resources that must be shared among multiple processes. Understanding process priorities helps ensure critical processes get the resources they need while preventing less important tasks from degrading system performance.</p>
     
-    echo "[$TIMESTAMP] Temperature: ${TEMP}°C, Load: $LOAD"
+    <div class="code-block">
+    <pre><code># Understanding nice values and process priorities
+# Nice values range: -20 (highest priority) to +19 (lowest priority)
+# Default nice value: 0
+# Only root can set negative values (higher priority)
+# Lower nice value = higher priority = more CPU time
+
+# Starting processes with specific priority
+nice -n 10 backup_script.sh     # Start with lower priority (nice value 10)
+nice -n -5 critical_iot_daemon   # Start with higher priority (root only)
+nice --adjustment=5 data_processor.py  # Alternative syntax
+
+# Changing priority of running processes
+renice 10 PID                    # Change process priority to nice value 10
+renice -n -5 PID                 # Set higher priority (root only)
+renice +5 -u iot                 # Change priority for all 'iot' user processes
+renice 0 -g iot_group            # Reset priority for process group
+
+# Viewing process priorities
+ps -eo pid,ni,cmd                # Show PID, nice value, and command
+ps aux | grep PID                # Check specific process priority in NI column
+top                              # Shows NI column for nice values
+htop                             # Color-coded priority display
+
+# IoT priority management strategies and examples
+# High priority for critical IoT processes
+sudo renice -10 $(pgrep mosquitto)          # High priority MQTT broker
+sudo renice -5 $(pgrep -f "critical_sensor") # Critical sensor monitoring
+
+# Medium priority for normal IoT operations
+nice -n 0 python3 /opt/iot/sensor_reader.py &    # Default priority
+renice 5 $(pgrep -f "data_logger")               # Slightly lower priority logging
+
+# Low priority for background maintenance
+nice -n 19 /opt/iot/scripts/cleanup.sh &        # Lowest priority cleanup
+nice -n 15 rsync -av /data/ /backup/ &          # Low priority backup
+nice -n 10 /opt/iot/scripts/log_rotation.sh &   # Low priority maintenance
+
+# Real-world IoT priority scenarios
+# Emergency response system
+sudo nice -n -10 /opt/iot/emergency_monitor &   # Highest priority emergency monitoring
+nice -n 5 /opt/iot/routine_sensors.py &         # Lower priority routine sensors
+
+# Battery-powered IoT device optimization
+nice -n 10 /opt/iot/power_saving_mode.py &      # Lower priority to save power
+sudo renice -5 $(pgrep -f "battery_monitor")    # High priority battery monitoring
+
+# Industrial IoT system
+sudo renice -15 $(pgrep -f "safety_system")     # Critical safety monitoring
+renice 0 $(pgrep -f "production_monitor")       # Normal priority production
+nice -n 15 /opt/iot/analytics/report_generator.py &  # Low priority analytics
+
+# Monitoring and adjusting priorities dynamically
+#!/bin/bash
+# Dynamic priority adjustment based on system load
+adjust_priorities() {
+    local load=$(cat /proc/loadavg | cut -d' ' -f1)
+    local load_int=$(echo "$load * 100" | bc | cut -d'.' -f1)
     
-    # Log to file
-    echo "$TIMESTAMP,$TEMP,$LOAD" >> /var/log/iot/sensor_data.csv
-    
-    COUNTER=$((COUNTER + 1))
-    sleep 5
-done
-
-# Until loop - Wait for network
-echo "Waiting for network connectivity..."
-until ping -c 1 google.com &> /dev/null; do
-    echo "Network not ready, waiting..."
-    sleep 5
-done
-echo "✓ Network is ready"</code></pre>
-                    </div>
-                </div>
-
-                <div class="calculator-section">
-                    <h3>Functions and Code Organization</h3>
-                    <p>Creating reusable functions for better script organization and maintenance.</p>
-                    
-                    <div class="code-block">
-                        <pre><code>#!/bin/bash
-# IoT System Administration Functions
-
-# Function definitions
-log_message() {
-    local level="$1"
-    local message="$2"
-    local timestamp=$(date +"%Y-%m-%d %H:%M:%S")
-    echo "[$timestamp] [$level] $message" | tee -a /var/log/iot/admin.log
-}
-
-check_service() {
-    local service_name="$1"
-    if systemctl is-active --quiet "$service_name"; then
-        log_message "INFO" "$service_name is running"
-        return 0
-    else
-        log_message "ERROR" "$service_name is not running"
-        return 1
+    if [ $load_int -gt 150 ]; then  # Load > 1.5
+        echo "High load detected, adjusting priorities..."
+        renice 10 $(pgrep -f "backup")      # Lower backup priority
+        renice 15 $(pgrep -f "analytics")   # Lower analytics priority
+        sudo renice -5 $(pgrep -f "critical")  # Raise critical process priority
     fi
 }
 
-restart_service() {
-    local service_name="$1"
-    log_message "INFO" "Restarting $service_name"
-    sudo systemctl restart "$service_name"
-    sleep 3
-    if check_service "$service_name"; then
-        log_message "INFO" "$service_name restarted successfully"
-        return 0
-    else
-        log_message "ERROR" "Failed to restart $service_name"
-        return 1
-    fi
-}
+# Process resource limiting (advanced topic)
+# Using systemd for IoT service resource management
+# /etc/systemd/system/iot-sensor.service
+[Unit]
+Description=IoT Sensor Service
+After=network.target
 
-backup_config() {
-    local config_dir="$1"
-    local backup_dir="/backup/iot/$(date +%Y%m%d)"
+[Service]
+Type=simple
+User=iot
+ExecStart=/opt/iot/bin/sensor_service
+Nice=5                    # Set nice value
+CPUQuota=50%             # Limit to 50% CPU
+MemoryLimit=128M         # Limit memory usage
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+# Monitoring resource usage and priorities
+watch "ps aux --sort=-%cpu | head -10"          # Monitor CPU usage
+watch "ps -eo pid,ni,pcpu,pmem,cmd --sort=-pcpu | head -15"  # Monitor with priorities</code></pre>
+    </div>
+    </div>
+    </div>
+    </section>
+
+    <section class="section bg-light">
+    <div class="container">
+    <h2>3. System Services and Daemon Management - Production IoT Operations</h2>
     
-    log_message "INFO" "Creating backup of $config_dir"
-    mkdir -p "$backup_dir"
+    <div class="calculator-section">
+    <h3>Understanding systemd - The Modern Service Manager</h3>
+    <p>systemd is the standard service manager for modern Linux distributions. It's essential for managing IoT services, ensuring they start automatically, restart on failure, and integrate properly with the system.</p>
     
-    if cp -r "$config_dir" "$backup_dir/"; then
-        log_message "INFO" "Backup completed: $backup_dir"
-        return 0
-    else
-        log_message "ERROR" "Backup failed"
-        return 1
-    fi
-}
+    <div class="code-block">
+    <pre><code># Basic systemd service management
+systemctl status service_name   # Check service status
+systemctl start service_name    # Start a service
+systemctl stop service_name     # Stop a service
+systemctl restart service_name  # Restart a service
+systemctl reload service_name   # Reload service configuration
+systemctl enable service_name   # Enable service to start at boot
+systemctl disable service_name  # Disable service from starting at boot
 
-# Main script execution
-log_message "INFO" "Starting IoT system maintenance"
+# IoT service management examples
+systemctl status mosquitto      # Check MQTT broker status
+systemctl start iot-sensor      # Start IoT sensor service
+systemctl enable iot-dashboard  # Enable dashboard to start at boot
+systemctl restart network-manager  # Restart network management
 
-# Check critical services
-SERVICES=("mosquitto" "node-red" "nginx")
-for service in "${SERVICES[@]}"; do
-    if ! check_service "$service"; then
-        restart_service "$service"
-    fi
+# Service discovery and listing
+systemctl list-units --type=service  # List all services
+systemctl list-units --state=running # List running services
+systemctl list-units --state=failed  # List failed services
+systemctl list-unit-files --type=service | grep enabled  # List enabled services
+
+# IoT-specific service monitoring
+systemctl list-units | grep -E "(iot|sensor|mqtt)"  # Find IoT services
+systemctl status --no-pager -l iot-*  # Status of all IoT services
+systemctl is-active mosquitto && echo "MQTT broker is running"
+
+# Service logs and troubleshooting
+journalctl -u service_name      # View service logs
+journalctl -u service_name -f   # Follow service logs in real-time
+journalctl -u service_name --since "1 hour ago"  # Recent logs
+journalctl -u service_name --since today  # Today's logs
+journalctl -u service_name -n 50  # Last 50 log entries
+
+# IoT service debugging examples
+journalctl -u iot-sensor -f     # Monitor sensor service logs
+journalctl -u mosquitto --since "10 minutes ago" | grep ERROR
+journalctl -u network-manager --since today | grep -i wifi
+
+# Creating custom IoT service files
+# Example: /etc/systemd/system/iot-temperature.service
+[Unit]
+Description=IoT Temperature Monitoring Service
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=iot
+Group=iot
+WorkingDirectory=/opt/iot
+ExecStart=/usr/bin/python3 /opt/iot/temperature_monitor.py
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+# Resource limits for IoT devices
+MemoryLimit=64M
+CPUQuota=25%
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/iot /var/log/iot
+
+[Install]
+WantedBy=multi-user.target
+
+# Service management workflow
+sudo systemctl daemon-reload    # Reload systemd configuration
+sudo systemctl enable iot-temperature  # Enable new service
+sudo systemctl start iot-temperature   # Start the service
+systemctl status iot-temperature       # Check if it's running</code></pre>
+    </div>
+    </div>
+
+    <div class="calculator-section">
+    <h3>Process Monitoring and Alerting - Proactive System Management</h3>
+    <p>Proactive monitoring prevents issues before they become critical. This is especially important for IoT systems that may be deployed in remote locations where manual intervention is difficult.</p>
+    
+    <div class="code-block">
+    <pre><code># System load monitoring
+uptime                          # Quick load overview
+cat /proc/loadavg               # Detailed load information
+w                               # Users and load
+who                             # Currently logged in users
+
+# Memory monitoring and alerts
+free -h                         # Human-readable memory info
+cat /proc/meminfo | grep -E "(MemTotal|MemFree|MemAvailable|SwapTotal|SwapFree)"
+
+# Disk space monitoring
+df -h                           # Disk space usage
+df -i                           # Inode usage
+du -sh /var/log                 # Log directory size
+du -sh /opt/iot                 # IoT application size
+
+# Network monitoring
+netstat -tuln                   # Network connections
+ss -tuln                        # Modern network statistics
+cat /proc/net/dev               # Network interface statistics
+
+# Temperature monitoring (important for IoT devices)
+cat /sys/class/thermal/thermal_zone*/temp 2>/dev/null | while read temp; do
+    echo "Temperature: $((temp/1000))°C"
 done
 
-# Backup configurations
-backup_config "/etc/iot"
-backup_config "/etc/mosquitto"
+# Comprehensive IoT system monitoring script
+#!/bin/bash
+# IoT System Health Monitor
 
-log_message "INFO" "IoT system maintenance completed"</code></pre>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="section bg-light">
-            <div class="container">
-                <h2>5. Practical IoT Automation Scripts</h2>
-                
-                <div class="calculator-section">
-                    <h3>System Monitoring Script</h3>
-                    <p>Complete script for monitoring IoT system health and performance.</p>
-                    
-                    <div class="code-block">
-                        <pre><code>#!/bin/bash
-# iot_monitor.sh - Comprehensive IoT System Monitor
-
-set -e  # Exit on any error
-
-# Configuration
-CONFIG_FILE="/etc/iot/monitor.conf"
-LOG_FILE="/var/log/iot/monitor.log"
-ALERT_EMAIL="admin@iot-company.com"
+LOG_FILE="/var/log/iot/system_health.log"
+ALERT_EMAIL="admin@example.com"
+CPU_THRESHOLD=80
+MEMORY_THRESHOLD=85
+DISK_THRESHOLD=90
 TEMP_THRESHOLD=70
-DISK_THRESHOLD=85
-MEMORY_THRESHOLD=90
 
-# Load configuration if exists
-if [ -f "$CONFIG_FILE" ]; then
-    source "$CONFIG_FILE"
-fi
-
-# Logging function
-log() {
-    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOG_FILE"
+log_message() {
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" | tee -a "$LOG_FILE"
 }
 
-# Check system temperature
+check_cpu_usage() {
+    local cpu_usage=$(top -bn1 | grep "Cpu(s)" | awk '{print $2}' | cut -d'%' -f1)
+    if (( $(echo "$cpu_usage > $CPU_THRESHOLD" | bc -l) )); then
+        log_message "ALERT: High CPU usage: ${cpu_usage}%"
+        return 1
+    fi
+    return 0
+}
+
+check_memory_usage() {
+    local mem_usage=$(free | grep Mem | awk '{printf "%.0f", $3/$2 * 100.0}')
+    if [ "$mem_usage" -gt "$MEMORY_THRESHOLD" ]; then
+        log_message "ALERT: High memory usage: ${mem_usage}%"
+        return 1
+    fi
+    return 0
+}
+
+check_disk_usage() {
+    local disk_usage=$(df / | tail -1 | awk '{print $5}' | cut -d'%' -f1)
+    if [ "$disk_usage" -gt "$DISK_THRESHOLD" ]; then
+        log_message "ALERT: High disk usage: ${disk_usage}%"
+        return 1
+    fi
+    return 0
+}
+
 check_temperature() {
-    if command -v sensors &> /dev/null; then
-        TEMP=$(sensors | grep "Core 0" | awk '{print $3}' | sed 's/+//;s/°C//' | cut -d. -f1)
-        if [ "$TEMP" -gt "$TEMP_THRESHOLD" ]; then
-            log "WARNING: High temperature detected: ${TEMP}°C"
+    local temp_file="/sys/class/thermal/thermal_zone0/temp"
+    if [ -f "$temp_file" ]; then
+        local temp=$(($(cat "$temp_file")/1000))
+        if [ "$temp" -gt "$TEMP_THRESHOLD" ]; then
+            log_message "ALERT: High temperature: ${temp}°C"
             return 1
-        else
-            log "INFO: Temperature normal: ${TEMP}°C"
-            return 0
         fi
-    else
-        log "WARNING: Temperature sensors not available"
-        return 0
     fi
+    return 0
 }
 
-# Check disk usage
-check_disk() {
-    DISK_USAGE=$(df / | awk 'NR==2 {print $5}' | sed 's/%//')
-    if [ "$DISK_USAGE" -gt "$DISK_THRESHOLD" ]; then
-        log "WARNING: High disk usage: ${DISK_USAGE}%"
-        # Cleanup old logs
-        find /var/log/iot -name "*.log" -mtime +7 -delete
-        return 1
-    else
-        log "INFO: Disk usage normal: ${DISK_USAGE}%"
-        return 0
-    fi
-}
-
-# Check memory usage
-check_memory() {
-    MEMORY_USAGE=$(free | awk 'NR==2{printf "%.0f", $3*100/$2}')
-    if [ "$MEMORY_USAGE" -gt "$MEMORY_THRESHOLD" ]; then
-        log "WARNING: High memory usage: ${MEMORY_USAGE}%"
-        return 1
-    else
-        log "INFO: Memory usage normal: ${MEMORY_USAGE}%"
-        return 0
-    fi
-}
-
-# Check IoT services
-check_services() {
-    local services=("mosquitto" "node-red" "nginx")
+check_iot_services() {
     local failed_services=()
-    
-    for service in "${services[@]}"; do
+    for service in mosquitto iot-sensor iot-dashboard; do
         if ! systemctl is-active --quiet "$service"; then
-            log "ERROR: Service $service is not running"
             failed_services+=("$service")
-        else
-            log "INFO: Service $service is running"
         fi
     done
     
     if [ ${#failed_services[@]} -gt 0 ]; then
-        log "WARNING: ${#failed_services[@]} services are down"
+        log_message "ALERT: Failed IoT services: ${failed_services[*]}"
         return 1
-    else
-        return 0
     fi
+    return 0
 }
 
-# Main monitoring function
+# Main monitoring loop
 main() {
-    log "INFO: Starting IoT system monitoring"
+    log_message "Starting system health check"
     
-    local issues=0
+    local alerts=0
+    check_cpu_usage || ((alerts++))
+    check_memory_usage || ((alerts++))
+    check_disk_usage || ((alerts++))
+    check_temperature || ((alerts++))
+    check_iot_services || ((alerts++))
     
-    check_temperature || ((issues++))
-    check_disk || ((issues++))
-    check_memory || ((issues++))
-    check_services || ((issues++))
-    
-    if [ $issues -eq 0 ]; then
-        log "INFO: All systems normal"
-        exit 0
+    if [ "$alerts" -eq 0 ]; then
+        log_message "System health check completed - All systems normal"
     else
-        log "WARNING: $issues issues detected"
-        exit 1
+        log_message "System health check completed - $alerts alerts generated"
     fi
 }
 
-# Run main function
-main "$@"</code></pre>
-                    </div>
-                </div>
+main "$@"
 
-                <div class="calculator-section">
-                    <h3>Automated Backup Script</h3>
-                    <p>Script for automated backup of IoT configurations and data.</p>
-                    
-                    <div class="code-block">
-                        <pre><code>#!/bin/bash
-# iot_backup.sh - IoT System Backup Script
-
-# Configuration
-BACKUP_BASE="/backup/iot"
-RETENTION_DAYS=30
-TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-BACKUP_DIR="$BACKUP_BASE/$TIMESTAMP"
-
-# Directories to backup
-BACKUP_SOURCES=(
-    "/etc/iot"
-    "/etc/mosquitto"
-    "/etc/nginx/sites-available"
-    "/var/lib/node-red"
-    "/home/iot/.ssh"
-)
-
-# Create backup directory
-mkdir -p "$BACKUP_DIR"
-
-log() {
-    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$BACKUP_DIR/backup.log"
-}
-
-# Backup function
-backup_directory() {
-    local source="$1"
-    local dest="$2"
-    
-    if [ -d "$source" ]; then
-        log "INFO: Backing up $source"
-        cp -r "$source" "$dest/"
-        if [ $? -eq 0 ]; then
-            log "INFO: Successfully backed up $source"
-        else
-            log "ERROR: Failed to backup $source"
-            return 1
-        fi
-    else
-        log "WARNING: Source directory $source does not exist"
-    fi
-}
-
-# System information
-log "INFO: Starting backup process"
-log "INFO: Backup directory: $BACKUP_DIR"
-uname -a > "$BACKUP_DIR/system_info.txt"
-dpkg -l > "$BACKUP_DIR/installed_packages.txt"
-
-# Backup each source
-for source in "${BACKUP_SOURCES[@]}"; do
-    backup_directory "$source" "$BACKUP_DIR"
-done
-
-# Create compressed archive
-log "INFO: Creating compressed archive"
-cd "$BACKUP_BASE"
-tar -czf "${TIMESTAMP}.tar.gz" "$TIMESTAMP"
-if [ $? -eq 0 ]; then
-    log "INFO: Compressed archive created: ${TIMESTAMP}.tar.gz"
-    rm -rf "$TIMESTAMP"
-else
-    log "ERROR: Failed to create compressed archive"
-fi
-
-# Cleanup old backups
-log "INFO: Cleaning up old backups (older than $RETENTION_DAYS days)"
-find "$BACKUP_BASE" -name "*.tar.gz" -mtime +$RETENTION_DAYS -delete
-
-log "INFO: Backup process completed"</code></pre>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="section">
-            <div class="container">
-                <h2>6. Hands-on Practice Exercises</h2>
-                
-                <div class="calculator-section">
-                    <h3>Package Management and Scripting Scenarios</h3>
-                    <p>Real-world exercises to practice package management and shell scripting for IoT systems.</p>
-                    
-                    <div class="example-grid">
-                        <div class="example-item">
-                            <div class="ip">Exercise 1</div>
-                            <div class="description">Install and configure a complete IoT development environment using package managers</div>
-                        </div>
-                        <div class="example-item">
-                            <div class="ip">Exercise 2</div>
-                            <div class="description">Create a system health monitoring script with alerts and logging</div>
-                        </div>
-                        <div class="example-item">
-                            <div class="ip">Exercise 3</div>
-                            <div class="description">Write an automated backup script for IoT configurations and data</div>
-                        </div>
-                        <div class="example-item">
-                            <div class="ip">Exercise 4</div>
-                            <div class="description">Develop a service management script for IoT applications</div>
-                        </div>
-                    </div>
-                    
-                    <div class="code-block">
-                        <pre><code># Exercise Solutions
-
-# Exercise 1: IoT Development Environment Setup
+# Process recovery automation
 #!/bin/bash
-# setup_iot_env.sh
+# IoT Process Recovery Script
 
-# Update system
-sudo apt update && sudo apt upgrade -y
-
-# Install development tools
-sudo apt install -y build-essential git curl wget vim
-
-# Install Python and tools
-sudo apt install -y python3 python3-pip python3-venv
-pip3 install --user platformio esptool
-
-# Install Node.js and npm
-curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
-sudo apt install -y nodejs
-
-# Install IoT services
-sudo apt install -y mosquitto mosquitto-clients
-sudo npm install -g node-red
-
-# Install monitoring tools
-sudo apt install -y htop iotop nethogs
-
-echo "IoT development environment setup complete!"
-
-# Exercise 2: System Health Monitor
-#!/bin/bash
-# health_monitor.sh
-
-check_system_health() {
-    local issues=0
+recover_process() {
+    local service_name=$1
+    local max_attempts=3
+    local attempt=1
     
-    # Check services
-    for service in mosquitto node-red nginx; do
-        if ! systemctl is-active --quiet $service; then
-            echo "WARNING: $service is not running"
-            ((issues++))
+    while [ $attempt -le $max_attempts ]; do
+        log_message "Attempting to restart $service_name (attempt $attempt/$max_attempts)"
+        
+        systemctl restart "$service_name"
+        sleep 10
+        
+        if systemctl is-active --quiet "$service_name"; then
+            log_message "Successfully restarted $service_name"
+            return 0
         fi
+        
+        ((attempt++))
     done
     
-    # Check resources
-    disk_usage=$(df / | awk 'NR==2 {print $5}' | sed 's/%//')
-    if [ $disk_usage -gt 80 ]; then
-        echo "WARNING: Disk usage is ${disk_usage}%"
-        ((issues++))
-    fi
-    
-    return $issues
+    log_message "CRITICAL: Failed to restart $service_name after $max_attempts attempts"
+    return 1
 }
 
-# Run check and send alert if needed
-if ! check_system_health; then
-    echo "System health issues detected" | mail -s "IoT System Alert" admin@company.com
-fi
+# Monitor and recover critical IoT services
+for service in mosquitto iot-sensor iot-dashboard; do
+    if ! systemctl is-active --quiet "$service"; then
+        log_message "Service $service is not running, attempting recovery"
+        recover_process "$service"
+    fi
+done</code></pre>
+    </div>
+    </div>
+    </div>
+    </section>
 
-# Exercise 3: Automated Backup
+    <section class="section">
+    <div class="container">
+    <h2>4. Hands-on Practice Exercises - Real-World IoT Process Management</h2>
+    
+    <div class="calculator-section">
+    <h3>Professional IoT Process Management Scenarios</h3>
+    <p>These exercises simulate real IoT deployment scenarios that you'll encounter in professional environments. Each exercise builds practical skills for managing and optimizing IoT systems.</p>
+    
+    <div class="example-grid">
+    <div class="example-item">
+    <div class="ip">Exercise 1</div>
+    <div class="description">Set up comprehensive process monitoring and optimization for resource-constrained IoT devices</div>
+    </div>
+    <div class="example-item">
+    <div class="ip">Exercise 2</div>
+    <div class="description">Create and manage custom systemd services for IoT applications with proper resource limits</div>
+    </div>
+    <div class="example-item">
+    <div class="ip">Exercise 3</div>
+    <div class="description">Implement automated process monitoring and recovery systems for production IoT deployments</div>
+    </div>
+    <div class="example-item">
+    <div class="ip">Exercise 4</div>
+    <div class="description">Troubleshoot and resolve complex process issues in multi-service IoT environments</div>
+    </div>
+    </div>
+    
+    <div class="code-block">
+    <pre><code># Exercise 1: IoT Process Monitoring and Optimization
+# Set up comprehensive monitoring for IoT systems
+
+# Step 1: Create sample IoT processes for monitoring
+# Temperature sensor simulator
+cat > /tmp/temp_sensor.py << 'EOF'
+#!/usr/bin/env python3
+import time
+import random
+import json
+import os
+
+while True:
+    temp = 20 + random.uniform(-5, 15)
+    data = {"temperature": temp, "timestamp": time.time()}
+    print(f"Temperature: {temp:.2f}°C")
+    
+    # Simulate some CPU work
+    for i in range(10000):
+        pass
+    
+    time.sleep(2)
+EOF
+
+# Data processor simulator
+cat > /tmp/data_processor.py << 'EOF'
+#!/usr/bin/env python3
+import time
+import random
+
+while True:
+    # Simulate data processing
+    print("Processing sensor data...")
+    
+    # Simulate variable CPU load
+    work_amount = random.randint(50000, 200000)
+    for i in range(work_amount):
+        pass
+    
+    time.sleep(5)
+EOF
+
+chmod +x /tmp/temp_sensor.py /tmp/data_processor.py
+
+# Step 2: Start processes with different priorities
+nice -n 5 python3 /tmp/temp_sensor.py > /tmp/sensor.log 2>&1 &
+SENSOR_PID=$!
+echo $SENSOR_PID > /tmp/sensor.pid
+
+nice -n 10 python3 /tmp/data_processor.py > /tmp/processor.log 2>&1 &
+PROCESSOR_PID=$!
+echo $PROCESSOR_PID > /tmp/processor.pid
+
+# Step 3: Monitor process performance
+echo "=== IoT Process Monitoring ==="
+ps -eo pid,ni,pcpu,pmem,cmd | grep -E "(temp_sensor|data_processor)"
+echo ""
+echo "=== System Resource Usage ==="
+free -h
+echo ""
+echo "=== Process Details ==="
+ps aux | grep -E "(temp_sensor|data_processor)" | grep -v grep
+
+# Step 4: Adjust priorities based on monitoring
+echo "Adjusting process priorities..."
+renice 0 $SENSOR_PID                        # Normal priority for sensor
+renice 15 $PROCESSOR_PID                    # Lower priority for processor
+
+# Step 5: Create monitoring script
+cat > /tmp/iot_monitor.sh << 'EOF'
 #!/bin/bash
-# auto_backup.sh
+echo "=== IoT System Health Monitor ==="
+echo "Time: $(date)"
+echo "Uptime: $(uptime)"
+echo "Memory: $(free -h | grep Mem | awk '{print $3 "/" $2}')"
+echo "Load: $(cat /proc/loadavg | cut -d' ' -f1-3)"
+echo ""
+echo "=== IoT Processes ==="
+ps aux | grep -E "(temp_sensor|data_processor)" | grep -v grep
+echo ""
+echo "=== Resource Top Consumers ==="
+ps aux --sort=-%cpu | head -5
+EOF
 
-BACKUP_DIR="/backup/$(date +%Y%m%d)"
-mkdir -p $BACKUP_DIR
+chmod +x /tmp/iot_monitor.sh
+/tmp/iot_monitor.sh
 
-# Backup configurations
-tar -czf $BACKUP_DIR/iot_configs.tar.gz /etc/iot /etc/mosquitto
+# Exercise 2: Custom systemd Service Creation
+# Create production-ready IoT services
 
-# Backup data
-rsync -av /var/lib/iot/ $BACKUP_DIR/iot_data/
+# Step 1: Create IoT application directory structure
+sudo mkdir -p /opt/iot/{bin,config,logs}
+sudo mkdir -p /var/lib/iot
+sudo mkdir -p /var/log/iot
 
-# Cleanup old backups
-find /backup -type d -mtime +7 -exec rm -rf {} +
+# Step 2: Create sample IoT application
+sudo tee /opt/iot/bin/iot_temperature_service.py > /dev/null << 'EOF'
+#!/usr/bin/env python3
+import time
+import json
+import random
+import signal
+import sys
+import logging
 
-echo "Backup completed: $BACKUP_DIR"
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
-# Exercise 4: Service Management
-#!/bin/bash
-# manage_services.sh
-
-IOT_SERVICES=("mosquitto" "node-red" "nginx")
-
-case "$1" in
-    start)
-        for service in "${IOT_SERVICES[@]}"; do
-            sudo systemctl start $service
-            echo "Started $service"
-        done
-        ;;
-    stop)
-        for service in "${IOT_SERVICES[@]}"; do
-            sudo systemctl stop $service
-            echo "Stopped $service"
-        done
-        ;;
-    status)
-        for service in "${IOT_SERVICES[@]}"; do
-            systemctl is-active $service && echo "$service: Running" || echo "$service: Stopped"
-        done
-        ;;
-    *)
-        echo "Usage: $0 {start|stop|status}"
-        exit 1
-        ;;
-esac</code></pre>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="section bg-light">
-            <div class="container">
-                <h2>Module 1 Summary & Next Steps</h2>
+class TemperatureService:
+    def __init__(self):
+        self.running = True
+        signal.signal(signal.SIGTERM, self.signal_handler)
+        signal.signal(signal.SIGINT, self.signal_handler)
+        
+    def signal_handler(self, signum, frame):
+        logger.info(f"Received signal {signum}, shutting down gracefully...")
+        self.running = False
+        
+    def read_temperature(self):
+        # Simulate temperature reading
+        return 20 + random.uniform(-5, 15)
+        
+    def run(self):
+        logger.info("IoT Temperature Service starting...")
+        
+        while self.running:
+            try:
+                temp = self.read_temperature()
+                data = {
+                    "temperature": temp,
+                    "timestamp": time.time(),
+                    "unit": "celsius"
+                }
                 
-                <div class="calculator-section">
-                    <h3>What You've Learned in Module 1</h3>
-                    <ul>
-                        <li>Linux fundamentals and file system navigation</li>
-                        <li>Essential command-line tools for file and text processing</li>
-                        <li>File permissions and process management for security</li>
-                        <li>Package management for software installation and updates</li>
-                        <li>Shell scripting for automation and system administration</li>
-                        <li>IoT-specific applications of Linux skills</li>
-                    </ul>
-                </div>
+                logger.info(f"Temperature reading: {temp:.2f}°C")
+                
+                # Write to data file
+                with open("/var/lib/iot/temperature.json", "w") as f:
+                    json.dump(data, f)
+                    
+                time.sleep(10)
+                
+            except Exception as e:
+                logger.error(f"Error in temperature service: {e}")
+                time.sleep(5)
+                
+        logger.info("IoT Temperature Service stopped")
 
-                <div class="calculator-section">
-                    <h3>Key Commands Summary</h3>
-                    <div class="result-grid">
-                        <div class="result-item">
-                            <label>Package Management</label>
-                            <div class="value">apt, yum, dnf, snap, pip</div>
-                        </div>
-                        <div class="result-item">
-                            <label>Shell Scripting</label>
-                            <div class="value">#!/bin/bash, variables, if/then, loops</div>
-                        </div>
-                        <div class="result-item">
-                            <label>System Maintenance</label>
-                            <div class="value">update, upgrade, autoremove, clean</div>
-                        </div>
-                        <div class="result-item">
-                            <label>Automation</label>
-                            <div class="value">cron, systemd, functions, logging</div>
-                        </div>
-                        <div class="result-item">
-                            <label>File Operations</label>
-                            <div class="value">ls, cp, mv, rm, find, grep</div>
-                        </div>
-                        <div class="result-item">
-                            <label>Process Control</label>
-                            <div class="value">ps, top, kill, systemctl, jobs</div>
-                        </div>
-                    </div>
-                </div>
+if __name__ == "__main__":
+    service = TemperatureService()
+    service.run()
+EOF
 
-                <div class="calculator-section">
-                    <h3>Preparation for Module 2: Embedded Linux</h3>
-                    <p>You're now ready to advance to embedded Linux concepts. To prepare:</p>
-                    <ul>
-                        <li>Practice writing shell scripts for common IoT tasks</li>
-                        <li>Experiment with package management on different distributions</li>
-                        <li>Set up a development environment with the tools you've learned</li>
-                        <li>Try automating system administration tasks with scripts</li>
-                        <li>Explore systemd services and how they relate to IoT applications</li>
-                    </ul>
-                </div>
+sudo chmod +x /opt/iot/bin/iot_temperature_service.py
 
-                <div style="display: flex; justify-content: space-between; margin-top: 2rem;">
-                    <a href="module1-session3.html" class="session-link" style="background: var(--gray-600);">← Session 3</a>
-                    <button onclick="markSessionComplete()" class="session-link">Complete Module 1</button>
-                    <a href="../module1.html" class="session-link" style="background: var(--success-color);">Back to Module</a>
-                </div>
-            </div>
-        </section>
+# Step 3: Create systemd service file
+sudo tee /etc/systemd/system/iot-temperature.service > /dev/null << 'EOF'
+[Unit]
+Description=IoT Temperature Monitoring Service
+Documentation=https://example.com/iot-docs
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=iot
+Group=iot
+WorkingDirectory=/opt/iot
+ExecStart=/usr/bin/python3 /opt/iot/bin/iot_temperature_service.py
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=always
+RestartSec=10
+TimeoutStopSec=30
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=iot-temperature
+
+# Resource limits for IoT devices
+MemoryLimit=64M
+CPUQuota=25%
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/iot /var/log/iot
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectControlGroups=true
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# Step 4: Set up service user and permissions
+sudo useradd -r -s /bin/false iot 2>/dev/null || true
+sudo chown -R iot:iot /opt/iot /var/lib/iot /var/log/iot
+
+# Step 5: Enable and start the service
+sudo systemctl daemon-reload
+sudo systemctl enable iot-temperature
+sudo systemctl start iot-temperature
+
+# Step 6: Monitor the service
+echo "=== Service Status ==="
+systemctl status iot-temperature --no-pager
+echo ""
+echo "=== Service Logs ==="
+journalctl -u iot-temperature -n 10 --no-pager
+
+# Exercise 3: Automated Process Monitoring and Recovery
+# Create comprehensive monitoring system
+
+# Step 1: Create process monitoring script
+sudo tee /opt/iot/bin/iot_process_monitor.sh > /dev/null << 'EOF'
+#!/bin/bash
+
+# Configuration
+LOG_FILE="/var/log/iot/process_monitor.log"
+ALERT_THRESHOLD_CPU=80
+ALERT_THRESHOLD_MEM=85
+CHECK_INTERVAL=60
+
+# Services to monitor
+IOT_SERVICES=("iot-temperature" "mosquitto")
+
+# Logging function
+log_message() {
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" | tee -a "$LOG_FILE"
+}
+
+# Check system resources
+check_system_resources() {
+    # CPU usage
+    local cpu_usage=$(top -bn1 | grep "Cpu(s)" | awk '{print $2}' | cut -d'%' -f1)
+    if (( $(echo "$cpu_usage > $ALERT_THRESHOLD_CPU" | bc -l) )); then
+        log_message "ALERT: High CPU usage: ${cpu_usage}%"
+    fi
+    
+    # Memory usage
+    local mem_usage=$(free | grep Mem | awk '{printf "%.0f", $3/$2 * 100.0}')
+    if [ "$mem_usage" -gt "$ALERT_THRESHOLD_MEM" ]; then
+        log_message "ALERT: High memory usage: ${mem_usage}%"
+    fi
+    
+    # Disk usage
+    local disk_usage=$(df / | tail -1 | awk '{print $5}' | cut -d'%' -f1)
+    if [ "$disk_usage" -gt 90 ]; then
+        log_message "ALERT: High disk usage: ${disk_usage}%"
+    fi
+}
+
+# Check IoT services
+check_iot_services() {
+    for service in "${IOT_SERVICES[@]}"; do
+        if systemctl is-active --quiet "$service"; then
+            log_message "INFO: Service $service is running"
+        else
+            log_message "ALERT: Service $service is not running"
+            restart_service "$service"
+        fi
+    done
+}
+
+# Restart failed service
+restart_service() {
+    local service=$1
+    log_message "INFO: Attempting to restart $service"
+    
+    if systemctl restart "$service"; then
+        log_message "INFO: Successfully restarted $service"
+    else
+        log_message "ERROR: Failed to restart $service"
+    fi
+}
+
+# Main monitoring loop
+main() {
+    log_message "INFO: Starting IoT process monitoring"
+    
+    while true; do
+        check_system_resources
+        check_iot_services
+        sleep "$CHECK_INTERVAL"
+    done
+}
+
+# Handle signals for graceful shutdown
+trap 'log_message "INFO: Process monitor shutting down"; exit 0' SIGTERM SIGINT
+
+main "$@"
+EOF
+
+sudo chmod +x /opt/iot/bin/iot_process_monitor.sh
+
+# Step 2: Create systemd service for the monitor
+sudo tee /etc/systemd/system/iot-process-monitor.service > /dev/null << 'EOF'
+[Unit]
+Description=IoT Process Monitor
+After=multi-user.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=/opt/iot/bin/iot_process_monitor.sh
+Restart=always
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# Step 3: Enable and start the monitor
+sudo systemctl daemon-reload
+sudo systemctl enable iot-process-monitor
+sudo systemctl start iot-process-monitor
+
+# Exercise 4: Troubleshooting Complex Process Issues
+# Simulate and resolve common IoT process problems
+
+# Step 1: Create problematic process for troubleshooting
+cat > /tmp/problematic_iot_app.py << 'EOF'
+#!/usr/bin/env python3
+import time
+import random
+import os
+
+# Simulate memory leak
+data_accumulator = []
+
+while True:
+    # Memory leak simulation
+    for i in range(1000):
+        data_accumulator.append(f"sensor_reading_{i}_{time.time()}")
+    
+    # CPU spike simulation
+    if random.random() < 0.3:  # 30% chance
+        print("CPU spike simulation")
+        for i in range(1000000):
+            pass
+    
+    # Occasional crash simulation
+    if random.random() < 0.1:  # 10% chance
+        print("Simulating application crash")
+        os._exit(1)
+    
+    print(f"Memory usage growing... {len(data_accumulator)} items")
+    time.sleep(5)
+EOF
+
+chmod +x /tmp/problematic_iot_app.py
+
+# Step 2: Start problematic process and monitor
+python3 /tmp/problematic_iot_app.py &
+PROBLEM_PID=$!
+
+# Step 3: Diagnostic commands for troubleshooting
+echo "=== Troubleshooting IoT Process Issues ==="
+echo "Problem PID: $PROBLEM_PID"
+echo ""
+
+# Monitor process behavior
+echo "=== Process Information ==="
+ps -p $PROBLEM_PID -o pid,ppid,pcpu,pmem,vsz,rss,stat,start,time,cmd
+
+echo ""
+echo "=== Memory Usage Tracking ==="
+while kill -0 $PROBLEM_PID 2>/dev/null; do
+    ps -p $PROBLEM_PID -o pid,pmem,vsz,rss --no-headers
+    sleep 2
+done &
+MONITOR_PID=$!
+
+# Let it run for a bit then clean up
+sleep 20
+kill $PROBLEM_PID 2>/dev/null
+kill $MONITOR_PID 2>/dev/null
+
+# Cleanup all test processes
+echo ""
+echo "=== Cleaning up test processes ==="
+[ -f /tmp/sensor.pid ] && kill $(cat /tmp/sensor.pid) 2>/dev/null
+[ -f /tmp/processor.pid ] && kill $(cat /tmp/processor.pid) 2>/dev/null
+sudo systemctl stop iot-temperature 2>/dev/null
+sudo systemctl stop iot-process-monitor 2>/dev/null</code></pre>
+    </div>
+
+    <div class="calculator-section">
+    <h3>Advanced Troubleshooting Scenarios</h3>
+    <div class="code-block">
+    <pre><code># Scenario 1: High CPU usage investigation
+# Problem: IoT system experiencing high CPU usage
+# Solution: Identify and optimize resource-intensive processes
+
+# Step 1: Identify CPU-intensive processes
+top -b -n 1 | head -20                    # Snapshot of top processes
+ps aux --sort=-%cpu | head -10            # Top CPU consumers
+ps -eo pid,pcpu,cmd --sort=-pcpu | head -10  # Focused CPU view
+
+# Step 2: Analyze specific process
+PID=$(ps aux --sort=-%cpu | awk 'NR==2 {print $2}')  # Get top CPU process
+ps -p $PID -o pid,pcpu,pmem,etime,cmd    # Detailed process info
+cat /proc/$PID/status                     # Process status details
+ls -la /proc/$PID/fd/                     # Open file descriptors
+
+# Step 3: Monitor process behavior over time
+watch "ps -p $PID -o pid,pcpu,pmem,vsz,rss"  # Real-time monitoring
+
+# Scenario 2: Memory leak detection and resolution
+# Problem: IoT application consuming increasing memory
+# Solution: Identify and fix memory leaks
+
+# Step 1: Memory usage analysis
+free -h                                   # System memory overview
+ps aux --sort=-%mem | head -10           # Top memory consumers
+cat /proc/meminfo | grep -E "(MemTotal|MemFree|MemAvailable)"
+
+# Step 2: Process memory tracking
+PID=$(ps aux --sort=-%mem | awk 'NR==2 {print $2}')
+echo "Tracking memory for PID: $PID"
+while kill -0 $PID 2>/dev/null; do
+    ps -p $PID -o pid,pmem,vsz,rss,cmd --no-headers
+    sleep 5
+done
+
+# Step 3: Memory leak investigation
+cat /proc/$PID/status | grep -E "(VmSize|VmRSS|VmData|VmStk)"
+cat /proc/$PID/smaps | grep -E "(Size|Rss|Pss)" | awk '{sum+=$2} END {print "Total:", sum, "kB"}'
+
+# Scenario 3: Zombie process cleanup
+# Problem: Accumulating zombie processes
+# Solution: Identify and clean up zombie processes
+
+# Step 1: Find zombie processes
+ps aux | grep -E " Z | <defunct>"         # Find zombies
+ps -eo pid,ppid,stat,cmd | grep " Z "     # Zombie processes with parent info
+
+# Step 2: Identify parent processes
+ps -eo pid,ppid,stat,cmd | awk '$3 ~ /Z/ {print "Zombie PID:", $1, "Parent PID:", $2}'
+
+# Step 3: Clean up zombies (restart parent or kill parent)
+# Note: Zombies are cleaned up when parent reads their exit status
+# If parent is unresponsive, it may need to be restarted
+
+# Scenario 4: Service dependency issues
+# Problem: IoT services failing due to dependency problems
+# Solution: Analyze and fix service dependencies
+
+# Step 1: Check service status and dependencies
+systemctl status iot-temperature         # Service status
+systemctl list-dependencies iot-temperature  # Service dependencies
+systemctl show iot-temperature | grep -E "(After|Before|Wants|Requires)"
+
+# Step 2: Check failed services
+systemctl --failed                       # List failed services
+journalctl -u iot-temperature --since "1 hour ago" | grep -i error
+
+# Step 3: Dependency resolution
+systemctl cat iot-temperature            # View service file
+systemctl edit iot-temperature           # Edit service dependencies
+
+# Performance optimization script
+#!/bin/bash
+# IoT System Performance Optimizer
+
+optimize_iot_system() {
+    echo "=== IoT System Performance Optimization ==="
+    
+    # 1. Identify resource-intensive processes
+    echo "Top CPU consumers:"
+    ps aux --sort=-%cpu | head -5
+    
+    echo "Top memory consumers:"
+    ps aux --sort=-%mem | head -5
+    
+    # 2. Optimize process priorities
+    echo "Optimizing IoT process priorities..."
+    
+    # Lower priority for non-critical processes
+    for pid in $(pgrep -f "backup\|sync\|update"); do
+        renice 10 $pid 2>/dev/null && echo "Lowered priority for PID $pid"
+    done
+    
+    # Higher priority for critical IoT processes
+    for pid in $(pgrep -f "sensor\|mqtt\|critical"); do
+        sudo renice -5 $pid 2>/dev/null && echo "Raised priority for PID $pid"
+    done
+    
+    # 3. Clean up unnecessary processes
+    echo "Cleaning up system..."
+    
+    # Remove old log files
+    find /var/log -name "*.log" -mtime +30 -size +100M -exec gzip {} \;
+    
+    # Clear temporary files
+    find /tmp -type f -mtime +7 -delete 2>/dev/null
+    
+    # 4. System resource summary
+    echo "=== System Resource Summary ==="
+    echo "CPU Load: $(cat /proc/loadavg | cut -d' ' -f1-3)"
+    echo "Memory: $(free -h | grep Mem | awk '{print $3 "/" $2}')"
+    echo "Disk: $(df -h / | tail -1 | awk '{print $5 " used"}')"
+    
+    echo "Optimization complete!"
+}
+
+optimize_iot_system</code></pre>
+    </div>
+    </div>
+    </div>
+    </section>
+
+    <section class="section bg-light">
+    <div class="container">
+    <h2>Session Summary & Next Steps</h2>
+    
+    <div class="calculator-section">
+    <h3>What You've Accomplished</h3>
+    <p>Congratulations! You now have comprehensive process management skills essential for IoT systems. Here's what you can do:</p>
+    <ul>
+    <li><strong>Monitor System Performance:</strong> You can analyze running processes, identify bottlenecks, and optimize resource usage for IoT devices</li>
+    <li><strong>Control Process Lifecycle:</strong> You can start, stop, prioritize, and manage processes including background services and daemons</li>
+    <li><strong>Manage System Services:</strong> You can create, configure, and manage systemd services for production IoT deployments</li>
+    <li><strong>Implement Monitoring Solutions:</strong> You can build automated monitoring and recovery systems for IoT environments</li>
+    <li><strong>Troubleshoot Complex Issues:</strong> You can diagnose and resolve process-related problems in multi-service IoT systems</li>
+    </ul>
+    </div>
+
+    <div class="calculator-section">
+    <h3>Real-World IoT Applications</h3>
+    <p>These skills directly apply to professional IoT development and operations:</p>
+    <ul>
+    <li><strong>Production Deployment:</strong> Managing IoT services in production environments with proper monitoring and recovery</li>
+    <li><strong>Performance Optimization:</strong> Optimizing resource usage for battery-powered and resource-constrained IoT devices</li>
+    <li><strong>System Reliability:</strong> Ensuring IoT systems remain operational through automated monitoring and recovery</li>
+    <li><strong>Scalability:</strong> Managing multiple IoT services and processes efficiently across large deployments</li>
+    <li><strong>Troubleshooting:</strong> Quickly identifying and resolving issues in complex IoT system environments</li>
+    <li><strong>Security:</strong> Implementing proper process isolation and resource limits for secure IoT operations</li>
+    </ul>
+    </div>
+
+    <div class="calculator-section">
+    <h3>Key Commands Mastery Summary</h3>
+    <div class="result-grid">
+    <div class="result-item">
+    <label>Process Monitoring</label>
+    <div class="value">ps aux, top, htop, pgrep, pstree</div>
+    </div>
+    <div class="result-item">
+    <label>Process Control</label>
+    <div class="value">kill, killall, pkill, jobs, bg, fg, nohup</div>
+    </div>
+    <div class="result-item">
+    <label>Priority Management</label>
+    <div class="value">nice, renice, priority levels (-20 to +19)</div>
+    </div>
+    <div class="result-item">
+    <label>Service Management</label>
+    <div class="value">systemctl, journalctl, systemd service files</div>
+    </div>
+    <div class="result-item">
+    <label>Resource Monitoring</label>
+    <div class="value">free, df, uptime, vmstat, iostat</div>
+    </div>
+    <div class="result-item">
+    <label>System Analysis</label>
+    <div class="value">/proc filesystem, system logs, performance metrics</div>
+    </div>
+    </div>
+    </div>
+
+    <div class="calculator-section">
+    <h3>Preparation for Session 5: Package Management & Shell Scripting</h3>
+    <p>In the next session, we'll explore package management and shell scripting automation. To prepare and reinforce today's learning:</p>
+    <ul>
+    <li><strong>Practice Process Management:</strong> Set up your own IoT services and practice monitoring them</li>
+    <li><strong>Experiment with Priorities:</strong> Try different priority settings and observe their effects on system performance</li>
+    <li><strong>Create Monitoring Scripts:</strong> Build your own system monitoring solutions for specific IoT scenarios</li>
+    <li><strong>Study systemd:</strong> Explore systemd documentation and create custom service files</li>
+    <li><strong>Performance Analysis:</strong> Use the monitoring tools to analyze your system's performance patterns</li>
+    <li><strong>Join DevOps Communities:</strong> Participate in system administration and DevOps discussions</li>
+    </ul>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; margin-top: 2rem;">
+    <a href="module1-session3.html" class="session-link" style="background: var(--gray-600);">← Session 3</a>
+    <button onclick="markSessionComplete()" class="session-link">Mark Complete</button>
+    <a href="module1-session5.html" class="session-link">Session 5 →</a>
+    </div>
+    </div>
+    </section>
     </main>
 
     <footer class="footer">
-        <div class="container">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
-                <p>&copy; 2024 Dynamic Devices. All rights reserved.</p>
-                <div style="display: flex; gap: 2rem;">
-                    <a href="../../docs/setup.html" style="color: var(--gray-400);">Setup Guide</a>
-                    <a href="../../resources/troubleshooting.html" style="color: var(--gray-400);">Support</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        function markSessionComplete() {
-            localStorage.setItem('module1_session4_completed', 'true');
-            alert('Congratulations! You have completed Module 1: Linux Basics. You now have the foundational Linux skills needed for IoT development.');
-            
-            // Update progress in parent module if we're in an iframe or opened from module page
-            if (window.parent && window.parent.updateProgress) {
-                window.parent.updateProgress();
-            }
-        }
-
-        // Check if session is already completed
-        document.addEventListener('DOMContentLoaded', function() {
-            if (localStorage.getItem('module1_session4_completed')) {
-                const completeBtn = document.querySelector('button[onclick="markSessionComplete()"]');
-                if (completeBtn) {
-                    completeBtn.textContent = '✓ Module Completed';
-                    completeBtn.style.background = 'var(--success-color)';
-                }
-            }
-        });
-    </script>
-</body>
-</html>
+    <div class="container">
+    <div style="display: flex; justify-content: space

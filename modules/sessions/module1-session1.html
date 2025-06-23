@@ -39,7 +39,7 @@
             height: 400px;
             flex-shrink: 0;
             border-top: 2px solid var(--gray-200);
-            background: var(--gray-50);
+            background: var(--gray-900);
             display: flex;
             flex-direction: column;
         }
@@ -47,22 +47,26 @@
         .terminal-header {
             background: var(--primary-color);
             color: white;
-            padding: 0.75rem 1rem;
+            padding: 0.5rem 1rem;
             font-weight: 600;
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            font-size: 0.875rem;
+            flex-shrink: 0;
         }
         
         .terminal-content {
             flex: 1;
             position: relative;
+            background: var(--gray-900);
         }
         
         .terminal-content iframe {
             width: 100%;
             height: 100%;
             border: none;
+            background: var(--gray-900);
         }
         
         .terminal-loading {
@@ -77,6 +81,23 @@
             background: var(--gray-900);
             color: var(--gray-100);
             font-family: 'JetBrains Mono', monospace;
+            flex-direction: column;
+            gap: 1rem;
+            z-index: 10;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--gray-600);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         
         .example-command {
@@ -113,6 +134,19 @@
         
         .try-it-note strong {
             color: var(--primary-color);
+        }
+
+        .terminal-status {
+            position: absolute;
+            bottom: 5px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-family: 'JetBrains Mono', monospace;
+            z-index: 5;
         }
     </style>
 </head>
@@ -242,7 +276,7 @@
                             </div>
 
                             <div class="try-it-note">
-                                <strong>💡 Try it now:</strong> Use the terminal below to explore these directories. Start with these commands:
+                                <strong>💡 Try it now:</strong> Use the Alpine Linux terminal below to explore these directories. Start with these commands:
                             </div>
                             
                             <div class="example-command" onclick="copyToClipboard('cd /')">cd /</div>
@@ -264,7 +298,7 @@
                             <div class="code-block">
                                 <pre><code># Basic pwd usage
 pwd                           # Shows current directory path
-/home/runner                  # Example output in cloud environment
+/root                         # Example output in Alpine Linux
 
 # Professional IoT usage examples
 pwd > current_location.txt   # Save current path to file
@@ -273,7 +307,7 @@ ls "$(pwd)"                  # List contents of current directory explicitly</co
                             </div>
 
                             <div class="try-it-note">
-                                <strong>💡 Try these pwd examples:</strong> Click to copy, then paste in the terminal below
+                                <strong>💡 Try these pwd examples:</strong> Click to copy, then paste in the Alpine Linux terminal below
                             </div>
                             
                             <div class="example-command" onclick="copyToClipboard('pwd')">pwd</div>
@@ -298,7 +332,7 @@ ls -lt                       # Sort by modification time
 ls -lS                       # Sort by file size
 
 # IoT-specific ls usage
-ls /etc/systemd/system/      # List IoT service files (if exists)
+ls /etc/                     # List configuration files
 ls -la /var/log/             # Check log files (including hidden)
 ls -lh /opt/                 # Check optional software directory
 ls -lt ~/                    # List home directory by newest first</code></pre>
@@ -364,7 +398,7 @@ cd ~/$(date +%Y) 2>/dev/null || mkdir -p ~/$(date +%Y) && cd ~/$(date +%Y)  # Cr
                             <div class="result-grid">
                                 <div class="result-item">
                                     <label>Absolute Path</label>
-                                    <div class="value">Starts with / - complete path from root directory (e.g., /home/runner/projects/sensor.py)</div>
+                                    <div class="value">Starts with / - complete path from root directory (e.g., /root/projects/sensor.py)</div>
                                 </div>
                                 <div class="result-item">
                                     <label>Relative Path</label>
@@ -372,7 +406,7 @@ cd ~/$(date +%Y) 2>/dev/null || mkdir -p ~/$(date +%Y) && cd ~/$(date +%Y)  # Cr
                                 </div>
                                 <div class="result-item">
                                     <label>Home Directory (~)</label>
-                                    <div class="value">Shortcut to user's home directory (e.g., ~/projects expands to /home/runner/projects)</div>
+                                    <div class="value">Shortcut to user's home directory (e.g., ~/projects expands to /root/projects)</div>
                                 </div>
                                 <div class="result-item">
                                     <label>Current Directory (.)</label>
@@ -462,7 +496,7 @@ Ctrl+L                      # Clear screen (same as 'clear')</code></pre>
                 <section class="section bg-light">
                     <div class="container">
                         <h2>🎯 Comprehensive Navigation Challenge</h2>
-                        <p>Put all your navigation skills together in this comprehensive challenge that simulates real IoT development tasks. Copy and paste this entire sequence into the terminal:</p>
+                        <p>Put all your navigation skills together in this comprehensive challenge that simulates real IoT development tasks. Copy and paste this entire sequence into the Alpine Linux terminal:</p>
                         
                         <div class="code-block">
                             <pre><code># IoT Navigation Challenge - Complete all tasks
@@ -520,7 +554,7 @@ echo 'Challenge Complete! You have mastered Linux navigation basics.'</code></pr
                             
                             <div class="quiz-question">
                                 <h4>Question 2: Path Types</h4>
-                                <p>What type of path is "/home/runner/projects/sensor.py"?</p>
+                                <p>What type of path is "/root/projects/sensor.py"?</p>
                                 <div class="quiz-options">
                                     <label><input type="radio" name="q2" value="a"> Relative path</label>
                                     <label><input type="radio" name="q2" value="b"> Absolute path</label>
@@ -571,39 +605,63 @@ echo 'Challenge Complete! You have mastered Linux navigation basics.'</code></pr
             </main>
         </div>
 
-        <!-- Persistent Terminal Pane -->
+        <!-- Persistent Terminal Pane with Correct Alpine Linux VM -->
         <div class="terminal-pane">
             <div class="terminal-header">
-                <span>🖥️</span>
-                <span>Interactive Linux Terminal - Ready for Practice</span>
+                <span>🐧</span>
+                <span>Alpine Linux Terminal - Interactive Practice Environment</span>
             </div>
             <div class="terminal-content">
-                <div class="terminal-loading">
+                <div class="terminal-loading" id="terminal-loading">
+                    <div class="loading-spinner"></div>
                     <div>
-                        <div>☁️ Loading Interactive Linux Environment...</div>
-                        <div style="font-size: 0.875rem; opacity: 0.7; margin-top: 0.5rem;">Starting Ubuntu terminal for hands-on practice</div>
+                        <div>🚀 Loading Alpine Linux Environment...</div>
+                        <div style="font-size: 0.875rem; opacity: 0.7; margin-top: 0.5rem;">Starting Alpine Linux terminal for hands-on practice</div>
                     </div>
                 </div>
                 <iframe 
-                    id="terminal-iframe"
-                    src="https://replit.com/@dynamicdevices/IoT-Linux-Navigation-Practice?embed=true&output=true" 
-                    title="Interactive Linux Terminal">
+                    id="alpine-terminal"
+                    src="https://bellard.org/jslinux/vm.html?url=alpine-x86.cfg&mem=192" 
+                    style="width: 100%; max-width: 100%"
+                    title="Alpine Linux Terminal">
                 </iframe>
+                <div class="terminal-status" id="terminal-status">Alpine Linux Ready</div>
             </div>
         </div>
     </div>
 
     <script>
-        // Initialize terminal on page load
+        // Initialize Alpine Linux terminal on page load
         document.addEventListener('DOMContentLoaded', function() {
-            const iframe = document.getElementById('terminal-iframe');
-            const loading = document.querySelector('.terminal-loading');
+            const iframe = document.getElementById('alpine-terminal');
+            const loading = document.getElementById('terminal-loading');
+            const status = document.getElementById('terminal-status');
             
-            iframe.onload = function() {
-                setTimeout(() => {
-                    loading.style.display = 'none';
-                    iframe.style.display = 'block';
-                }, 2000);
+            // Show terminal after loading period
+            setTimeout(() => {
+                loading.style.display = 'none';
+                iframe.style.display = 'block';
+                status.textContent = 'Alpine Linux Active';
+                status.style.background = 'rgba(5, 150, 105, 0.8)';
+            }, 3000);
+
+            // Handle iframe load errors
+            iframe.onerror = function() {
+                loading.innerHTML = `
+                    <div style="text-align: center;">
+                        <div style="color: #dc2626; margin-bottom: 1rem;">⚠️ Alpine Linux Loading Issue</div>
+                        <div style="font-size: 0.875rem;">
+                            <p>Alpine Linux may take a moment to load or may be temporarily unavailable.</p>
+                            <p>Try refreshing the page or use an alternative terminal:</p>
+                            <a href="https://www.tutorialspoint.com/unix_terminal_online.php" target="_blank" 
+                               style="color: #2563eb; text-decoration: underline;">
+                               Open Alternative Linux Terminal
+                            </a>
+                        </div>
+                    </div>
+                `;
+                status.textContent = 'Terminal Error';
+                status.style.background = 'rgba(220, 38, 38, 0.8)';
             };
         });
 
@@ -626,7 +684,7 @@ echo 'Challenge Complete! You have mastered Linux navigation basics.'</code></pr
         function checkQuizAnswers() {
             const answers = {
                 q1: 'b', // pwd shows current directory
-                q2: 'b', // /home/runner/projects/sensor.py is absolute path
+                q2: 'b', // /root/projects/sensor.py is absolute path
                 q3: 'c'  // /etc contains configuration files
             };
             

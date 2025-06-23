@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud JupyterLab Setup - IoT Training Course</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1><a href="../index.html">Dynamic Devices</a></h1>
+                    <span>Cloud Interactive Learning</span>
+                </div>
+                <nav class="nav">
+                    <a href="../index.html">Home</a>
+                    <a href="../modules/module1.html">Module 1</a>
+                    <a href="../index.html#labs">Labs</a>
+                    <a href="../tools/network-calculator.html">Tools</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="module-overview">
+            <div class="container">
+                <h1>☁️ Cloud-Based Interactive Learning</h1>
+                <p>Practice Linux and IoT commands directly in your browser with zero setup required. All environments run in the cloud and embed seamlessly into your learning experience.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2>🚀 Available Cloud Platforms</h2>
+                
+                <div class="interactive-options">
+                    <div class="option-card">
+                        <h4>Replit Integration</h4>
+                        <p>Full Linux environment with pre-installed IoT tools. Instant access, no signup required.</p>
+                        <button onclick="launchReplit()" class="session-link">Launch Environment</button>
+                    </div>
+                    <div class="option-card">
+                        <h4>CodePen Terminal</h4>
+                        <p>Browser-based terminal emulator for practicing shell commands.</p>
+                        <button onclick="launchCodePen()" class="session-link">Open Terminal</button>
+                    </div>
+                    <div class="option-card">
+                        <h4>Binder Notebooks</h4>
+                        <p>JupyterLab environment launched directly from our GitHub repository.</p>
+                        <button onclick="launchBinder()" class="session-link">Start JupyterLab</button>
+                    </div>
+                </div>
+
+                <div class="calculator-section">
+                    <h3>Platform Comparison</h3>
+                    <div class="result-grid">
+                        <div class="result-item">
+                            <label>Replit</label>
+                            <div class="value">Full Linux VM, persistent storage, collaborative editing, IoT libraries pre-installed</div>
+                        </div>
+                        <div class="result-item">
+                            <label>CodeSandbox</label>
+                            <div class="value">Node.js environment, instant startup, great for JavaScript IoT projects</div>
+                        </div>
+                        <div class="result-item">
+                            <label>Binder</label>
+                            <div class="value">JupyterLab notebooks, Python focus, GitHub integration, temporary sessions</div>
+                        </div>
+                        <div class="result-item">
+                            <label>Gitpod</label>
+                            <div class="value">VS Code in browser, full development environment, GitHub integration</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section bg-light">
+            <div class="container">
+                <h2>🔧 Embedded Integration</h2>
+                
+                <div class="calculator-section">
+                    <h3>How It Works</h3>
+                    <p>Our cloud integration provides seamless embedded experiences:</p>
+                    <ul>
+                        <li><strong>Zero Setup:</strong> Click and start coding immediately</li>
+                        <li><strong>Pre-configured:</strong> All IoT tools and libraries ready to use</li>
+                        <li><strong>Persistent:</strong> Your work saves automatically to the cloud</li>
+                        <li><strong>Collaborative:</strong> Share your environment with instructors or peers</li>
+                        <li><strong>Accessible:</strong> Works on any device with a web browser</li>
+                    </ul>
+                </div>
+
+                <div class="calculator-section">
+                    <h3>Live Demo - Try It Now!</h3>
+                    <p>Test our embedded terminal right here:</p>
+                    
+                    <!-- Embedded Replit Terminal -->
+                    <div id="embedded-terminal" style="margin: 2rem 0;">
+                        <iframe 
+                            src="https://replit.com/@DynamicDevices/IoT-Linux-Training?embed=true&output=true" 
+                            width="100%" 
+                            height="400" 
+                            style="border: none; border-radius: 8px;"
+                            title="IoT Linux Training Environment">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2>📱 Platform-Specific Instructions</h2>
+                
+                <div class="challenge-grid">
+                    <div class="challenge-card">
+                        <h4>Replit Setup (Recommended)</h4>
+                        <p><strong>Best for:</strong> Complete Linux practice</p>
+                        <div class="challenge-requirements">
+                            <h5>Features:</h5>
+                            <ul>
+                                <li>Full Ubuntu Linux environment</li>
+                                <li>Pre-installed IoT development tools</li>
+                                <li>Persistent file storage</li>
+                                <li>Collaborative editing</li>
+                                <li>Direct embedding in course pages</li>
+                            </ul>
+                        </div>
+                        <button onclick="setupReplit()" class="session-link">Setup Instructions</button>
+                    </div>
+                    
+                    <div class="challenge-card">
+                        <h4>Binder Integration</h4>
+                        <p><strong>Best for:</strong> Jupyter notebooks and Python</p>
+                        <div class="challenge-requirements">
+                            <h5>Features:</h5>
+                            <ul>
+                                <li>JupyterLab interface</li>
+                                <li>Python IoT libraries</li>
+                                <li>Notebook-based learning</li>
+                                <li>GitHub repository integration</li>
+                                <li>Temporary sessions (2-hour limit)</li>
+                            </ul>
+                        </div>
+                        <button onclick="setupBinder()" class="session-link">Setup Instructions</button>
+                    </div>
+                    
+                    <div class="challenge-card">
+                        <h4>CodeSandbox Integration</h4>
+                        <p><strong>Best for:</strong> JavaScript IoT projects</p>
+                        <div class="challenge-requirements">
+                            <h5>Features:</h5>
+                            <ul>
+                                <li>Node.js environment</li>
+                                <li>NPM package support</li>
+                                <li>Real-time collaboration</li>
+                                <li>Instant deployment</li>
+                                <li>Mobile-friendly interface</li>
+                            </ul>
+                        </div>
+                        <button onclick="setupCodeSandbox()" class="session-link">Setup Instructions</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <p>&copy; 2024 Dynamic Devices. All rights reserved.</p>
+                <div style="display: flex; gap: 2rem;">
+                    <a href="../docs/setup.html" style="color: var(--gray-400);">Setup Guide</a>
+                    <a href="troubleshooting.html" style="color: var(--gray-400);">Support</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function launchReplit() {
+            window.open('https://replit.com/@DynamicDevices/IoT-Linux-Training?v=1', '_blank');
+        }
+
+        function launchCodePen() {
+            window.open('https://codepen.io/dynamicdevices/pen/iot-terminal', '_blank');
+        }
+
+        function launchBinder() {
+            window.open('https://mybinder.org/v2/gh/DynamicDevices/iot-training-course/main?urlpath=lab', '_blank');
+        }
+
+        function setupReplit() {
+            const instructions = `
+# Replit Integration Setup
+
+1. **Automatic Embedding**: Our course pages automatically embed Replit environments
+2. **No Account Required**: Start coding immediately without signup
+3. **Persistent Storage**: Create a free account to save your work
+4. **Collaboration**: Share your Repl with instructors or study partners
+
+## Pre-installed Tools:
+- Ubuntu Linux 20.04
+- Python 3.9 with IoT libraries (paho-mqtt, influxdb-client)
+- Node.js 16 with npm packages
+- MQTT broker (Mosquitto)
+- Git, curl, wget, vim, nano
+- System monitoring tools (htop, ps, top)
+
+## Usage:
+- Click "Launch Environment" in any session
+- Start typing commands immediately
+- Files save automatically
+- Share via URL for collaboration
+            `;
+            
+            alert(instructions);
+        }
+
+        function setupBinder() {
+            const instructions = `
+# Binder Integration Setup
+
+1. **GitHub Integration**: Launches directly from our course repository
+2. **JupyterLab Interface**: Full notebook and terminal access
+3. **Temporary Sessions**: 2-hour limit, then restart required
+4. **No Installation**: Everything runs in the cloud
+
+## Available Environments:
+- JupyterLab with Python 3.9
+- IoT libraries pre-installed
+- Sample notebooks for each session
+- Terminal access for Linux commands
+- Git integration for version control
+
+## Usage:
+- Click "Start JupyterLab" to launch
+- Wait 1-2 minutes for environment setup
+- Access terminals via JupyterLab interface
+- Download notebooks to save work locally
+            `;
+            
+            alert(instructions);
+        }
+
+        function setupCodeSandbox() {
+            const instructions = `
+# CodeSandbox Integration Setup
+
+1. **Instant Startup**: Environments load in seconds
+2. **Node.js Focus**: Perfect for JavaScript IoT projects
+3. **Real-time Collaboration**: Multiple users can edit simultaneously
+4. **Mobile Support**: Works well on tablets and phones
+
+## Pre-configured Templates:
+- Node.js IoT starter with MQTT
+- Express.js web server template
+- React dashboard for IoT data
+- Socket.io real-time communication
+
+## Usage:
+- Templates load automatically in course sessions
+- Fork to create your own copy
+- Install packages via npm in terminal
+- Deploy instantly to share projects
+            `;
+            
+            alert(instructions);
+        }
+    </script>
+</body>
+</html>
